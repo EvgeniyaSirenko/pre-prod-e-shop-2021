@@ -1,16 +1,16 @@
 package com.epam;
 
-public class Brand extends Products {
+public class ProductsType extends Brand {
 	int id;
 	String name;
 	
-	public Brand() {
+	public ProductsType() {
 	}
 	
-	public Brand(int id, String name, int price, int id1, String name1) {
-		super(id, name, price);
-		this.id = id1;
-		this.name = name1;
+	public ProductsType(int id, String name, int price, int id1, String name1, int id2, String name2) {
+		super(id, name, price, id1, name1);
+		this.id = id2;
+		this.name = name2;
 	}
 	
 	@Override
@@ -35,7 +35,7 @@ public class Brand extends Products {
 	
 	@Override
 	public String toString() {
-		return "Brand{" +
+		return "ProductsType{" +
 				"id=" + id +
 				", name='" + name + '\'' +
 				'}';

@@ -2,17 +2,19 @@ package com.epam;
 
 import java.util.Objects;
 
-public abstract class Category {
+public abstract class Products {
 	
 	int id;
 	String name;
+	int price;
 	
-	public Category() {
+	public Products() {
 	}
 	
-	public Category(int id, String name) {
+	public Products(int id, String name, int price) {
 		this.id = id;
 		this.name = name;
+		this.price = price;
 	}
 	
 	public int getId() {
@@ -31,20 +33,29 @@ public abstract class Category {
 		this.name = name;
 	}
 	
+	public int getPrice() {
+		return price;
+	}
+	
+	public void setPrice(int price) {
+		this.price = price;
+	}
+	
 	@Override
 	public String toString() {
-		return "Category{" +
+		return "Products{" +
 				"id=" + id +
 				", name='" + name + '\'' +
+				", price=" + price +
 				'}';
 	}
 	
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof Category)) return false;
-		Category category = (Category) o;
-		return getId() == category.getId() && getName().equals(category.getName());
+		if (!(o instanceof Products)) return false;
+		Products products = (Products) o;
+		return getId() == products.getId() && getName().equals(products.getName());
 	}
 	
 	@Override
