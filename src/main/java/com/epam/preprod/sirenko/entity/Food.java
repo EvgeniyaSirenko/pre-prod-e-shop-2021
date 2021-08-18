@@ -14,9 +14,10 @@ public class Food extends Products {
 	public Food() {
 	}
 	
-	public Food(int amount, String petType) {
-		this.amount = amount;
-		this.petType = petType;
+	public Food(String name, int price, int foodAmount, String foodPetType) {
+		super(name, price);
+		amount = foodAmount;
+		petType = foodPetType;
 	}
 	
 	public int getAmount() {

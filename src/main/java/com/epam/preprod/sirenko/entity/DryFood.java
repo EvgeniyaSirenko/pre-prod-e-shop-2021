@@ -15,10 +15,11 @@ public class DryFood extends Food {
 	public DryFood() {
 	}
 	
-	public DryFood(int petAge, int petWeight, String brand) {
-		this.petAge = petAge;
-		this.petWeight = petWeight;
-		this.brand = brand;
+	public DryFood(String name, int price, int foodAmount, String foodPetType, int dryFoodPetAge, int dryFoodPetWeight, String dryFoodBrand) {
+		super(name, price, foodAmount, foodPetType);
+		petAge = dryFoodPetAge;
+		petWeight = dryFoodPetWeight;
+		brand = dryFoodBrand;
 	}
 	
 	public int getPetAge() {

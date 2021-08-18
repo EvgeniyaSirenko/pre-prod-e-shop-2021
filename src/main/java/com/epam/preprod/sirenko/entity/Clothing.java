@@ -14,9 +14,10 @@ public class Clothing extends Products {
 	public Clothing() {
 	}
 	
-	public Clothing(String size, String season) {
-		this.size = size;
-		this.season = season;
+	public Clothing(String name, int price, String clothingSize, String clothingSeason) {
+		super(name, price);
+		size = clothingSize;
+		season = clothingSeason;
 	}
 	
 	public String getSize() {
