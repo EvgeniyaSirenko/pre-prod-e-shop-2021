@@ -1,28 +1,22 @@
-package com.epam;
+package com.epam.preprod.sirenko.entity;
 
 import java.util.Objects;
 
+/**
+ * Products entity.
+ *
+ * @author E.Sirenko
+**/
 public abstract class Products {
-	
-	int id;
-	String name;
-	int price;
+	private String name;
+	private int price;
 	
 	public Products() {
 	}
 	
-	public Products(int id, String name, int price) {
-		this.id = id;
+	public Products(String name, int price) {
 		this.name = name;
 		this.price = price;
-	}
-	
-	public int getId() {
-		return id;
-	}
-	
-	public void setId(int id) {
-		this.id = id;
 	}
 	
 	public String getName() {
@@ -44,8 +38,7 @@ public abstract class Products {
 	@Override
 	public String toString() {
 		return "Products{" +
-				"id=" + id +
-				", name='" + name + '\'' +
+				"name='" + name + '\'' +
 				", price=" + price +
 				'}';
 	}
@@ -55,11 +48,11 @@ public abstract class Products {
 		if (this == o) return true;
 		if (!(o instanceof Products)) return false;
 		Products products = (Products) o;
-		return getId() == products.getId() && getName().equals(products.getName());
+		return getPrice() == products.getPrice() && getName().equals(products.getName());
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(getId(), getName());
+		return Objects.hash(getName(), getPrice());
 	}
 }
