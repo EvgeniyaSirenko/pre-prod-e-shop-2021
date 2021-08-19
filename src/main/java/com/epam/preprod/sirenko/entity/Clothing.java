@@ -1,46 +1,48 @@
 package com.epam.preprod.sirenko.entity;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
  * Clothing entity.
  *
  * @author E.Sirenko
+ *
  **/
-public class Clothing extends Products {
-	private String size;
-	private String season;
+public class Clothing extends Product {
+	private int sizeId;
+	private int seasonId;
 	
 	public Clothing() {
 	}
 	
-	public Clothing(String name, int price, String clothingSize, String clothingSeason) {
+	public Clothing(String name, BigDecimal price, int clothingSize, int clothingSeason) {
 		super(name, price);
-		size = clothingSize;
-		season = clothingSeason;
+		sizeId = clothingSize;
+		seasonId = clothingSeason;
 	}
 	
-	public String getSize() {
-		return size;
+	public int getSizeId() {
+		return sizeId;
 	}
 	
-	public void setSize(String size) {
-		this.size = size;
+	public void setSizeId(int sizeId) {
+		this.sizeId = sizeId;
 	}
 	
-	public String getSeason() {
-		return season;
+	public int getSeasonId() {
+		return seasonId;
 	}
 	
-	public void setSeason(String season) {
-		this.season = season;
+	public void setSeasonId(int season) {
+		this.seasonId = season;
 	}
 	
 	@Override
 	public String toString() {
 		return "Clothing{" +
-				"size='" + size + '\'' +
-				", season='" + season + '\'' +
+				"sizeId='" + sizeId + '\'' +
+				", seasonId='" + seasonId + '\'' +
 				'}';
 	}
 	
@@ -50,11 +52,11 @@ public class Clothing extends Products {
 		if (!(o instanceof Clothing)) return false;
 		if (!super.equals(o)) return false;
 		Clothing clothing = (Clothing) o;
-		return getSize().equals(clothing.getSize()) && getSeason().equals(clothing.getSeason());
+		return getSizeId() == clothing.getSizeId() && getSeasonId() == clothing.getSeasonId();
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(super.hashCode(), getSize(), getSeason());
+		return Objects.hash(super.hashCode(), getSizeId(), getSeasonId());
 	}
 }

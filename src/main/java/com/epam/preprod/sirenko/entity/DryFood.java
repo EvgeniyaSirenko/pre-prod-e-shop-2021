@@ -1,5 +1,6 @@
 package com.epam.preprod.sirenko.entity;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -8,50 +9,39 @@ import java.util.Objects;
  * @author E.Sirenko
  **/
 public class DryFood extends Food {
-	private int petAge;
-	private int petWeight;
-	private String brand;
+	private String brandName;
+	private int petGroupId;
 	
 	public DryFood() {
 	}
 	
-	public DryFood(String name, int price, int foodAmount, String foodPetType, int dryFoodPetAge, int dryFoodPetWeight, String dryFoodBrand) {
-		super(name, price, foodAmount, foodPetType);
-		petAge = dryFoodPetAge;
-		petWeight = dryFoodPetWeight;
-		brand = dryFoodBrand;
+	public DryFood(String name, BigDecimal price, int foodWeight, String dryFoodBrandName, int dryFoodPetGroupId) {
+		super(name, price, foodWeight);
+		brandName = dryFoodBrandName;
+		petGroupId = dryFoodPetGroupId;
 	}
 	
-	public int getPetAge() {
-		return petAge;
+	public String getBrandName() {
+		return brandName;
 	}
 	
-	public void setPetAge(int petAge) {
-		this.petAge = petAge;
+	public void setBrandName(String brandName) {
+		this.brandName = brandName;
 	}
 	
-	public int getPetWeight() {
-		return petWeight;
+	public int getPetGroupId() {
+		return petGroupId;
 	}
 	
-	public void setPetWeight(int petWeight) {
-		this.petWeight = petWeight;
-	}
-	
-	public String getBrand() {
-		return brand;
-	}
-	
-	public void setBrand(String brand) {
-		this.brand = brand;
+	public void setPetGroupId(int petGroupId) {
+		this.petGroupId = petGroupId;
 	}
 	
 	@Override
 	public String toString() {
 		return "DryFood{" +
-				"petAge=" + petAge +
-				", petWeight=" + petWeight +
-				", brand='" + brand + '\'' +
+				"brandName='" + brandName + '\'' +
+				", petGroupId=" + petGroupId +
 				'}';
 	}
 	
@@ -61,12 +51,11 @@ public class DryFood extends Food {
 		if (!(o instanceof DryFood)) return false;
 		if (!super.equals(o)) return false;
 		DryFood dryFood = (DryFood) o;
-		return getPetAge() == dryFood.getPetAge() && getPetWeight() == dryFood.getPetWeight() && getBrand()
-				.equals(dryFood.getBrand());
+		return getPetGroupId() == dryFood.getPetGroupId() && getBrandName().equals(dryFood.getBrandName());
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(super.hashCode(), getPetAge(), getPetWeight(), getBrand());
+		return Objects.hash(super.hashCode(), getBrandName(), getPetGroupId());
 	}
 }

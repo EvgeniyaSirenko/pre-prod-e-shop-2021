@@ -1,20 +1,22 @@
 package com.epam.preprod.sirenko.entity;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
  * Products entity.
  *
  * @author E.Sirenko
+ *
 **/
-public abstract class Products {
+public abstract class Product {
 	private String name;
-	private int price;
+	private BigDecimal price;
 	
-	public Products() {
+	protected Product() {
 	}
 	
-	public Products(String name, int price) {
+	protected Product(String name, BigDecimal price) {
 		this.name = name;
 		this.price = price;
 	}
@@ -27,11 +29,11 @@ public abstract class Products {
 		this.name = name;
 	}
 	
-	public int getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 	
-	public void setPrice(int price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 	
@@ -46,9 +48,9 @@ public abstract class Products {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof Products)) return false;
-		Products products = (Products) o;
-		return getPrice() == products.getPrice() && getName().equals(products.getName());
+		if (!(o instanceof Product)) return false;
+		Product product = (Product) o;
+		return getName().equals(product.getName()) && getPrice().equals(product.getPrice());
 	}
 	
 	@Override
