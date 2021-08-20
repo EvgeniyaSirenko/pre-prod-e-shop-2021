@@ -1,6 +1,13 @@
 package com.epam.preprod.sirenko.entity;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.function.UnaryOperator;
 
 /**
@@ -26,7 +33,7 @@ public class Container implements List {
 	 **/
 	@Override
 	public int size() {
-		return size;
+		return array.length;
 	}
 	
 	/**
@@ -73,7 +80,7 @@ public class Container implements List {
 	 **/
 	@Override
 	public boolean isEmpty() {
-		return size == 0;
+		return array.length == 0;
 	}
 	
 	/**
@@ -82,47 +89,58 @@ public class Container implements List {
 	 **/
 	@Override
 	public boolean contains(Object o) {
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < array.length; i++) {
 			if (array[i].equals(o)) {
 				return true;
 			}
 		}
 		return false;
+		//return indexOf(o) != -1; <-- as another option
 	}
 	
-	@Override
-	public Iterator iterator() {
-		return null;
-	}
-	
+	/**
+	 *
+	 * Returns an array containing all of the elements in this container
+	 * in proper sequence (from first to last element).
+	 **/
 	@Override
 	public Object[] toArray() {
-		return null;
+		return array.clone();
 	}
 	
+	/**
+	 *
+	 * Returns an array containing all of the elements in this list
+	 **/
 	@Override
-	public boolean remove(Object o) {
-		return false;
+	public Object[] toArray(Object[] a) {
+		int size = size();
+		if (a.length < size)
+			return Arrays.copyOf(array, size);
+		System.arraycopy(array, 0, a, 0, size);
+		if (a.length > size)
+			a[size] = null;
+		return a;
 	}
 	
-	@Override
-	public boolean addAll(Collection c) {
-		return false;
-	}
-	
-	@Override
-	public boolean addAll(int index, Collection c) {
-		return false;
-	}
-	
+	/**
+	 *
+	 * Replaces each element of container with the result of applying the operator to that elemen
+	 **/
 	@Override
 	public void replaceAll(UnaryOperator operator) {
-	
+		for (int i = 0; i < array.length; i++) {
+			array[i] = operator.apply(array[i]);
+		}
 	}
 	
+	/**
+	 *
+	 * Sorts this container according to the order induced by the specified Comparator
+	 **/
 	@Override
 	public void sort(Comparator c) {
-		Arrays.sort(array, 0, size, c);
+		Arrays.sort(array, c);
 	}
 	
 	
@@ -144,11 +162,34 @@ public class Container implements List {
 		array[index] = element;
 		return array[index];
 	}
-
+	
+	/**
+	 *
+	 * Traverses elements in documented order
+	 **/
+	@Override
+	public Spliterator spliterator() {
+		return Spliterators.spliterator(array, Spliterator.ORDERED);
+	}
 	
 	@Override
 	public Object remove(int index) {
 		return null;
+	}
+	
+	@Override
+	public boolean remove(Object o) {
+		return false;
+	}
+	
+	@Override
+	public boolean addAll(Collection c) {
+		return false;
+	}
+	
+	@Override
+	public boolean addAll(int index, Collection c) {
+		return false;
 	}
 	
 	@Override
@@ -161,10 +202,7 @@ public class Container implements List {
 		return 0;
 	}
 	
-	@Override
-	public Spliterator spliterator() {
-		return Spliterators.spliterator(array, Spliterator.ORDERED | Spliterator.IMMUTABLE);
-	}
+	//batchRemove analog needed?
 	
 	@Override
 	public boolean retainAll(Collection c) {
@@ -173,7 +211,7 @@ public class Container implements List {
 	
 	@Override
 	public boolean removeAll(Collection c) {
-		return false;
+		return true;
 	}
 	
 	@Override
@@ -182,25 +220,25 @@ public class Container implements List {
 	}
 	
 	@Override
-	public Object[] toArray(Object[] a) {
-		return new Object[0];
+	public Iterator iterator() {
+		return null;
 	}
 	
 	@Override
 	public ListIterator listIterator() {
-		//no realisation
+		//no realisation needed
 		return null;
 	}
 	
 	@Override
 	public ListIterator listIterator(int index) {
-		//no realisation
+		//no realisation needed
 		return null;
 	}
 	
 	@Override
 	public List subList(int fromIndex, int toIndex) {
-		//no realisation
+		//no realisation needed
 		return null;
 	}
 }
