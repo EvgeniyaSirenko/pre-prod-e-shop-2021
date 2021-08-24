@@ -1,4 +1,6 @@
-package com.epam.preprod.sirenko.entity;
+package com.epam.preprod.sirenko.db.entity;
+
+import com.epam.preprod.sirenko.db.PetGroup;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -10,15 +12,15 @@ import java.util.Objects;
  **/
 public class DryFood extends Food {
 	private String brandName;
-	private int petGroupId;
+	private PetGroup petGroup;
 	
 	public DryFood() {
 	}
 	
-	public DryFood(String name, BigDecimal price, int foodWeight, String dryFoodBrandName, int dryFoodPetGroupId) {
+	public DryFood(String name, BigDecimal price, int foodWeight, String dryFoodBrandName, PetGroup DryFoodPetGroup) {
 		super(name, price, foodWeight);
 		brandName = dryFoodBrandName;
-		petGroupId = dryFoodPetGroupId;
+		petGroup = DryFoodPetGroup;
 	}
 	
 	public String getBrandName() {
@@ -29,19 +31,19 @@ public class DryFood extends Food {
 		this.brandName = brandName;
 	}
 	
-	public int getPetGroupId() {
-		return petGroupId;
+	public PetGroup getPetGroup() {
+		return petGroup;
 	}
 	
-	public void setPetGroupId(int petGroupId) {
-		this.petGroupId = petGroupId;
+	public void setPetGroup(PetGroup petGroup) {
+		this.petGroup = petGroup;
 	}
 	
 	@Override
 	public String toString() {
 		return "DryFood{" +
 				"brandName='" + brandName + '\'' +
-				", petGroupId=" + petGroupId +
+				", petGroup=" + petGroup +
 				'}';
 	}
 	
@@ -51,11 +53,11 @@ public class DryFood extends Food {
 		if (!(o instanceof DryFood)) return false;
 		if (!super.equals(o)) return false;
 		DryFood dryFood = (DryFood) o;
-		return getPetGroupId() == dryFood.getPetGroupId() && getBrandName().equals(dryFood.getBrandName());
+		return getBrandName().equals(dryFood.getBrandName()) && getPetGroup() == dryFood.getPetGroup();
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(super.hashCode(), getBrandName(), getPetGroupId());
+		return Objects.hash(super.hashCode(), getBrandName(), getPetGroup());
 	}
 }
