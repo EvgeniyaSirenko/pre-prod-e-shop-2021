@@ -5,12 +5,12 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.function.Consumer;
 
 /**
  * Resizable array-implementation of the List interface
  *
  * @author E.Sirenko
- *
  **/
 public class Container implements List {
 	private int size;
@@ -20,7 +20,6 @@ public class Container implements List {
 	
 	
 	/**
-	 *
 	 * Constructs an empty list with capacity of ten.
 	 **/
 	public Container() {
@@ -29,7 +28,6 @@ public class Container implements List {
 	
 	
 	/**
-	 *
 	 * Constructs an empty list with the specified initial capacity.
 	 **/
 	public Container(int initCapacity) {
@@ -38,13 +36,12 @@ public class Container implements List {
 		} else if (initCapacity == 0) {
 			this.array = new Object[]{};
 		} else {
-			throw new IllegalArgumentException("Illegal Capacity: "+
+			throw new IllegalArgumentException("Illegal Capacity: " +
 					initCapacity);
 		}
 	}
 	
 	/**
-	 *
 	 * Returns the number of elements
 	 **/
 	@Override
@@ -53,7 +50,6 @@ public class Container implements List {
 	}
 	
 	/**
-	 *
 	 * Removes all the elements
 	 **/
 	@Override
@@ -64,7 +60,6 @@ public class Container implements List {
 	}
 	
 	/**
-	 *
 	 * Appends the specified element to the end of the container
 	 **/
 	@Override
@@ -75,7 +70,6 @@ public class Container implements List {
 	}
 	
 	/**
-	 *
 	 * Inserts the specified element at the specified position
 	 **/
 	@Override
@@ -89,7 +83,6 @@ public class Container implements List {
 	}
 	
 	/**
-	 *
 	 * Increases the capacity of this ArrayList instance, if necessary
 	 **/
 	private void capacityCheck(int newCapacity) {
@@ -102,7 +95,6 @@ public class Container implements List {
 	}
 	
 	/**
-	 *
 	 * Returns true if container has no elements
 	 **/
 	@Override
@@ -111,7 +103,6 @@ public class Container implements List {
 	}
 	
 	/**
-	 *
 	 * Returns true if container has the specified element
 	 **/
 	@Override
@@ -126,7 +117,6 @@ public class Container implements List {
 	}
 	
 	/**
-	 *
 	 * Returns an array containing all of the elements in this container
 	 * in proper sequence (from first to last element).
 	 **/
@@ -136,7 +126,6 @@ public class Container implements List {
 	}
 	
 	/**
-	 *
 	 * Returns an array containing all of the elements in this list
 	 **/
 	@Override
@@ -151,7 +140,6 @@ public class Container implements List {
 	}
 	
 	/**
-	 *
 	 * Returns the element at the specified position
 	 **/
 	@Override
@@ -162,7 +150,6 @@ public class Container implements List {
 	}
 	
 	/**
-	 *
 	 * Replaces the element at the specified position
 	 **/
 	@Override
@@ -172,7 +159,6 @@ public class Container implements List {
 	}
 	
 	/**
-	 *
 	 * Removes the element at the specified position in this list
 	 **/
 	@Override
@@ -192,7 +178,6 @@ public class Container implements List {
 	}
 	
 	/**
-	 *
 	 * Removes the first occurrence of the specified element from this list, if it is present.
 	 * If the list does not contain the element, it is unchanged
 	 **/
@@ -223,7 +208,6 @@ public class Container implements List {
 	}
 	
 	/**
-	 *
 	 * Appends all of the elements in the specified collection to the end of this list
 	 **/
 	@Override
@@ -237,7 +221,6 @@ public class Container implements List {
 	}
 	
 	/**
-	 *
 	 * Inserts all of the elements in the specified collection into this list, starting at the specified position
 	 **/
 	@Override
@@ -257,7 +240,6 @@ public class Container implements List {
 	}
 	
 	/**
-	 *
 	 * Returns the index of the first occurrence of the specified element
 	 * in this list, or -1 if this list does not contain the element
 	 **/
@@ -276,40 +258,87 @@ public class Container implements List {
 	}
 	
 	/**
-	 *
 	 * Returns the index of the last occurrence of the specified element
 	 * in this list, or -1 if this list does not contain the element
 	 **/
 	@Override
 	public int lastIndexOf(Object o) {
 		if (o == null) {
-			for ( int i = array.length - 1; i >= 0; i--) {
+			for (int i = array.length - 1; i >= 0; i--) {
 				if (array[i] == null)
 					return i;
 			}
 		} else {
-			for (int i = array.length -1; i >= 0; i --) {
-				if(array[i].equals(o))
+			for (int i = array.length - 1; i >= 0; i--) {
+				if (array[i].equals(o))
 					return i;
 			}
 		}
 		return -1;
 	}
 	
-	//batchRemove analog needed?
 	
+	/**
+	 * Removes from this list all of its elements that are not contained in the
+	 * specified collection
+	 **/
 	@Override
 	public boolean retainAll(Collection c) {
+		int i = 0;
+		int k = 0;
+		try {
+			for (; i < size; i++) {
+				if (c.contains(array[i])) {
+					array[k++] = array[i];
+				}
+			}
+		} finally {
+			if (i != size) {
+				System.arraycopy(array, i, array, k, size - i);
+				k = k + size - i;
+			}
+			if (k != size) {
+				for (int j = k; j < size; j++) {
+					array[j] = null;
+					size = k;
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 	
+	/**
+	 * Removes from this list all of its elements that are contained in the
+	 * specified collection
+	 **/
 	@Override
 	public boolean removeAll(Collection c) {
-		return true;
+		int i = 0;
+		int k = 0;
+		try {
+			for (; i < size; i++) {
+				if (c.contains(array[i]) == false) {
+					array[k++] = array[i];
+				}
+			}
+		} finally {
+			if (i != size) {
+				System.arraycopy(array, i, array, k, size - i);
+				k = k + size - i;
+			}
+			if (k != size) {
+				for (int j = k; j < size; j++) {
+					array[j] = null;
+					size = k;
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	/**
-	 *
 	 * Returns true if this list contains all of the elements of the specified collection
 	 **/
 	@Override
@@ -326,9 +355,35 @@ public class Container implements List {
 		return false;
 	}
 	
+	/**
+	 * Returns an iterator over the elements in this list in proper sequence
+	 **/
 	@Override
 	public Iterator iterator() {
-		return null;
+		return new IteratorOnCondition();
+	}
+	
+	private class IteratorOnCondition implements Iterator {
+		
+		@Override
+		public boolean hasNext() {
+			return false;
+		}
+		
+		@Override
+		public Object next() {
+			return null;
+		}
+		
+		@Override
+		public void remove() {
+			//
+		}
+		
+		@Override
+		public void forEachRemaining(Consumer action) {
+			//
+		}
 	}
 	
 	@Override
