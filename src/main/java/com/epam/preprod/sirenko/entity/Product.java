@@ -1,4 +1,4 @@
-package com.epam.preprod.sirenko.db.entity;
+package com.epam.preprod.sirenko.entity;
 
 import java.math.BigDecimal;
 import java.util.Objects;

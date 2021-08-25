@@ -1,6 +1,6 @@
-package com.epam.preprod.sirenko.db.entity;
+package com.epam.preprod.sirenko.entity;
 
-import com.epam.preprod.sirenko.db.PetGroup;
+import com.epam.preprod.sirenko.enums.PetGroup;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -17,10 +17,10 @@ public class DryFood extends Food {
 	public DryFood() {
 	}
 	
-	public DryFood(String name, BigDecimal price, int foodWeight, String dryFoodBrandName, PetGroup DryFoodPetGroup) {
+	public DryFood(String name, BigDecimal price, int foodWeight, String dryFoodBrandName, PetGroup dryFoodPetGroup) {
 		super(name, price, foodWeight);
 		brandName = dryFoodBrandName;
-		petGroup = DryFoodPetGroup;
+		petGroup = dryFoodPetGroup;
 	}
 	
 	public String getBrandName() {

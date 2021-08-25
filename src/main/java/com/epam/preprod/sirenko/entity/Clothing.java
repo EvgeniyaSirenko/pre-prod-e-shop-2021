@@ -1,7 +1,7 @@
-package com.epam.preprod.sirenko.db.entity;
+package com.epam.preprod.sirenko.entity;
 
-import com.epam.preprod.sirenko.db.Season;
-import com.epam.preprod.sirenko.db.Size;
+import com.epam.preprod.sirenko.enums.Size;
+import com.epam.preprod.sirenko.enums.Season;
 
 import java.math.BigDecimal;
 import java.util.Objects;

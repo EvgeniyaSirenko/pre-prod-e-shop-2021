@@ -1,6 +1,4 @@
-package com.epam.preprod.sirenko.db;
-
-import com.epam.preprod.sirenko.db.entity.Clothing;
+package com.epam.preprod.sirenko.enums;
 
 /**
  * Size entity.

@@ -1,6 +1,4 @@
-package com.epam.preprod.sirenko.db;
-
-import com.epam.preprod.sirenko.db.entity.DryFood;
+package com.epam.preprod.sirenko.enums;
 
 /**
  * PetType entity.

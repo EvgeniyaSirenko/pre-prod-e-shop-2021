@@ -1,10 +1,8 @@
-package com.epam.preprod.sirenko.db.util;
+package com.epam.preprod.sirenko.util;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import com.epam.preprod.sirenko.entity.Product;
+
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
@@ -12,20 +10,17 @@ import java.util.function.Consumer;
  *
  * @author E.Sirenko
  **/
-public class Container implements List {
+public class Container<E extends Product> implements List {
 	private int size;
-	private static final int CAPACITY = 10;
+	private int initCapacity;
 	private Object[] array;
-	private static final Object[] EMPTY_CAPACITY = {};
-	
 	
 	/**
 	 * Constructs an empty list with capacity of ten.
 	 **/
 	public Container() {
-		this.array = EMPTY_CAPACITY;
+		this.array = new Object[]{};
 	}
-	
 	
 	/**
 	 * Constructs an empty list with the specified initial capacity.
@@ -34,7 +29,7 @@ public class Container implements List {
 		if (initCapacity > 0) {
 			this.array = new Object[initCapacity];
 		} else if (initCapacity == 0) {
-			this.array = new Object[]{};
+			new Container();
 		} else {
 			throw new IllegalArgumentException("Illegal Capacity: " +
 					initCapacity);
@@ -54,8 +49,6 @@ public class Container implements List {
 	 **/
 	@Override
 	public void clear() {
-		for (int i = 0; i < size; i++)
-			array[i] = null;
 		size = 0;
 	}
 	
@@ -63,9 +56,9 @@ public class Container implements List {
 	 * Appends the specified element to the end of the container
 	 **/
 	@Override
-	public boolean add(Object o) {
+	public boolean add(Object object) {
 		capacityCheck(size + 1);
-		array[array.length + 1] = o;
+		array[size++] = object;
 		return true;
 	}
 	
@@ -73,12 +66,12 @@ public class Container implements List {
 	 * Inserts the specified element at the specified position
 	 **/
 	@Override
-	public void add(int index, Object o) {
+	public void add(int index, Object object) {
 		if (index > size || index < 0)
 			throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
 		capacityCheck(size + 1);
 		System.arraycopy(array, index, array, index + 1, size - index);
-		array[index] = o;
+		array[index] = object;
 		size++;
 	}
 	
@@ -86,11 +79,8 @@ public class Container implements List {
 	 * Increases the capacity of this ArrayList instance, if necessary
 	 **/
 	private void capacityCheck(int newCapacity) {
-		int minCapacity = (array != EMPTY_CAPACITY) ? 0 : CAPACITY;
-		if (newCapacity > minCapacity) {
-			if (newCapacity - array.length > 0) {
-				array = Arrays.copyOf(array, newCapacity);
-			}
+		if (newCapacity - initCapacity > 0) {
+			array = Arrays.copyOf(array, newCapacity);
 		}
 	}
 	
@@ -99,21 +89,20 @@ public class Container implements List {
 	 **/
 	@Override
 	public boolean isEmpty() {
-		return array.length == 0;
+		return size == 0;
 	}
 	
 	/**
 	 * Returns true if container has the specified element
 	 **/
 	@Override
-	public boolean contains(Object o) {
+	public boolean contains(Object object) {
 		for (int i = 0; i < array.length; i++) {
-			if (array[i].equals(o)) {
+			if (array[i].equals(object)) {
 				return true;
 			}
 		}
 		return false;
-		//return indexOf(o) != -1; <-- as another option
 	}
 	
 	/**
@@ -129,14 +118,14 @@ public class Container implements List {
 	 * Returns an array containing all of the elements in this list
 	 **/
 	@Override
-	public Object[] toArray(Object[] a) {
+	public Object[] toArray(Object[] object) {
 		int size = size();
-		if (a.length < size)
+		if (object.length < size)
 			return Arrays.copyOf(array, size);
-		System.arraycopy(array, 0, a, 0, size);
-		if (a.length > size)
-			a[size] = null;
-		return a;
+		System.arraycopy(array, 0, object, 0, size);
+		if (object.length > size)
+			object[size] = null;
+		return object;
 	}
 	
 	/**
@@ -150,11 +139,11 @@ public class Container implements List {
 	}
 	
 	/**
-	 * Replaces the element at the specified position
+	 * Replaces the object at the specified position
 	 **/
 	@Override
-	public Object set(int index, Object element) {
-		array[index] = element;
+	public Object set(int index, Object object) {
+		array[index] = object;
 		return array[index];
 	}
 	
@@ -182,8 +171,8 @@ public class Container implements List {
 	 * If the list does not contain the element, it is unchanged
 	 **/
 	@Override
-	public boolean remove(Object o) {
-		if (o == null) {
+	public boolean remove(Object object) {
+		if (object == null) {
 			for (int i = 0; i < array.length; i++)
 				if (array[i] == null) {
 					removeByIdx(i);
@@ -191,7 +180,7 @@ public class Container implements List {
 				}
 		} else {
 			for (int i = 0; i < array.length; i++)
-				if (array[i].equals(o)) {
+				if (array[i].equals(object)) {
 					removeByIdx(i);
 					return true;
 				}
@@ -199,10 +188,10 @@ public class Container implements List {
 		return false;
 	}
 	
-	private void removeByIdx(int i) {
-		int numMoved = size - i - 1;
+	private void removeByIdx(int index) {
+		int numMoved = size - index - 1;
 		if (numMoved > 0)
-			System.arraycopy(array, i + 1, array, i,
+			System.arraycopy(array, index + 1, array, index,
 					numMoved);
 		array[--size] = null;
 	}
@@ -211,8 +200,8 @@ public class Container implements List {
 	 * Appends all of the elements in the specified collection to the end of this list
 	 **/
 	@Override
-	public boolean addAll(Collection c) {
-		Object[] obj = c.toArray();
+	public boolean addAll(Collection collection) {
+		Object[] obj = collection.toArray();
 		int objLength = obj.length;
 		capacityCheck(size + objLength);
 		System.arraycopy(obj, 0, array, size, objLength);
@@ -224,8 +213,8 @@ public class Container implements List {
 	 * Inserts all of the elements in the specified collection into this list, starting at the specified position
 	 **/
 	@Override
-	public boolean addAll(int index, Collection c) {
-		Object[] obj = c.toArray();
+	public boolean addAll(int index, Collection collection) {
+		Object[] obj = collection.toArray();
 		int objLength = obj.length;
 		capacityCheck(size + objLength);
 		
@@ -244,14 +233,14 @@ public class Container implements List {
 	 * in this list, or -1 if this list does not contain the element
 	 **/
 	@Override
-	public int indexOf(Object o) {
-		if (o == null) {
+	public int indexOf(Object object) {
+		if (object == null) {
 			for (int i = 0; i < array.length; i++)
 				if (array[i] == null)
 					return i;
 		} else {
 			for (int i = 0; i < array.length; i++)
-				if (array[i].equals(o))
+				if (array[i].equals(object))
 					return i;
 		}
 		return -1;
@@ -262,15 +251,15 @@ public class Container implements List {
 	 * in this list, or -1 if this list does not contain the element
 	 **/
 	@Override
-	public int lastIndexOf(Object o) {
-		if (o == null) {
+	public int lastIndexOf(Object object) {
+		if (object == null) {
 			for (int i = array.length - 1; i >= 0; i--) {
 				if (array[i] == null)
 					return i;
 			}
 		} else {
 			for (int i = array.length - 1; i >= 0; i--) {
-				if (array[i].equals(o))
+				if (array[i].equals(object))
 					return i;
 			}
 		}
@@ -283,12 +272,12 @@ public class Container implements List {
 	 * specified collection
 	 **/
 	@Override
-	public boolean retainAll(Collection c) {
+	public boolean retainAll(Collection collection) {
 		int i = 0;
 		int k = 0;
 		try {
 			for (; i < size; i++) {
-				if (c.contains(array[i])) {
+				if (collection.contains(array[i])) {
 					array[k++] = array[i];
 				}
 			}
@@ -313,12 +302,12 @@ public class Container implements List {
 	 * specified collection
 	 **/
 	@Override
-	public boolean removeAll(Collection c) {
+	public boolean removeAll(Collection collection) {
 		int i = 0;
 		int k = 0;
 		try {
 			for (; i < size; i++) {
-				if (c.contains(array[i]) == false) {
+				if (collection.contains(array[i]) == false) {
 					array[k++] = array[i];
 				}
 			}
@@ -342,14 +331,10 @@ public class Container implements List {
 	 * Returns true if this list contains all of the elements of the specified collection
 	 **/
 	@Override
-	public boolean containsAll(Collection c) {
-		Object[] obj = c.toArray();
-		int objLength = obj.length;
-		for (int i = 0; i < objLength; i++) {
-			for (int j = 0; j < size; j++) {
-				if (array[i].equals(obj[j])) {
-					return true;
-				}
+	public boolean containsAll(Collection collection) {
+		for (int i = 0; i < size; i++) {
+			if (collection.contains(array[i])) {
+				return true;
 			}
 		}
 		return false;
