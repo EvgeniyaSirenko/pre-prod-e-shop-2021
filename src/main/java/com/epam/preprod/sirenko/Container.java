@@ -1,19 +1,21 @@
-package com.epam.preprod.sirenko.util;
+package com.epam.preprod.sirenko;
 
+import com.epam.preprod.sirenko.entity.Clothing;
+import com.epam.preprod.sirenko.entity.DryFood;
+import com.epam.preprod.sirenko.entity.Food;
 import com.epam.preprod.sirenko.entity.Product;
 
 import java.util.*;
-import java.util.function.Consumer;
 
 /**
  * Resizable array-implementation of the List interface
  *
  * @author E.Sirenko
  **/
-public class Container<E extends Product> implements List {
+public class Container<E extends Product> implements List<E> {
 	private int size;
-	private int initCapacity;
-	private Object[] array;
+	private int currentCapacity = 10;
+	transient Object[] array;
 	
 	/**
 	 * Constructs an empty list with capacity of ten.
@@ -41,7 +43,7 @@ public class Container<E extends Product> implements List {
 	 **/
 	@Override
 	public int size() {
-		return array.length;
+		return size;
 	}
 	
 	/**
@@ -56,9 +58,9 @@ public class Container<E extends Product> implements List {
 	 * Appends the specified element to the end of the container
 	 **/
 	@Override
-	public boolean add(Object object) {
-		capacityCheck(size + 1);
-		array[size++] = object;
+	public boolean add(E element) {
+		capacityCheckAndResizeIfNeeded(size + 1);
+		array[size++] = element;
 		return true;
 	}
 	
@@ -66,23 +68,25 @@ public class Container<E extends Product> implements List {
 	 * Inserts the specified element at the specified position
 	 **/
 	@Override
-	public void add(int index, Object object) {
+	public void add(int index, E element) {
 		if (index > size || index < 0)
 			throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
-		capacityCheck(size + 1);
-		System.arraycopy(array, index, array, index + 1, size - index);
-		array[index] = object;
+		capacityCheckAndResizeIfNeeded(size + 1);
+		array[index] = element;
 		size++;
 	}
 	
 	/**
 	 * Increases the capacity of this ArrayList instance, if necessary
 	 **/
-	private void capacityCheck(int newCapacity) {
-		if (newCapacity - initCapacity > 0) {
+	private void capacityCheckAndResizeIfNeeded(int newCapacity) {
+		if (size == 0) {
+			array = Arrays.copyOf(array, currentCapacity);
+		} else if (newCapacity - currentCapacity > 0) {
 			array = Arrays.copyOf(array, newCapacity);
 		}
 	}
+
 	
 	/**
 	 * Returns true if container has no elements
@@ -132,30 +136,30 @@ public class Container<E extends Product> implements List {
 	 * Returns the element at the specified position
 	 **/
 	@Override
-	public Object get(int index) {
+	public E get(int index) {
 		if (index >= size)
 			throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
-		return array[index];
+		return (E) array[index];
 	}
 	
 	/**
 	 * Replaces the object at the specified position
 	 **/
 	@Override
-	public Object set(int index, Object object) {
-		array[index] = object;
-		return array[index];
+	public E set(int index, E element) {
+		array[index] = element;
+		return (E) array[index];
 	}
 	
 	/**
 	 * Removes the element at the specified position in this list
 	 **/
 	@Override
-	public Object remove(int index) {
+	public E remove(int index) {
 		if (index >= size)
 			throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
 		
-		Object toRemove = array[index];
+		E toRemove = (E) array[index];
 		
 		int numMoved = size - index - 1;
 		if (numMoved > 0)
@@ -203,7 +207,7 @@ public class Container<E extends Product> implements List {
 	public boolean addAll(Collection collection) {
 		Object[] obj = collection.toArray();
 		int objLength = obj.length;
-		capacityCheck(size + objLength);
+		capacityCheckAndResizeIfNeeded(size + objLength);
 		System.arraycopy(obj, 0, array, size, objLength);
 		size = size + objLength;
 		return objLength != 0;
@@ -216,7 +220,7 @@ public class Container<E extends Product> implements List {
 	public boolean addAll(int index, Collection collection) {
 		Object[] obj = collection.toArray();
 		int objLength = obj.length;
-		capacityCheck(size + objLength);
+		capacityCheckAndResizeIfNeeded(size + objLength);
 		
 		int numMoved = size - index;
 		if (numMoved > 0)
@@ -347,29 +351,33 @@ public class Container<E extends Product> implements List {
 	public Iterator iterator() {
 		return new IteratorOnCondition();
 	}
+
+private class IteratorOnCondition implements Iterator {
+	int index;
+	int lastRet = -1; // index of last element returned; -1 if no such
 	
-	private class IteratorOnCondition implements Iterator {
-		
-		@Override
-		public boolean hasNext() {
-			return false;
-		}
-		
-		@Override
-		public Object next() {
-			return null;
-		}
-		
-		@Override
-		public void remove() {
-			//
-		}
-		
-		@Override
-		public void forEachRemaining(Consumer action) {
-			//
-		}
+	public IteratorOnCondition() {
 	}
+	
+	@Override
+	public boolean hasNext() {
+		return index != size;
+	}
+	
+	@Override
+	public Object next() {
+		int i = index;
+		if (i >= size)
+			throw new NoSuchElementException();
+		Object[] elementData = array;
+		if (i >= elementData.length)
+			throw new ConcurrentModificationException();
+		index = i + 1;
+		return (Object) elementData[lastRet = i];
+	}
+	
+}
+	
 	
 	@Override
 	public ListIterator listIterator() {
