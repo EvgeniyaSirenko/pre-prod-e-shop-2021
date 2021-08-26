@@ -1,8 +1,5 @@
 package com.epam.preprod.sirenko;
 
-import com.epam.preprod.sirenko.entity.Clothing;
-import com.epam.preprod.sirenko.entity.DryFood;
-import com.epam.preprod.sirenko.entity.Food;
 import com.epam.preprod.sirenko.entity.Product;
 
 import java.util.*;
@@ -353,8 +350,7 @@ public class Container<E extends Product> implements List<E> {
 	}
 
 private class IteratorOnCondition implements Iterator {
-	int index;
-	int lastRet = -1; // index of last element returned; -1 if no such
+	int index = 0;
 	
 	public IteratorOnCondition() {
 	}
@@ -366,18 +362,12 @@ private class IteratorOnCondition implements Iterator {
 	
 	@Override
 	public Object next() {
-		int i = index;
-		if (i >= size)
+		if (index >= size)
 			throw new NoSuchElementException();
-		Object[] elementData = array;
-		if (i >= elementData.length)
-			throw new ConcurrentModificationException();
-		index = i + 1;
-		return (Object) elementData[lastRet = i];
+		index = index + 1;
+		return array[index - 1];
 	}
-	
 }
-	
 	
 	@Override
 	public ListIterator listIterator() {
