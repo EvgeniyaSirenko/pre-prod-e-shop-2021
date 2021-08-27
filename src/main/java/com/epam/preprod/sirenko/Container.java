@@ -1,5 +1,8 @@
 package com.epam.preprod.sirenko;
 
+import com.epam.preprod.sirenko.entity.Clothing;
+import com.epam.preprod.sirenko.entity.DryFood;
+import com.epam.preprod.sirenko.entity.Food;
 import com.epam.preprod.sirenko.entity.Product;
 
 import java.util.*;
@@ -9,10 +12,10 @@ import java.util.*;
  *
  * @author E.Sirenko
  **/
-public class Container<E extends Product> implements List<E> {
+public class Container<E extends Product> implements List<E>, Iterable<E> {
 	private int size;
 	private int currentCapacity = 10;
-	transient Object[] array;
+	private Object[] array;
 	
 	/**
 	 * Constructs an empty list with capacity of ten.
@@ -66,8 +69,9 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public void add(int index, E element) {
-		if (index > size || index < 0)
+		if (index > size || index < 0) {
 			throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+		}
 		capacityCheckAndResizeIfNeeded(size + 1);
 		array[index] = element;
 		size++;
@@ -78,12 +82,12 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	private void capacityCheckAndResizeIfNeeded(int newCapacity) {
 		if (size == 0) {
-			array = Arrays.copyOf(array, currentCapacity);
+			array = new Object[currentCapacity];
 		} else if (newCapacity - currentCapacity > 0) {
 			array = Arrays.copyOf(array, newCapacity);
 		}
 	}
-
+	
 	
 	/**
 	 * Returns true if container has no elements
@@ -121,11 +125,13 @@ public class Container<E extends Product> implements List<E> {
 	@Override
 	public Object[] toArray(Object[] object) {
 		int size = size();
-		if (object.length < size)
+		if (object.length < size) {
 			return Arrays.copyOf(array, size);
+		}
 		System.arraycopy(array, 0, object, 0, size);
-		if (object.length > size)
+		if (object.length > size) {
 			object[size] = null;
+		}
 		return object;
 	}
 	
@@ -134,8 +140,9 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public E get(int index) {
-		if (index >= size)
+		if (index >= size || index < 0) {
 			throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+		}
 		return (E) array[index];
 	}
 	
@@ -153,17 +160,16 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public E remove(int index) {
-		if (index >= size)
+		if (index >= size) {
 			throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
-		
+		}
 		E toRemove = (E) array[index];
-		
 		int numMoved = size - index - 1;
-		if (numMoved > 0)
+		if (numMoved > 0) {
 			System.arraycopy(array, index + 1, array, index,
 					numMoved);
+		}
 		array[--size] = null;
-		
 		return toRemove;
 	}
 	
@@ -191,9 +197,10 @@ public class Container<E extends Product> implements List<E> {
 	
 	private void removeByIdx(int index) {
 		int numMoved = size - index - 1;
-		if (numMoved > 0)
+		if (numMoved > 0) {
 			System.arraycopy(array, index + 1, array, index,
 					numMoved);
+		}
 		array[--size] = null;
 	}
 	
@@ -220,10 +227,10 @@ public class Container<E extends Product> implements List<E> {
 		capacityCheckAndResizeIfNeeded(size + objLength);
 		
 		int numMoved = size - index;
-		if (numMoved > 0)
+		if (numMoved > 0) {
 			System.arraycopy(array, index, array, index + objLength,
 					numMoved);
-		
+		}
 		System.arraycopy(obj, 0, array, index, objLength);
 		size = size + objLength;
 		return objLength != 0;
@@ -241,8 +248,9 @@ public class Container<E extends Product> implements List<E> {
 					return i;
 		} else {
 			for (int i = 0; i < array.length; i++)
-				if (array[i].equals(object))
+				if (array[i].equals(object)) {
 					return i;
+				}
 		}
 		return -1;
 	}
@@ -255,13 +263,15 @@ public class Container<E extends Product> implements List<E> {
 	public int lastIndexOf(Object object) {
 		if (object == null) {
 			for (int i = array.length - 1; i >= 0; i--) {
-				if (array[i] == null)
+				if (array[i] == null) {
 					return i;
+				}
 			}
 		} else {
 			for (int i = array.length - 1; i >= 0; i--) {
-				if (array[i].equals(object))
+				if (array[i].equals(object)) {
 					return i;
+				}
 			}
 		}
 		return -1;
@@ -345,45 +355,59 @@ public class Container<E extends Product> implements List<E> {
 	 * Returns an iterator over the elements in this list in proper sequence
 	 **/
 	@Override
-	public Iterator iterator() {
+	public Iterator  iterator() {
 		return new IteratorOnCondition();
 	}
-
-private class IteratorOnCondition implements Iterator {
-	int index = 0;
 	
-	public IteratorOnCondition() {
+	private class IteratorOnCondition implements Iterator  {
+		private int index = 0;
+		
+		public IteratorOnCondition() {
+		}
+		
+		@Override
+		public boolean hasNext() {
+			return index != size;
+		}
+		
+		@Override
+		public Object next() {
+			if (index >= size) {
+				throw new NoSuchElementException();
+			}
+			return array[index++];
+		}
 	}
 	
-	@Override
-	public boolean hasNext() {
-		return index != size;
+	public static void main(String[] args) {
+		DryFood dryFood = new DryFood();
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		Container<Product> container = new Container<>();
+		container.add(dryFood);
+		container.add(clothing);
+		container.add(food);
+		System.out.println("Next is " + container.iterator().next());
+		System.out.println("Has next -> " + container.iterator().hasNext());
+		System.out.println("Elements: ");
+		Iterator iterator = container.iterator();
+		while (iterator.hasNext()) {
+			System.out.println(iterator.next());
+		}
 	}
-	
-	@Override
-	public Object next() {
-		if (index >= size)
-			throw new NoSuchElementException();
-		index = index + 1;
-		return array[index - 1];
-	}
-}
 	
 	@Override
 	public ListIterator listIterator() {
-		//no realisation needed
-		return null;
+		throw new UnsupportedOperationException("Not implemented");
 	}
 	
 	@Override
 	public ListIterator listIterator(int index) {
-		//no realisation needed
-		return null;
+		throw new UnsupportedOperationException("Not implemented");
 	}
 	
 	@Override
 	public List subList(int fromIndex, int toIndex) {
-		//no realisation needed
-		return null;
+		throw new UnsupportedOperationException("Not implemented");
 	}
 }
