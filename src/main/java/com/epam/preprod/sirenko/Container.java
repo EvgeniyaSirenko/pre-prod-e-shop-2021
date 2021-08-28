@@ -4,7 +4,11 @@ import com.epam.preprod.sirenko.entity.Clothing;
 import com.epam.preprod.sirenko.entity.DryFood;
 import com.epam.preprod.sirenko.entity.Food;
 import com.epam.preprod.sirenko.entity.Product;
+import com.epam.preprod.sirenko.enums.PetGroup;
+import com.epam.preprod.sirenko.enums.Season;
+import com.epam.preprod.sirenko.enums.Size;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -367,18 +371,52 @@ public class Container<E extends Product> implements List<E>, Iterable<E> {
 		
 		@Override
 		public boolean hasNext() {
-			return index != size;
+			Clothing condition = new Clothing();
+			condition.setSeason(Season.WINTER);
+			condition.setSize(Size.S);
+			condition.setName("jacket");
+			condition.setPrice(BigDecimal.valueOf(200));
+			if (index >= size) {
+				throw new NoSuchElementException();
+			}
+			for (int i = 0; i < size; i++) {
+				if (!array[index].equals(condition)) { //nullPointer
+					index++;
+				}
+			}
+			return true;
 		}
 		
 		@Override
 		public E next() {
-			if (index >= size) {
-				throw new NoSuchElementException();
-			}
 			return (E) array[index++];
 		}
 	}
-
+	
+	public static void main(String[] args) {
+		DryFood dryFood = new DryFood();
+		dryFood.setBrandName("Brit");
+		dryFood.setPetGroup(PetGroup.CAT);
+		Clothing clothing = new Clothing();
+		clothing.setSize(Size.S);
+		clothing.setSeason(Season.WINTER);
+		clothing.setName("jacket");
+		clothing.setPrice(BigDecimal.valueOf(200));
+		Food food = new Food();
+		food.setWeight(200);
+		Container<Product> container = new Container<>();
+		container.add(dryFood);
+		container.add(clothing);
+		container.add(food);
+		container.add(clothing);
+		container.add(dryFood);
+		container.add(food);
+		System.out.println("Elements Clothing: ");
+		Iterator iterator = container.iterator();
+		while (iterator.hasNext()) {
+			System.out.println(iterator.next());
+		}
+	}
 	
 	@Override
 	public ListIterator listIterator() {
