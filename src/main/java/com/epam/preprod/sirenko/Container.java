@@ -355,14 +355,14 @@ public class Container<E extends Product> implements List<E>, Iterable<E> {
 	 * Returns an iterator over the elements in this list in proper sequence
 	 **/
 	@Override
-	public Iterator  iterator() {
-		return new IteratorOnCondition();
+	public Iterator<E> iterator() {
+		return new IteratorOnCondition<E>(this);
 	}
 	
-	private class IteratorOnCondition implements Iterator  {
+	private class IteratorOnCondition<E extends Product> implements Iterator<E> {
 		private int index = 0;
 		
-		public IteratorOnCondition() {
+		public IteratorOnCondition(Container<E> container) {
 		}
 		
 		@Override
@@ -371,30 +371,14 @@ public class Container<E extends Product> implements List<E>, Iterable<E> {
 		}
 		
 		@Override
-		public Object next() {
+		public E next() {
 			if (index >= size) {
 				throw new NoSuchElementException();
 			}
-			return array[index++];
+			return (E) array[index++];
 		}
 	}
-	
-	public static void main(String[] args) {
-		DryFood dryFood = new DryFood();
-		Clothing clothing = new Clothing();
-		Food food = new Food();
-		Container<Product> container = new Container<>();
-		container.add(dryFood);
-		container.add(clothing);
-		container.add(food);
-		System.out.println("Next is " + container.iterator().next());
-		System.out.println("Has next -> " + container.iterator().hasNext());
-		System.out.println("Elements: ");
-		Iterator iterator = container.iterator();
-		while (iterator.hasNext()) {
-			System.out.println(iterator.next());
-		}
-	}
+
 	
 	@Override
 	public ListIterator listIterator() {
