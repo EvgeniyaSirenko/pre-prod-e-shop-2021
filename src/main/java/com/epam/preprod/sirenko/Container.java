@@ -1,10 +1,7 @@
 package com.epam.preprod.sirenko;
 
 import com.epam.preprod.sirenko.entity.Clothing;
-import com.epam.preprod.sirenko.entity.DryFood;
-import com.epam.preprod.sirenko.entity.Food;
 import com.epam.preprod.sirenko.entity.Product;
-import com.epam.preprod.sirenko.enums.PetGroup;
 import com.epam.preprod.sirenko.enums.Season;
 import com.epam.preprod.sirenko.enums.Size;
 
@@ -16,7 +13,7 @@ import java.util.*;
  *
  * @author E.Sirenko
  **/
-public class Container<E extends Product> implements List<E>, Iterable<E> {
+public class Container<E extends Product> implements List<E> {
 	private int size;
 	private int currentCapacity = 10;
 	private Object[] array;
@@ -128,13 +125,13 @@ public class Container<E extends Product> implements List<E>, Iterable<E> {
 	 **/
 	@Override
 	public Object[] toArray(Object[] object) {
-		int size = size();
-		if (object.length < size) {
-			return Arrays.copyOf(array, size);
+		int length = size();
+		if (object.length < length) {
+			return Arrays.copyOf(array, length);
 		}
-		System.arraycopy(array, 0, object, 0, size);
-		if (object.length > size) {
-			object[size] = null;
+		System.arraycopy(array, 0, object, 0, length);
+		if (object.length > length) {
+			object[length] = null;
 		}
 		return object;
 	}
@@ -360,13 +357,13 @@ public class Container<E extends Product> implements List<E>, Iterable<E> {
 	 **/
 	@Override
 	public Iterator<E> iterator() {
-		return new IteratorOnCondition<E>(this);
+		return new IteratorOnCondition<>(this);
 	}
 	
-	private class IteratorOnCondition<E extends Product> implements Iterator<E> {
+	private class IteratorOnCondition<T extends Product> implements Iterator<T> {
 		private int index = 0;
 		
-		public IteratorOnCondition(Container<E> container) {
+		public IteratorOnCondition(Container<T> container) {
 		}
 		
 		@Override
@@ -376,9 +373,6 @@ public class Container<E extends Product> implements List<E>, Iterable<E> {
 			condition.setSize(Size.S);
 			condition.setName("jacket");
 			condition.setPrice(BigDecimal.valueOf(200));
-			if (index >= size) {
-				throw new NoSuchElementException();
-			}
 			for (int i = 0; i < size; i++) {
 				if (!array[index].equals(condition)) { //nullPointer
 					index++;
@@ -388,48 +382,25 @@ public class Container<E extends Product> implements List<E>, Iterable<E> {
 		}
 		
 		@Override
-		public E next() {
-			return (E) array[index++];
-		}
-	}
-	
-	public static void main(String[] args) {
-		DryFood dryFood = new DryFood();
-		dryFood.setBrandName("Brit");
-		dryFood.setPetGroup(PetGroup.CAT);
-		Clothing clothing = new Clothing();
-		clothing.setSize(Size.S);
-		clothing.setSeason(Season.WINTER);
-		clothing.setName("jacket");
-		clothing.setPrice(BigDecimal.valueOf(200));
-		Food food = new Food();
-		food.setWeight(200);
-		Container<Product> container = new Container<>();
-		container.add(dryFood);
-		container.add(clothing);
-		container.add(food);
-		container.add(clothing);
-		container.add(dryFood);
-		container.add(food);
-		System.out.println("Elements Clothing: ");
-		Iterator iterator = container.iterator();
-		while (iterator.hasNext()) {
-			System.out.println(iterator.next());
+		public T next() {
+			if (index >= size)
+				throw new NoSuchElementException();
+			return (T) array[index++]; //index check
 		}
 	}
 	
 	@Override
 	public ListIterator listIterator() {
-		throw new UnsupportedOperationException("Not implemented");
+		throw new UnsupportedOperationException();
 	}
 	
 	@Override
 	public ListIterator listIterator(int index) {
-		throw new UnsupportedOperationException("Not implemented");
+		throw new UnsupportedOperationException();
 	}
 	
 	@Override
 	public List subList(int fromIndex, int toIndex) {
-		throw new UnsupportedOperationException("Not implemented");
+		throw new UnsupportedOperationException();
 	}
 }
