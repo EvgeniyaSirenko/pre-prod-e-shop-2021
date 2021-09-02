@@ -395,8 +395,8 @@ public class Container<E extends Product> implements List<E> {
 		
 		@Override
 		public boolean hasNext() {
-			while (index < size) {
-				T element = (T) array[index++];
+			for (; index < size; index++) {
+				T element = (T) array[index];
 				if (predicate.test(element)) {
 					match = element;
 					return true;
@@ -410,9 +410,6 @@ public class Container<E extends Product> implements List<E> {
 			if (index > size) {
 				throw new NoSuchElementException();
 			}
-			if (match!=null){
-				return (T) match;
-			}
 			while (index < size) {
 				T element = (T) array[index++];
 				if (predicate.test(element)) {
@@ -420,7 +417,7 @@ public class Container<E extends Product> implements List<E> {
 					return (T) match;
 				}
 			}
-			return (T) match;
+			return null;
 		}
 	}
 	
@@ -433,6 +430,7 @@ public class Container<E extends Product> implements List<E> {
 		container.add(clothing);
 		container.add(food);
 		container.add(clothing);
+		container.add(clothing);
 		container.add(dryFood);
 		container.add(food);
 		System.out.println("Elements Clothing: ");
@@ -443,7 +441,8 @@ public class Container<E extends Product> implements List<E> {
 //		}
 		System.out.println(iterator.next());
 		System.out.println(iterator.next());
-		System.out.println(iterator.next()); //this will give extra element
+		System.out.println(iterator.next());
+		System.out.println(iterator.next());
 		System.out.println(iterator.hasNext());
 	}
 	
