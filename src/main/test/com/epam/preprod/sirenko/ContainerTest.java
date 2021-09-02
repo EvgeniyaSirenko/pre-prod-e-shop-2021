@@ -2,7 +2,11 @@ package com.epam.preprod.sirenko;
 
 import com.epam.preprod.sirenko.entity.Clothing;
 import com.epam.preprod.sirenko.entity.Product;
+import jdk.nashorn.internal.codegen.CompilationException;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,9 +18,9 @@ class ContainerTest {
 		
 		container.add(clothing);
 		
-		Product p1 = container.get(0);
+		Product product = container.get(0);
 		assertNotNull(container.get(0));
-		assertEquals(p1, clothing);
+		assertEquals(product, clothing);
 	}
 	
 	@Test
@@ -29,9 +33,9 @@ class ContainerTest {
 		container.add(clothing1);
 		container.add(1, clothing);
 		
-		Product p1 = container.get(1);
+		Product product = container.get(1);
 		assertNotNull(container.get(1));
-		assertEquals(p1, clothing);
+		assertEquals(product, clothing);
 	}
 	
 	@Test

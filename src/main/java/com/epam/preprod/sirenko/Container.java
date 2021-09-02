@@ -1,12 +1,12 @@
 package com.epam.preprod.sirenko;
 
 import com.epam.preprod.sirenko.entity.Clothing;
+import com.epam.preprod.sirenko.entity.DryFood;
+import com.epam.preprod.sirenko.entity.Food;
 import com.epam.preprod.sirenko.entity.Product;
-import com.epam.preprod.sirenko.enums.Season;
-import com.epam.preprod.sirenko.enums.Size;
 
-import java.math.BigDecimal;
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * Resizable array-implementation of the List interface
@@ -357,35 +357,68 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public Iterator<E> iterator() {
-		return new IteratorOnCondition<>(this);
+		return new IteratorOnCondition<>();
+	}
+	
+	/**
+	 * Returns an iterator over the elements in this list on condition
+	 **/
+	public Iterator<E> iterator(Predicate<Product> predicate) {
+		return new IteratorOnCondition<>(predicate);
 	}
 	
 	private class IteratorOnCondition<T extends Product> implements Iterator<T> {
 		private int index = 0;
+		Predicate<Product> predicate;
+		private T nextElement;
 		
-		public IteratorOnCondition(Container<T> container) {
+		
+		public IteratorOnCondition() {
+		}
+		
+		public IteratorOnCondition(Predicate<Product> predicate) {
+			this.predicate = predicate;
 		}
 		
 		@Override
 		public boolean hasNext() {
-			Clothing condition = new Clothing();
-			condition.setSeason(Season.WINTER);
-			condition.setSize(Size.S);
-			condition.setName("jacket");
-			condition.setPrice(BigDecimal.valueOf(200));
-			for (int i = 0; i < size; i++) {
-				if (!array[index].equals(condition)) { //nullPointer
-					index++;
-				}
-			}
-			return true;
+			return index != size;
 		}
 		
 		@Override
 		public T next() {
-			if (index >= size)
+			if (index >= size) {
 				throw new NoSuchElementException();
-			return (T) array[index++]; //index check
+			}
+			if (predicate!=null) {
+				while (index != array.length) { // hasNext or size here -> gets out extra element (null)
+					T element = (T) array[index++];
+					if (predicate.test(element)) {
+						nextElement = element;
+						return nextElement;
+					}
+				}
+			}
+			return (T) array[index++];
+		}
+	}
+	
+	public static void main(String[] args) {
+		DryFood dryFood = new DryFood();
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		Container<Product> container = new Container<>();
+		container.add(dryFood);
+		container.add(clothing);
+		container.add(food);
+		container.add(clothing);
+		container.add(dryFood);
+		container.add(food);
+		System.out.println("Elements Clothing: ");
+		Predicate<Product> isClothing = x -> x.equals(clothing);
+		Iterator<Product> iterator = container.iterator(isClothing);
+		while (iterator.hasNext()) {
+			System.out.println(iterator.next());
 		}
 	}
 	
