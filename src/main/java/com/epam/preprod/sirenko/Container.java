@@ -367,7 +367,7 @@ public class Container<E extends Product> implements List<E> {
 		return new IteratorOnCondition<>(predicate);
 	}
 	
-	private class Iter<T extends Product> implements Iterator<E> {
+	private class Iter<T extends Product> implements Iterator<T> {
 		private int index = 0;
 		
 		@Override
@@ -376,11 +376,11 @@ public class Container<E extends Product> implements List<E> {
 		}
 		
 		@Override
-		public E next() {
+		public T next() {
 			if (index >= size) {
 				throw new NoSuchElementException();
 			}
-			return (E) array[index++];
+			return (T) array[index++];
 		}
 	}
 	
@@ -417,7 +417,7 @@ public class Container<E extends Product> implements List<E> {
 					return (T) match;
 				}
 			}
-			return null;
+			throw new NoSuchElementException("No element");
 		}
 	}
 	
@@ -439,7 +439,6 @@ public class Container<E extends Product> implements List<E> {
 //		while (iterator.hasNext()) {
 //			System.out.println(iterator.next());
 //		}
-		System.out.println(iterator.next());
 		System.out.println(iterator.next());
 		System.out.println(iterator.next());
 		System.out.println(iterator.next());
