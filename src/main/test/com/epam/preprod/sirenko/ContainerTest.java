@@ -2,11 +2,7 @@ package com.epam.preprod.sirenko;
 
 import com.epam.preprod.sirenko.entity.Clothing;
 import com.epam.preprod.sirenko.entity.Product;
-import jdk.nashorn.internal.codegen.CompilationException;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 

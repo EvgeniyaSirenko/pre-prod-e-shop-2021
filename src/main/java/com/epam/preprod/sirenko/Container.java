@@ -410,6 +410,16 @@ public class Container<E extends Product> implements List<E> {
 			if (index > size) {
 				throw new NoSuchElementException();
 			}
+			if (match!=null){
+				return (T) match;
+			}
+			while (index < size) {
+				T element = (T) array[index++];
+				if (predicate.test(element)) {
+					match = element;
+					return (T) match;
+				}
+			}
 			return (T) match;
 		}
 	}
@@ -425,13 +435,16 @@ public class Container<E extends Product> implements List<E> {
 		container.add(clothing);
 		container.add(dryFood);
 		container.add(food);
-		container.add(clothing);
 		System.out.println("Elements Clothing: ");
 		Predicate<Product> isClothing = x -> x.equals(clothing);
 		Iterator<Product> iterator = container.iterator(isClothing);
-		while (iterator.hasNext()) {
-			System.out.println(iterator.next());
-		}
+//		while (iterator.hasNext()) {
+//			System.out.println(iterator.next());
+//		}
+		System.out.println(iterator.next());
+		System.out.println(iterator.next());
+		System.out.println(iterator.next()); //this will give extra element
+		System.out.println(iterator.hasNext());
 	}
 	
 	@Override
