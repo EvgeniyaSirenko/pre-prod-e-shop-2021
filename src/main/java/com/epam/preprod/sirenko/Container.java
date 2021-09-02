@@ -32,7 +32,7 @@ public class Container<E extends Product> implements List<E> {
 		if (initCapacity > 0) {
 			this.array = new Object[initCapacity];
 		} else if (initCapacity == 0) {
-			new Container();
+			new Container<E>();
 		} else {
 			throw new IllegalArgumentException("Illegal Capacity: " +
 					initCapacity);
@@ -357,7 +357,7 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public Iterator<E> iterator() {
-		return new IteratorOnCondition<>();
+		return new Iter<>();
 	}
 	
 	/**
@@ -367,18 +367,8 @@ public class Container<E extends Product> implements List<E> {
 		return new IteratorOnCondition<>(predicate);
 	}
 	
-	private class IteratorOnCondition<T extends Product> implements Iterator<T> {
+	private class Iter<T extends Product> implements Iterator<E> {
 		private int index = 0;
-		Predicate<Product> predicate;
-		private T nextElement;
-		
-		
-		public IteratorOnCondition() {
-		}
-		
-		public IteratorOnCondition(Predicate<Product> predicate) {
-			this.predicate = predicate;
-		}
 		
 		@Override
 		public boolean hasNext() {
@@ -386,20 +376,41 @@ public class Container<E extends Product> implements List<E> {
 		}
 		
 		@Override
-		public T next() {
+		public E next() {
 			if (index >= size) {
 				throw new NoSuchElementException();
 			}
-			if (predicate!=null) {
-				while (index != array.length) { // hasNext or size here -> gets out extra element (null)
-					T element = (T) array[index++];
-					if (predicate.test(element)) {
-						nextElement = element;
-						return nextElement;
-					}
+			return (E) array[index++];
+		}
+	}
+	
+	private class IteratorOnCondition<T extends Product> implements Iterator<T> {
+		private int index = 0;
+		private Product match;
+		Predicate<Product> predicate;
+		
+		public IteratorOnCondition(Predicate<Product> predicate) {
+			this.predicate = predicate;
+		}
+		
+		@Override
+		public boolean hasNext() {
+			while (index < size) {
+				T element = (T) array[index++];
+				if (predicate.test(element)) {
+					match = element;
+					return true;
 				}
 			}
-			return (T) array[index++];
+			return false;
+		}
+		
+		@Override
+		public T next() {
+			if (index > size) {
+				throw new NoSuchElementException();
+			}
+			return (T) match;
 		}
 	}
 	
@@ -414,6 +425,7 @@ public class Container<E extends Product> implements List<E> {
 		container.add(clothing);
 		container.add(dryFood);
 		container.add(food);
+		container.add(clothing);
 		System.out.println("Elements Clothing: ");
 		Predicate<Product> isClothing = x -> x.equals(clothing);
 		Iterator<Product> iterator = container.iterator(isClothing);
