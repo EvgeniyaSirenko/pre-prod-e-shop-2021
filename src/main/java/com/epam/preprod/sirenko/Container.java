@@ -386,7 +386,6 @@ public class Container<E extends Product> implements List<E> {
 	
 	private class IteratorOnCondition<T extends Product> implements Iterator<T> {
 		private int index = 0;
-		private Product match;
 		Predicate<Product> predicate;
 		
 		public IteratorOnCondition(Predicate<Product> predicate) {
@@ -398,7 +397,6 @@ public class Container<E extends Product> implements List<E> {
 			for (; index < size; index++) {
 				T element = (T) array[index];
 				if (predicate.test(element)) {
-					match = element;
 					return true;
 				}
 			}
@@ -407,17 +405,13 @@ public class Container<E extends Product> implements List<E> {
 		
 		@Override
 		public T next() {
-			if (index > size) {
-				throw new NoSuchElementException();
-			}
 			while (index < size) {
 				T element = (T) array[index++];
 				if (predicate.test(element)) {
-					match = element;
-					return (T) match;
+					return (T) element;
 				}
 			}
-			throw new NoSuchElementException("No element");
+			throw new NoSuchElementException();
 		}
 	}
 	
@@ -436,13 +430,13 @@ public class Container<E extends Product> implements List<E> {
 		System.out.println("Elements Clothing: ");
 		Predicate<Product> isClothing = x -> x.equals(clothing);
 		Iterator<Product> iterator = container.iterator(isClothing);
-//		while (iterator.hasNext()) {
-//			System.out.println(iterator.next());
-//		}
-		System.out.println(iterator.next());
-		System.out.println(iterator.next());
-		System.out.println(iterator.next());
-		System.out.println(iterator.hasNext());
+		while (iterator.hasNext()) {
+			System.out.println(iterator.next());
+		}
+//		System.out.println(iterator.next());
+//		System.out.println(iterator.next());
+//		System.out.println(iterator.next());
+//		System.out.println(iterator.hasNext());
 	}
 	
 	@Override
