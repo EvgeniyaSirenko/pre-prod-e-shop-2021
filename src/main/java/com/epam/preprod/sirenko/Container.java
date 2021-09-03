@@ -103,7 +103,7 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public boolean contains(Object object) {
-		for (int i = 0; i < array.length; i++) {
+		for (int i = 0; i < size; i++) {
 			if (array[i].equals(object)) {
 				return true;
 			}
@@ -285,28 +285,22 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public boolean retainAll(Collection collection) {
-		int i = 0;
-		int k = 0;
-		try {
-			for (; i < size; i++) {
-				if (collection.contains(array[i])) {
-					array[k++] = array[i];
+		int oldIndex = 0;
+		int newIndex = 0;
+		Boolean modified = false;
+			for (; oldIndex < size; oldIndex++) {
+				if (collection.contains(array[oldIndex])) {
+					array[newIndex++] = array[oldIndex];
 				}
 			}
-		} finally {
-			if (i != size) {
-				System.arraycopy(array, i, array, k, size - i);
-				k = k + size - i;
-			}
-			if (k != size) {
-				for (int j = k; j < size; j++) {
+			if (newIndex != size) {
+				for (int j = newIndex; j < size; j++) {
 					array[j] = null;
-					size = k;
-					return true;
+					size = newIndex;
+					modified = true;
 				}
 			}
-		}
-		return false;
+		return modified;
 	}
 	
 	/**
@@ -315,28 +309,22 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public boolean removeAll(Collection collection) {
-		int i = 0;
-		int k = 0;
-		try {
-			for (; i < size; i++) {
-				if (collection.contains(array[i]) == false) {
-					array[k++] = array[i];
+		int oldIndex = 0;
+		int newIndex = 0;
+		Boolean modified = false;
+		for (; oldIndex < size; oldIndex++) {
+				if (!collection.contains(array[oldIndex])) {
+					array[newIndex++] = array[oldIndex];
 				}
 			}
-		} finally {
-			if (i != size) {
-				System.arraycopy(array, i, array, k, size - i);
-				k = k + size - i;
-			}
-			if (k != size) {
-				for (int j = k; j < size; j++) {
+			if (newIndex != size) {
+				for (int j = newIndex; j < size; j++) {
 					array[j] = null;
-					size = k;
-					return true;
+					size = newIndex;
+					modified = true;
 				}
 			}
-		}
-		return false;
+		return modified;
 	}
 	
 	/**
@@ -408,7 +396,7 @@ public class Container<E extends Product> implements List<E> {
 			while (index < size) {
 				T element = (T) array[index++];
 				if (predicate.test(element)) {
-					return (T) element;
+					return element;
 				}
 			}
 			throw new NoSuchElementException();
@@ -427,16 +415,15 @@ public class Container<E extends Product> implements List<E> {
 		container.add(clothing);
 		container.add(dryFood);
 		container.add(food);
-		System.out.println("Elements Clothing: ");
-		Predicate<Product> isClothing = x -> x.equals(clothing);
-		Iterator<Product> iterator = container.iterator(isClothing);
+		Container<Product> container1 = new Container<>();
+		container1.add(dryFood);
+		container1.add(dryFood);
+//		Predicate<Product> isClothing = x -> x.equals(clothing);
+		Iterator<Product> iterator = container.iterator();
+		System.out.println(container.retainAll(container1));
 		while (iterator.hasNext()) {
 			System.out.println(iterator.next());
 		}
-//		System.out.println(iterator.next());
-//		System.out.println(iterator.next());
-//		System.out.println(iterator.next());
-//		System.out.println(iterator.hasNext());
 	}
 	
 	@Override
