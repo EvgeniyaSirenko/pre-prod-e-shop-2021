@@ -12,7 +12,7 @@ import java.util.function.Predicate;
  **/
 public class Container<E extends Product> implements List<E> {
 	private int size;
-	private int currentCapacity = 10;
+	private int initCapacity = 10;
 	private Object[] array;
 	private static final String EXCEPTION_INFO_INDEX = "Index: ";
 	private static final String EXCEPTION_INFO_SIZE = ", Size: ";
@@ -82,8 +82,8 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	private void capacityCheckAndResizeIfNeeded(int newCapacity) {
 		if (size == 0) {
-			array = new Object[currentCapacity];
-		} else if (newCapacity - currentCapacity > 0) {
+			array = new Object[initCapacity];
+		} else if (newCapacity - initCapacity > 0) {
 			array = Arrays.copyOf(array, newCapacity);
 		}
 	}
@@ -313,7 +313,7 @@ public class Container<E extends Product> implements List<E> {
 	public boolean removeAll(Collection collection) {
 		int oldIndex = 0;
 		int newIndex = 0;
-		Boolean modified = false;
+		boolean modified = false;
 		for (; oldIndex < size; oldIndex++) {
 			if (!collection.contains(array[oldIndex])) {
 				array[newIndex++] = array[oldIndex];
@@ -343,7 +343,7 @@ public class Container<E extends Product> implements List<E> {
 	}
 	
 	/**
-	 * Returns an iterator over the elements in this list in proper sequence
+	 * Returns an iterator over the elements in this container in proper sequence
 	 **/
 	@Override
 	public Iterator<E> iterator() {
@@ -351,12 +351,15 @@ public class Container<E extends Product> implements List<E> {
 	}
 	
 	/**
-	 * Returns an iterator over the elements in this list on condition
+	 * Returns an iterator over the elements in this container on condition of predicate
 	 **/
 	public Iterator<E> iterator(Predicate<Product> predicate) {
 		return new IteratorOnCondition<>(predicate);
 	}
 	
+	/**
+	 * Iterates elements in this container in proper sequence
+	 **/
 	private class Iter<T extends Product> implements Iterator<T> {
 		private int index = 0;
 		
@@ -374,6 +377,9 @@ public class Container<E extends Product> implements List<E> {
 		}
 	}
 	
+	/**
+	 * Iterates elements in this container on condition of predicate
+	 **/
 	private class IteratorOnCondition<T extends Product> implements Iterator<T> {
 		private int index = 0;
 		Predicate<Product> predicate;

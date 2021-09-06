@@ -9,7 +9,7 @@ import java.util.Objects;
  * @author E.Sirenko
  *
 **/
-public abstract class Product {
+public abstract class Product{
 	private String name;
 	private BigDecimal price;
 	

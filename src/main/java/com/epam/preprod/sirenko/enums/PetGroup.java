@@ -8,9 +8,4 @@ package com.epam.preprod.sirenko.enums;
  **/
 public enum PetGroup {
 	CAT, DOG, SMALL_PET;
-	
-	// not sure if I need this
-	public String getName() {
-		return name().toLowerCase();
-	}
 }
