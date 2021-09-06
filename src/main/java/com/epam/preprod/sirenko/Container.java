@@ -1,8 +1,5 @@
 package com.epam.preprod.sirenko;
 
-import com.epam.preprod.sirenko.entity.Clothing;
-import com.epam.preprod.sirenko.entity.DryFood;
-import com.epam.preprod.sirenko.entity.Food;
 import com.epam.preprod.sirenko.entity.Product;
 
 import java.util.*;
@@ -17,6 +14,8 @@ public class Container<E extends Product> implements List<E> {
 	private int size;
 	private int currentCapacity = 10;
 	private Object[] array;
+	private static final String EXCEPTION_INFO_INDEX = "Index: ";
+	private static final String EXCEPTION_INFO_SIZE = ", Size: ";
 	
 	/**
 	 * Constructs an empty list with capacity of ten.
@@ -70,8 +69,8 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public void add(int index, E element) {
-		if (index > size || index < 0) {
-			throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+		if (index >= size || index < 0) {
+			throw new IndexOutOfBoundsException(EXCEPTION_INFO_INDEX + index + EXCEPTION_INFO_SIZE + size);
 		}
 		capacityCheckAndResizeIfNeeded(size + 1);
 		array[index] = element;
@@ -142,7 +141,7 @@ public class Container<E extends Product> implements List<E> {
 	@Override
 	public E get(int index) {
 		if (index >= size || index < 0) {
-			throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+			throw new IndexOutOfBoundsException(EXCEPTION_INFO_INDEX + index + EXCEPTION_INFO_SIZE + size);
 		}
 		return (E) array[index];
 	}
@@ -152,6 +151,9 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public E set(int index, E element) {
+		if (index >= size || index < 0) {
+			throw new IndexOutOfBoundsException(EXCEPTION_INFO_INDEX + index + EXCEPTION_INFO_SIZE + size);
+		}
 		array[index] = element;
 		return (E) array[index];
 	}
@@ -161,8 +163,8 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public E remove(int index) {
-		if (index >= size) {
-			throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+		if (index >= size || index < 0) {
+			throw new IndexOutOfBoundsException(EXCEPTION_INFO_INDEX + index + EXCEPTION_INFO_SIZE + size);
 		}
 		E toRemove = (E) array[index];
 		int numMoved = size - index - 1;
@@ -287,19 +289,19 @@ public class Container<E extends Product> implements List<E> {
 	public boolean retainAll(Collection collection) {
 		int oldIndex = 0;
 		int newIndex = 0;
-		Boolean modified = false;
-			for (; oldIndex < size; oldIndex++) {
-				if (collection.contains(array[oldIndex])) {
-					array[newIndex++] = array[oldIndex];
-				}
+		boolean modified = false;
+		for (; oldIndex < size; oldIndex++) {
+			if (collection.contains(array[oldIndex])) {
+				array[newIndex++] = array[oldIndex];
 			}
-			if (newIndex != size) {
-				for (int j = newIndex; j < size; j++) {
-					array[j] = null;
-					size = newIndex;
-					modified = true;
-				}
+		}
+		if (newIndex != size) {
+			for (int j = newIndex; j < size; j++) {
+				array[j] = null;
+				size = newIndex;
+				modified = true;
 			}
+		}
 		return modified;
 	}
 	
@@ -313,17 +315,17 @@ public class Container<E extends Product> implements List<E> {
 		int newIndex = 0;
 		Boolean modified = false;
 		for (; oldIndex < size; oldIndex++) {
-				if (!collection.contains(array[oldIndex])) {
-					array[newIndex++] = array[oldIndex];
-				}
+			if (!collection.contains(array[oldIndex])) {
+				array[newIndex++] = array[oldIndex];
 			}
-			if (newIndex != size) {
-				for (int j = newIndex; j < size; j++) {
-					array[j] = null;
-					size = newIndex;
-					modified = true;
-				}
+		}
+		if (newIndex != size) {
+			for (int j = newIndex; j < size; j++) {
+				array[j] = null;
+				size = newIndex;
+				modified = true;
 			}
+		}
 		return modified;
 	}
 	
@@ -400,29 +402,6 @@ public class Container<E extends Product> implements List<E> {
 				}
 			}
 			throw new NoSuchElementException();
-		}
-	}
-	
-	public static void main(String[] args) {
-		DryFood dryFood = new DryFood();
-		Clothing clothing = new Clothing();
-		Food food = new Food();
-		Container<Product> container = new Container<>();
-		container.add(dryFood);
-		container.add(clothing);
-		container.add(food);
-		container.add(clothing);
-		container.add(clothing);
-		container.add(dryFood);
-		container.add(food);
-		Container<Product> container1 = new Container<>();
-		container1.add(dryFood);
-		container1.add(dryFood);
-//		Predicate<Product> isClothing = x -> x.equals(clothing);
-		Iterator<Product> iterator = container.iterator();
-		System.out.println(container.retainAll(container1));
-		while (iterator.hasNext()) {
-			System.out.println(iterator.next());
 		}
 	}
 	
