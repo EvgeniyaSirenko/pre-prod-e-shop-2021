@@ -18,6 +18,27 @@ import static org.junit.jupiter.api.Assertions.*;
 class ContainerTest {
 	
 	@Test
+	void shouldReturnSizeOfContainer() {
+		Container<Product> container = new Container<>();
+		Food food = new Food();
+		
+		container.add(food);
+		
+		assertEquals(1, container.size());
+	}
+	
+	@Test
+	void shouldClearContainer() {
+		Container<Product> container = new Container<>();
+		Food food = new Food();
+		
+		container.add(food);
+		container.clear();
+		
+		assertEquals(0, container.size());
+	}
+	
+	@Test
 	void shouldAddElementToContainer() {
 		Container<Product> container = new Container<>();
 		Food food = new Food();
@@ -99,6 +120,94 @@ class ContainerTest {
 			container.add(3, clothing);
 		});
 		assertEquals("Index: 3, Size: 2", exception.getMessage());
+	}
+	
+	@Test
+	void shouldReturnTrueIfSizeIsZero() {
+		Container<Product> container = new Container<>(5);
+
+		assertEquals(0, container.size());
+	}
+	
+	@Test
+	void shouldReturnFalseIfSizeIsNotZero() {
+		Container<Product> container = new Container<>(5);
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		
+		container.add(clothing);
+		container.add(food);
+		
+		assertFalse(container.isEmpty());
+	}
+	
+	@Test
+	void shouldReturnTrueIfContainsElement() {
+		Container<Product> container = new Container<>(5);
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		
+		container.add(clothing);
+		container.add(food);
+		
+		assertTrue(container.contains(food));
+	}
+	
+	@Test
+	void shouldReturnFalseIfNotContainsElement() {
+		Container<Product> container = new Container<>(5);
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		
+		container.add(clothing);
+		
+		assertFalse(container.contains(food));
+	}
+	
+	//not sure if this is correct
+	@Test
+	void shouldReturnArray() {
+		Container<Product> container = new Container<>(2);
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		Product[] array = new Product[]{clothing, food, food, food, food, food, food, food, food, food};
+		
+		container.add(clothing);
+		container.add(food);
+		container.add(food);
+		container.add(food);
+		container.add(food);
+		container.add(food);
+		container.add(food);
+		container.add(food);
+		container.add(food);
+		container.add(food);
+		
+		Object[] expected = container.toArray();
+		assertArrayEquals(expected, array);
+	}
+	
+	//not sure if this is correct
+	@Test
+	void shouldReturnArrayOfGivenObjects() {
+		Container<Product> container = new Container<>(2);
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		Product[] array = new Product[]{clothing, food, food, food, food, food, food, food, food, food};
+		
+		container.add(clothing);
+		container.add(food);
+		container.add(food);
+		container.add(food);
+		container.add(food);
+		container.add(food);
+		container.add(food);
+		container.add(food);
+		container.add(food);
+		container.add(food);
+		
+		Object[] expected = container.toArray(array);
+		assertArrayEquals(expected, array);
 	}
 	
 	@Test
@@ -213,6 +322,21 @@ class ContainerTest {
 			container.set(3, clothing);
 		});
 		assertEquals("Index: 3, Size: 2", exception.getMessage());
+	}
+	
+	@Test
+	void shouldSetElementToContainerByIndex() {
+		Container<Product> container = new Container<>();
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		
+		container.add(clothing);
+		container.add(food);
+		container.set(1, clothing);
+		
+		Product product = container.get(1);
+		assertNotNull(container.get(1));
+		assertEquals(product, clothing);
 	}
 	
 	@Test
