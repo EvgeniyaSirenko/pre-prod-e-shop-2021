@@ -16,15 +16,18 @@ import java.util.function.Predicate;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ContainerTest {
+	private static final int CAPACITY = 5;
 	
 	@Test
 	void shouldReturnSizeOfContainer() {
 		Container<Product> container = new Container<>();
 		Food food = new Food();
+		DryFood dryFood = new DryFood();
 		
 		container.add(food);
+		container.add(dryFood);
 		
-		assertEquals(1, container.size());
+		assertEquals(2, container.size());
 	}
 	
 	@Test
@@ -53,7 +56,7 @@ class ContainerTest {
 	
 	@Test
 	void shouldAddElementToContainerWithCapacity() {
-		Container<Product> container = new Container<>(5);
+		Container<Product> container = new Container<>(CAPACITY);
 		Food food = new Food();
 		
 		container.add(food);
@@ -80,7 +83,7 @@ class ContainerTest {
 	
 	@Test
 	void shouldAddElementToContainerWithCapacityByIndex() {
-		Container<Product> container = new Container<>(5);
+		Container<Product> container = new Container<>(CAPACITY);
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		
@@ -109,7 +112,7 @@ class ContainerTest {
 	}
 	@Test
 	void shouldThrowExceptionWhenAddElementWithIndexIsOutOfBoundOfContainerWithCapacity() {
-		Container<Product> container = new Container<>(5);
+		Container<Product> container = new Container<>(CAPACITY);
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		
@@ -124,14 +127,14 @@ class ContainerTest {
 	
 	@Test
 	void shouldReturnTrueIfSizeIsZero() {
-		Container<Product> container = new Container<>(5);
+		Container<Product> container = new Container<>(CAPACITY);
 
 		assertEquals(0, container.size());
 	}
 	
 	@Test
 	void shouldReturnFalseIfSizeIsNotZero() {
-		Container<Product> container = new Container<>(5);
+		Container<Product> container = new Container<>(CAPACITY);
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		
@@ -143,7 +146,7 @@ class ContainerTest {
 	
 	@Test
 	void shouldReturnTrueIfContainsElement() {
-		Container<Product> container = new Container<>(5);
+		Container<Product> container = new Container<>(CAPACITY);
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		
@@ -155,7 +158,7 @@ class ContainerTest {
 	
 	@Test
 	void shouldReturnFalseIfNotContainsElement() {
-		Container<Product> container = new Container<>(5);
+		Container<Product> container = new Container<>(CAPACITY);
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		
@@ -164,46 +167,73 @@ class ContainerTest {
 		assertFalse(container.contains(food));
 	}
 	
-	//not sure if this is correct
 	@Test
 	void shouldReturnArray() {
-		Container<Product> container = new Container<>(2);
+		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
-		Product[] array = new Product[]{clothing, food, food, food, food, food, food, food, food, food};
+		Product[] array = new Product[]{clothing, food};
 		
 		container.add(clothing);
-		container.add(food);
-		container.add(food);
-		container.add(food);
-		container.add(food);
-		container.add(food);
-		container.add(food);
-		container.add(food);
-		container.add(food);
 		container.add(food);
 		
 		Object[] expected = container.toArray();
 		assertArrayEquals(expected, array);
 	}
 	
-	//not sure if this is correct
 	@Test
-	void shouldReturnArrayOfGivenObjects() {
-		Container<Product> container = new Container<>(2);
+	void shouldReturnArrayWithCurrentCapacity() {
+		Container<Product> container = new Container<>(CAPACITY);
 		Clothing clothing = new Clothing();
 		Food food = new Food();
-		Product[] array = new Product[]{clothing, food, food, food, food, food, food, food, food, food};
+		Product[] array = new Product[]{clothing, food};
+		
+		container.add(clothing);
+		container.add(food);
+		
+		Object[] expected = container.toArray();
+		assertArrayEquals(expected, array);
+	}
+	
+	@Test
+	void shouldReturnArrayOfGivenObjectsWhenArrayIsSmaller() {
+		Container<Product> container = new Container<>();
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		Product[] array = new Product[]{clothing, food};
+		Product[] newArray = new Product[]{clothing, food, food};
 		
 		container.add(clothing);
 		container.add(food);
 		container.add(food);
+		
+		Object[] expected = container.toArray(array);
+		assertArrayEquals(expected, newArray);
+	}
+	
+	@Test
+	void shouldReturnArrayOfGivenObjectsWhenArrayIsBigger() {
+		Container<Product> container = new Container<>();
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		Product[] array = new Product[]{clothing, food, food};
+		
+		container.add(clothing);
 		container.add(food);
-		container.add(food);
-		container.add(food);
-		container.add(food);
-		container.add(food);
-		container.add(food);
+		
+		Object[] expected = container.toArray(array);
+		assertNull(expected[2]);
+		assertArrayEquals(expected, array);
+	}
+	
+	@Test
+	void shouldReturnArrayOfGivenObjectsWithCurrentCapacity() {
+		Container<Product> container = new Container<>(CAPACITY);
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		Product[] array = new Product[]{clothing, food};
+		
+		container.add(clothing);
 		container.add(food);
 		
 		Object[] expected = container.toArray(array);
@@ -236,6 +266,184 @@ class ContainerTest {
 			container.get(3);
 		});
 		assertEquals("Index: 3, Size: 2", exception.getMessage());
+	}
+	
+	@Test
+	void shouldSetElementToContainerByIndex() {
+		Container<Product> container = new Container<>();
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		
+		container.add(clothing);
+		container.add(food);
+		container.set(1, clothing);
+		
+		Product product = container.get(1);
+		assertNotNull(container.get(1));
+		assertEquals(product, clothing);
+	}
+	
+	@Test
+	void shouldAddAllElements() {
+		Container<Product> container = new Container<>();
+		Container<Product> expectedContainer = new Container<>();
+		Container<Product> containerToAdd = new Container<>();
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		
+		container.add(clothing);
+		container.add(food);
+		containerToAdd.add(food);
+		expectedContainer.add(clothing);
+		expectedContainer.add(food);
+		expectedContainer.add(food);
+		container.addAll(containerToAdd);
+		
+		assertEquals(expectedContainer.size(), container.size());
+	}
+	
+	@Test
+	void shouldAddAllElementsWithCurrentCapacity() {
+		Container<Product> container = new Container<>(CAPACITY);
+		Container<Product> expectedContainer = new Container<>();
+		Container<Product> containerToAdd = new Container<>();
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		
+		container.add(clothing);
+		container.add(food);
+		containerToAdd.add(food);
+		expectedContainer.add(clothing);
+		expectedContainer.add(food);
+		expectedContainer.add(food);
+		container.addAll(containerToAdd);
+
+		assertEquals(expectedContainer.size(), container.size());
+	}
+	
+	@Test
+	void shouldAddAllElementsFromCurrentIndex() {
+		Container<Product> container = new Container<>();
+		Container<Product> expectedContainer = new Container<>();
+		Container<Product> containerToAdd = new Container<>();
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		
+		container.add(clothing);
+		container.add(food);
+		containerToAdd.add(food);
+		expectedContainer.add(clothing);
+		expectedContainer.add(food);
+		expectedContainer.add(food);
+		container.addAll(0, containerToAdd);
+
+		assertEquals(expectedContainer.size(), container.size());
+	}
+	@Test
+	void shouldAddAllElementsFromCurrentIndexWithCurrentCapacity() {
+		Container<Product> container = new Container<>(CAPACITY);
+		Container<Product> expectedContainer = new Container<>();
+		Container<Product> containerToAdd = new Container<>();
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		
+		container.add(clothing);
+		container.add(food);
+		containerToAdd.add(food);
+		expectedContainer.add(clothing);
+		expectedContainer.add(food);
+		expectedContainer.add(food);
+		container.addAll(0, containerToAdd);
+		
+		assertEquals(expectedContainer.size(), container.size());
+	}
+	
+	@Test
+	void shouldReturnIndexOfFirstOccurrenceOfElement() {
+		Container<Product> container = new Container<>();
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		
+		container.add(clothing);
+		container.add(food);
+		container.add(clothing);
+		container.add(food);
+		
+		assertEquals(1, container.indexOf(food));
+	}
+	
+	
+	@Test
+	void shouldReturnIndexOfFirstOccurrenceOfElementWithCurrentCapacity() {
+		Container<Product> container = new Container<>(CAPACITY);
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		
+		container.add(clothing);
+		container.add(food);
+		container.add(clothing);
+		container.add(food);
+		
+		assertEquals(1, container.indexOf(food));
+	}
+	
+	@Test
+	void shouldReturnIndexOfFirstOccurrenceOfTheOnlyOneExistingElement() {
+		Container<Product> container = new Container<>();
+		Clothing clothing = new Clothing();
+		
+		container.add(clothing);
+		
+		assertEquals(0, container.indexOf(clothing));
+	}
+	
+	@Test
+	void shouldReturnIndexOfLastOccurrenceOfElement() {
+		Container<Product> container = new Container<>();
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		
+		container.add(clothing);
+		container.add(food);
+		container.add(clothing);
+		container.add(food);
+		
+		assertEquals(3, container.lastIndexOf(food));
+	}
+	
+	
+	@Test
+	void shouldReturnIndexOfLastOccurrenceOfElementWithCurrentCapacity() {
+		Container<Product> container = new Container<>(CAPACITY);
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		
+		container.add(clothing);
+		container.add(food);
+		container.add(clothing);
+		container.add(food);
+		
+		assertEquals(3, container.lastIndexOf(food));
+	}
+	
+	@Test
+	void shouldReturnIndexOfLastOccurrenceOfTheOnlyOneExistingElement() {
+		Container<Product> container = new Container<>();
+		Clothing clothing = new Clothing();
+		
+		container.add(clothing);
+		
+		assertEquals(0, container.lastIndexOf(clothing));
+	}
+	
+	@Test
+	void shouldReturnIndexOfLastOccurrenceOfTheOnlyOneExistingElementWithCapacity() {
+		Container<Product> container = new Container<>(CAPACITY);
+		Clothing clothing = new Clothing();
+		
+		container.add(clothing);
+		
+		assertEquals(0, container.lastIndexOf(clothing));
 	}
 	
 	@Test
@@ -322,21 +530,6 @@ class ContainerTest {
 			container.set(3, clothing);
 		});
 		assertEquals("Index: 3, Size: 2", exception.getMessage());
-	}
-	
-	@Test
-	void shouldSetElementToContainerByIndex() {
-		Container<Product> container = new Container<>();
-		Clothing clothing = new Clothing();
-		Food food = new Food();
-		
-		container.add(clothing);
-		container.add(food);
-		container.set(1, clothing);
-		
-		Product product = container.get(1);
-		assertNotNull(container.get(1));
-		assertEquals(product, clothing);
 	}
 	
 	@Test

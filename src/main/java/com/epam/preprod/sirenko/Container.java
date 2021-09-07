@@ -12,7 +12,7 @@ import java.util.function.Predicate;
  **/
 public class Container<E extends Product> implements List<E> {
 	private int size;
-	private int initCapacity = 10;
+	private static final int CAPACITY = 10;
 	private Object[] array;
 	private static final String EXCEPTION_INFO_INDEX = "Index: ";
 	private static final String EXCEPTION_INFO_SIZE = ", Size: ";
@@ -82,8 +82,8 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	private void capacityCheckAndResizeIfNeeded(int newCapacity) {
 		if (size == 0) {
-			array = new Object[initCapacity];
-		} else if (newCapacity - initCapacity > 0) {
+			array = new Object[CAPACITY];
+		} else if (newCapacity - CAPACITY > 0) {
 			array = Arrays.copyOf(array, newCapacity);
 		}
 	}
@@ -116,7 +116,7 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public Object[] toArray() {
-		return array.clone();
+		return Arrays.copyOf(array, size);
 	}
 	
 	/**
@@ -124,13 +124,11 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public Object[] toArray(Object[] object) {
-		int length = size();
-		if (object.length < length) {
-			return Arrays.copyOf(array, length);
+		if (object.length < size) {
+			return Arrays.copyOf(array, size);
 		}
-		System.arraycopy(array, 0, object, 0, length);
-		if (object.length > length) {
-			object[length] = null;
+		if (object.length > size) {
+			object[size] = null;
 		}
 		return object;
 	}
@@ -185,26 +183,17 @@ public class Container<E extends Product> implements List<E> {
 		if (object == null) {
 			for (int i = 0; i < array.length; i++)
 				if (array[i] == null) {
-					removeByIdx(i);
+					remove(i);
 					return true;
 				}
 		} else {
 			for (int i = 0; i < array.length; i++)
 				if (array[i].equals(object)) {
-					removeByIdx(i);
+					remove(i);
 					return true;
 				}
 		}
 		return false;
-	}
-	
-	private void removeByIdx(int index) {
-		int numMoved = size - index - 1;
-		if (numMoved > 0) {
-			System.arraycopy(array, index + 1, array, index,
-					numMoved);
-		}
-		array[--size] = null;
 	}
 	
 	/**
@@ -246,11 +235,11 @@ public class Container<E extends Product> implements List<E> {
 	@Override
 	public int indexOf(Object object) {
 		if (object == null) {
-			for (int i = 0; i < array.length; i++)
+			for (int i = 0; i < size; i++)
 				if (array[i] == null)
 					return i;
 		} else {
-			for (int i = 0; i < array.length; i++)
+			for (int i = 0; i < size; i++)
 				if (array[i].equals(object)) {
 					return i;
 				}
@@ -265,13 +254,13 @@ public class Container<E extends Product> implements List<E> {
 	@Override
 	public int lastIndexOf(Object object) {
 		if (object == null) {
-			for (int i = array.length - 1; i >= 0; i--) {
+			for (int i = size - 1; i >= 0; i--) {
 				if (array[i] == null) {
 					return i;
 				}
 			}
 		} else {
-			for (int i = array.length - 1; i >= 0; i--) {
+			for (int i = size - 1; i >= 0; i--) {
 				if (array[i].equals(object)) {
 					return i;
 				}
@@ -347,7 +336,7 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public Iterator<E> iterator() {
-		return new Iter<>();
+		return new IteratorWithoutCondition<>();
 	}
 	
 	/**
@@ -360,7 +349,7 @@ public class Container<E extends Product> implements List<E> {
 	/**
 	 * Iterates elements in this container in proper sequence
 	 **/
-	private class Iter<T extends Product> implements Iterator<T> {
+	private class IteratorWithoutCondition<T extends Product> implements Iterator<T> {
 		private int index = 0;
 		
 		@Override
@@ -382,7 +371,7 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	private class IteratorOnCondition<T extends Product> implements Iterator<T> {
 		private int index = 0;
-		Predicate<Product> predicate;
+		private Predicate<Product> predicate;
 		
 		public IteratorOnCondition(Predicate<Product> predicate) {
 			this.predicate = predicate;
