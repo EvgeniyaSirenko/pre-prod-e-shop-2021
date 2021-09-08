@@ -576,7 +576,7 @@ class ContainerTest {
 		});
 		assertEquals("Index: 3, Size: 2", exception.getMessage());
 	}
-	//TODO
+
 	@Test
 	void containsAllShouldReturnTrueIfContainsAllElements() {
 		Container<Product> container = new Container<>();
@@ -587,10 +587,10 @@ class ContainerTest {
 		
 		container.add(clothing);
 		container.add(food);
+		container.add(dryFood);
 		containerToCheck.add(food);
-		containerToCheck.add(dryFood);//should give false
 		containerToCheck.add(clothing);
-		
+
 		assertTrue(container.containsAll(containerToCheck));
 	}
 	
@@ -605,7 +605,7 @@ class ContainerTest {
 		
 		assertTrue(container.containsAll(containerToCheck));
 	}
-	//TODO
+
 	@Test
 	void containsAllShouldReturnFalseIfNotContainsAllElements() {
 		Container<Product> container = new Container<>();
@@ -615,10 +615,10 @@ class ContainerTest {
 		DryFood dryFood = new DryFood();
 		
 		container.add(food);
-		container.add(clothing);
+		container.add(dryFood);
+		containerToCheck.add(clothing);
 		containerToCheck.add(dryFood);
-	//	containerToCheck.add(clothing); //gives true
-		
+
 		assertFalse(container.containsAll(containerToCheck));
 	}
 

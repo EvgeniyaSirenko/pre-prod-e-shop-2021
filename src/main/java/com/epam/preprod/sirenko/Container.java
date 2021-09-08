@@ -326,12 +326,15 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public boolean containsAll(Collection collection) {
-		for (int i = 0; i < size; i++) {
-			if (collection.contains(array[i])) {
-				return true;
+		if (collection.size() > size) {
+			return false;
+		}
+		for (Object o : collection) {
+			if (!contains(o)) {
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 	
 	/**
