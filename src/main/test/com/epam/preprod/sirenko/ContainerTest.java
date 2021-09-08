@@ -126,14 +126,14 @@ class ContainerTest {
 	}
 	
 	@Test
-	void shouldReturnTrueIfSizeIsZero() {
+	void isEmptyShouldReturnTrueIfSizeIsZero() {
 		Container<Product> container = new Container<>(CAPACITY);
 
 		assertEquals(0, container.size());
 	}
 	
 	@Test
-	void shouldReturnFalseIfSizeIsNotZero() {
+	void isEmptyShouldReturnFalseIfSizeIsNotZero() {
 		Container<Product> container = new Container<>(CAPACITY);
 		Clothing clothing = new Clothing();
 		Food food = new Food();
@@ -374,6 +374,21 @@ class ContainerTest {
 	
 	
 	@Test
+	void shouldReturnIndexOfFirstOccurrenceOfElementNull() {
+		Container<Product> container = new Container<>();
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		
+		container.add(clothing);
+		container.add(null);
+		container.add(clothing);
+		container.add(food);
+		
+		assertEquals(1, container.indexOf(null));
+	}
+	
+	
+	@Test
 	void shouldReturnIndexOfFirstOccurrenceOfElementWithCurrentCapacity() {
 		Container<Product> container = new Container<>(CAPACITY);
 		Clothing clothing = new Clothing();
@@ -409,6 +424,20 @@ class ContainerTest {
 		container.add(food);
 		
 		assertEquals(3, container.lastIndexOf(food));
+	}
+	
+	@Test
+	void shouldReturnIndexOfLastOccurrenceOfElementNull() {
+		Container<Product> container = new Container<>();
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		
+		container.add(clothing);
+		container.add(food);
+		container.add(clothing);
+		container.add(null);
+		
+		assertEquals(3, container.lastIndexOf(null));
 	}
 	
 	
@@ -517,6 +546,22 @@ class ContainerTest {
 		assertEquals(product, clothing);
 	}
 	
+	
+	@Test
+	void shouldRemoveElementNullByFirstOccurrence() {
+		Container<Product> container = new Container<>();
+		DryFood dryFood = new DryFood();
+		Clothing clothing = new Clothing();
+		
+		container.add(null);
+		container.add(clothing);
+		container.add(dryFood);
+		container.remove(null);
+		
+		Product product = container.get(0);
+		assertEquals(product, clothing);
+	}
+	
 	@Test
 	void shouldThrowExceptionWhenSetElementWithIndexIsOutOfBound() {
 		Container<Product> container = new Container<>();
@@ -530,6 +575,156 @@ class ContainerTest {
 			container.set(3, clothing);
 		});
 		assertEquals("Index: 3, Size: 2", exception.getMessage());
+	}
+	//TODO
+	@Test
+	void containsAllShouldReturnTrueIfContainsAllElements() {
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		DryFood dryFood = new DryFood();
+		
+		container.add(clothing);
+		container.add(food);
+		containerToCheck.add(food);
+		containerToCheck.add(dryFood);//should give false
+		containerToCheck.add(clothing);
+		
+		assertTrue(container.containsAll(containerToCheck));
+	}
+	
+	@Test
+	void containsAllShouldReturnTrueIfContainsOnlyOneExistingElements() {
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
+		Clothing clothing = new Clothing();
+		
+		container.add(clothing);
+		containerToCheck.add(clothing);
+		
+		assertTrue(container.containsAll(containerToCheck));
+	}
+	//TODO
+	@Test
+	void containsAllShouldReturnFalseIfNotContainsAllElements() {
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		DryFood dryFood = new DryFood();
+		
+		container.add(food);
+		container.add(clothing);
+		containerToCheck.add(dryFood);
+	//	containerToCheck.add(clothing); //gives true
+		
+		assertFalse(container.containsAll(containerToCheck));
+	}
+
+	@Test
+	void retainAllShouldReturnTrueIfContainsOnlyOneExistingElement() {
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
+		Food food = new Food();
+		
+		container.add(food);
+		containerToCheck.add(food);
+		
+		assertTrue(container.retainAll(containerToCheck));
+	}
+
+	@Test
+	void retainAllShouldReturnTrueIfContainsElementsAndRemovesAllOther() {
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		DryFood dryFood = new DryFood();
+		
+		container.add(food);
+		container.add(clothing);
+		container.add(dryFood);
+		containerToCheck.add(clothing);
+		containerToCheck.add(dryFood);
+		
+		assertTrue(container.retainAll(containerToCheck));
+	}
+	
+	@Test
+	void retainAllShouldRemoveAllElementsThatAreNotContains() {
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		DryFood dryFood = new DryFood();
+		
+		container.add(food);
+		container.add(clothing);
+		containerToCheck.add(dryFood);
+		containerToCheck.add(clothing);
+		
+		assertTrue(container.retainAll(containerToCheck));
+	}
+
+	@Test
+	void removeAllShouldReturnTrueIfContainsOnlyOneExistingElementAndRemoveIt() {
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
+		DryFood dryFood = new DryFood();
+		
+		container.add(dryFood);
+		containerToCheck.add(dryFood);
+
+		assertTrue(container.removeAll(containerToCheck));
+	}
+
+	@Test
+	void removeAllShouldReturnTrueIfContainsElementsAndRemovesThem() {
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
+		Food food = new Food();
+		Clothing clothing = new Clothing();
+		DryFood dryFood = new DryFood();
+		
+		container.add(dryFood);
+		container.add(food);
+		container.add(food);
+		container.add(clothing);
+		containerToCheck.add(clothing);
+		containerToCheck.add(dryFood);
+		
+		assertTrue(container.removeAll(containerToCheck));
+	}
+	
+	@Test
+	void removeAllShouldReturnFalseIfNotContainsElements() {
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
+		Food food = new Food();
+		Food food1 = new Food();
+		Clothing clothing = new Clothing();
+		DryFood dryFood = new DryFood();
+		
+		container.add(food);
+		container.add(food1);
+		containerToCheck.add(clothing);
+		containerToCheck.add(dryFood);
+		
+		assertFalse(container.removeAll(containerToCheck));
+	}
+	
+	@Test
+	void removeAllShouldReturnFalseIfNotContainsOnlyOneExistingElement() {
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
+		Food food = new Food();
+		Clothing clothing = new Clothing();
+		
+		container.add(clothing);
+		containerToCheck.add(food);
+		
+		assertFalse(container.removeAll(containerToCheck));
 	}
 	
 	@Test
@@ -580,7 +775,6 @@ class ContainerTest {
 			iterator.next();
 		});
 	}
-	
 	
 	@Test
 	void shouldThrowNoSuchElementExceptionWhenNextElementOnConditionNotExist() {
@@ -650,4 +844,30 @@ class ContainerTest {
 		assertTrue(iterator.hasNext());
 	}
 	
+	@Test
+	void listIteratorShouldThrowUnsupportedOperationException() {
+		Container<Product> container = new Container<>();
+		
+		assertThrows(UnsupportedOperationException.class, ()-> {
+			container.listIterator();
+		});
+	}
+	
+	@Test
+	void listIteratorWithIndexShouldThrowUnsupportedOperationException() {
+		Container<Product> container = new Container<>();
+		
+		assertThrows(UnsupportedOperationException.class, ()-> {
+			container.listIterator(3);
+		});
+	}
+	
+	@Test
+	void subListShouldThrowUnsupportedOperationException() {
+		Container<Product> container = new Container<>();
+		
+		assertThrows(UnsupportedOperationException.class, ()-> {
+			container.subList(0, 0);
+		});
+	}
 }

@@ -282,6 +282,7 @@ public class Container<E extends Product> implements List<E> {
 		for (; oldIndex < size; oldIndex++) {
 			if (collection.contains(array[oldIndex])) {
 				array[newIndex++] = array[oldIndex];
+				modified = true;
 			}
 		}
 		if (newIndex != size) {
@@ -306,6 +307,8 @@ public class Container<E extends Product> implements List<E> {
 		for (; oldIndex < size; oldIndex++) {
 			if (!collection.contains(array[oldIndex])) {
 				array[newIndex++] = array[oldIndex];
+			} else {
+				modified = true;
 			}
 		}
 		if (newIndex != size) {
