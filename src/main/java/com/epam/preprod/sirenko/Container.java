@@ -103,10 +103,11 @@ public class Container<E extends Product> implements List<E> {
 	@Override
 	public boolean contains(Object object) {
 		if (object == null) {
-			for (int i = 0; i < array.length; i++)
+			for (int i = 0; i < array.length; i++) {
 				if (array[i] == null) {
 					return true;
 				}
+			}
 		} else {
 			for (int i = 0; i < size; i++) {
 				if (array[i] == null) {
@@ -140,8 +141,10 @@ public class Container<E extends Product> implements List<E> {
 		if (object.length < size) {
 			return Arrays.copyOf(array, size);
 		}
+		System.arraycopy(array, 0, object, 0, size);
 		if (object.length > size) {
-			object[size] = null;
+			for (int i = size; i < object.length; i++)
+			object[i] = null;
 		}
 		return object;
 	}

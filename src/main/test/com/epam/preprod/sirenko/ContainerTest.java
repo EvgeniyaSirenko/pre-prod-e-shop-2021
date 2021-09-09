@@ -23,7 +23,6 @@ class ContainerTest {
 		Container<Product> container = new Container<>();
 		Food food = new Food();
 		DryFood dryFood = new DryFood();
-		
 		container.add(food);
 		container.add(dryFood);
 		
@@ -34,8 +33,8 @@ class ContainerTest {
 	void shouldClearContainer() {
 		Container<Product> container = new Container<>();
 		Food food = new Food();
-		
 		container.add(food);
+		
 		container.clear();
 		
 		assertEquals(0, container.size());
@@ -48,9 +47,8 @@ class ContainerTest {
 		
 		container.add(food);
 		
-		Product product = container.get(0);
 		assertNotNull(container.get(0));
-		assertEquals(product, food);
+		assertEquals(container.get(0), food);
 	}
 	
 	
@@ -61,9 +59,8 @@ class ContainerTest {
 		
 		container.add(food);
 		
-		Product product = container.get(0);
 		assertNotNull(container.get(0));
-		assertEquals(product, food);
+		assertEquals(container.get(0), food);
 	}
 	
 	@Test
@@ -76,9 +73,8 @@ class ContainerTest {
 		container.add(food);
 		container.add(1, clothing);
 		
-		Product product = container.get(1);
 		assertNotNull(container.get(1));
-		assertEquals(product, clothing);
+		assertEquals(container.get(1), clothing);
 	}
 	
 	@Test
@@ -91,9 +87,8 @@ class ContainerTest {
 		container.add(food);
 		container.add(1, clothing);
 		
-		Product product = container.get(1);
 		assertNotNull(container.get(1));
-		assertEquals(product, clothing);
+		assertEquals(container.get(1), clothing);
 	}
 	
 	@Test
@@ -137,7 +132,6 @@ class ContainerTest {
 		Container<Product> container = new Container<>(CAPACITY);
 		Clothing clothing = new Clothing();
 		Food food = new Food();
-		
 		container.add(clothing);
 		container.add(food);
 		
@@ -149,11 +143,11 @@ class ContainerTest {
 		Container<Product> container = new Container<>(CAPACITY);
 		Clothing clothing = new Clothing();
 		Food food = new Food();
-		
 		container.add(clothing);
 		container.add(food);
 		
-		assertTrue(container.contains(food));
+		assertEquals(clothing, container.get(0));
+		assertEquals(food, container.get(1));
 	}
 	
 	@Test
@@ -161,9 +155,9 @@ class ContainerTest {
 		Container<Product> container = new Container<>(CAPACITY);
 		Clothing clothing = new Clothing();
 		Food food = new Food();
-		
 		container.add(clothing);
 		
+		assertNotEquals(food, container.get(0));
 		assertFalse(container.contains(food));
 	}
 	
@@ -173,12 +167,12 @@ class ContainerTest {
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		Product[] array = new Product[]{clothing, food};
-		
 		container.add(clothing);
 		container.add(food);
 		
-		Object[] expected = container.toArray();
-		assertArrayEquals(expected, array);
+		Object[] containerArray = container.toArray();
+		
+		assertArrayEquals(containerArray, array);
 	}
 	
 	@Test
@@ -187,12 +181,12 @@ class ContainerTest {
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		Product[] array = new Product[]{clothing, food};
-		
 		container.add(clothing);
 		container.add(food);
 		
-		Object[] expected = container.toArray();
-		assertArrayEquals(expected, array);
+		Object[] containerArray = container.toArray();
+		
+		assertArrayEquals(containerArray, array);
 	}
 	
 	@Test
@@ -201,33 +195,32 @@ class ContainerTest {
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		Product[] array = new Product[]{clothing, food};
-		Product[] newArray = new Product[]{clothing, food, food};
-		
 		container.add(clothing);
 		container.add(food);
 		container.add(food);
 		
-		Object[] expected = container.toArray(array);
-		assertArrayEquals(expected, newArray);
+		Object[] containerArray = container.toArray(array);
+		
+		assertEquals(clothing, containerArray[0]);
+		assertEquals(food, containerArray[1]);
+		assertEquals(food, containerArray[2]);
 	}
-	//TODO
+
 	@Test
 	void toArrayShouldReturnArrayWhenGivenArrayIsEmpty() {
 		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		Product[] array = new Product[3];
-		Product[] newArray = new Product[]{clothing, food, food};
-		
 		container.add(clothing);
 		container.add(food);
 		container.add(food);
 		
-		Object[] expected = container.toArray(array);
-		for (int i = 0; i < array.length; i++) {
-			System.out.println("element " + i + " is " + array[i]);
-		}
-		assertArrayEquals(expected, newArray);
+		Object[] containerArray = container.toArray(array);
+		
+		assertEquals(clothing, containerArray[0]);
+		assertEquals(food, containerArray[1]);
+		assertEquals(food, containerArray[2]);
 	}
 	
 	@Test
@@ -236,13 +229,13 @@ class ContainerTest {
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		Product[] array = new Product[]{clothing, food, food};
-		
 		container.add(clothing);
 		container.add(food);
 		
-		Object[] expected = container.toArray(array);
-		assertNull(expected[2]);
-		assertArrayEquals(expected, array);
+		Object[] containerArray = container.toArray(array);
+		
+		assertNull(containerArray[2]);
+		assertArrayEquals(containerArray, array);
 	}
 	
 	@Test
@@ -251,12 +244,12 @@ class ContainerTest {
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		Product[] array = new Product[]{clothing, food};
-		
 		container.add(clothing);
 		container.add(food);
 		
-		Object[] expected = container.toArray(array);
-		assertArrayEquals(expected, array);
+		Object[] containerArray = container.toArray(array);
+		
+		assertArrayEquals(containerArray, array);
 	}
 	
 	@Test
@@ -264,11 +257,11 @@ class ContainerTest {
 		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
-		
 		container.add(clothing);
 		container.add(food);
 		
 		Product product = container.get(0);
+		
 		assertEquals(product, clothing);
 	}
 	
@@ -277,7 +270,6 @@ class ContainerTest {
 		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
-		
 		container.add(clothing);
 		container.add(food);
 		
@@ -292,14 +284,13 @@ class ContainerTest {
 		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
-		
 		container.add(clothing);
 		container.add(food);
+		
 		container.set(1, clothing);
 		
-		Product product = container.get(1);
 		assertNotNull(container.get(1));
-		assertEquals(product, clothing);
+		assertEquals(container.get(1), clothing);
 	}
 	
 	@Test
@@ -309,13 +300,13 @@ class ContainerTest {
 		Container<Product> containerToAdd = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
-		
 		container.add(clothing);
 		container.add(food);
 		containerToAdd.add(food);
 		expectedContainer.add(clothing);
 		expectedContainer.add(food);
 		expectedContainer.add(food);
+		
 		container.addAll(containerToAdd);
 		
 		assertEquals(expectedContainer.size(), container.size());
@@ -328,13 +319,13 @@ class ContainerTest {
 		Container<Product> containerToAdd = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
-		
 		container.add(clothing);
 		container.add(food);
 		containerToAdd.add(food);
 		expectedContainer.add(clothing);
 		expectedContainer.add(food);
 		expectedContainer.add(food);
+		
 		container.addAll(containerToAdd);
 
 		assertEquals(expectedContainer.size(), container.size());
@@ -343,20 +334,17 @@ class ContainerTest {
 	@Test
 	void shouldAddAllElementsFromCurrentIndex() {
 		Container<Product> container = new Container<>();
-		Container<Product> expectedContainer = new Container<>();
 		Container<Product> containerToAdd = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		
-		container.add(clothing);
 		container.add(food);
-		containerToAdd.add(food);
-		expectedContainer.add(clothing);
-		expectedContainer.add(food);
-		expectedContainer.add(food);
-		container.addAll(0, containerToAdd);
+		container.add(food);
+		containerToAdd.add(clothing);
+		container.addAll(1, containerToAdd);
 
-		assertEquals(expectedContainer.size(), container.size());
+		assertEquals(clothing, container.toArray()[1]);
+		assertEquals(3, container.size());
 	}
 	@Test
 	void shouldAddAllElementsFromCurrentIndexWithCurrentCapacity() {
