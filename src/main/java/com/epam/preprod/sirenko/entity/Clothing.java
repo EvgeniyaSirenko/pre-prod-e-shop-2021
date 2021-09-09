@@ -21,8 +21,8 @@ public class Clothing extends Product {
 	
 	public Clothing(String name, BigDecimal price, Size clothingSize, Season clothingSeason) {
 		super(name, price);
-		size = clothingSize;
-		season = clothingSeason;
+		this.size = clothingSize;
+		this.season = clothingSeason;
 	}
 	
 	public Size getSize() {

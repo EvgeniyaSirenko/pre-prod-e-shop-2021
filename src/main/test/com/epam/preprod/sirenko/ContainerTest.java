@@ -609,7 +609,10 @@ class ContainerTest {
 		container.add(dryFood);
 		containerToCheck.add(food);
 		containerToCheck.add(clothing);
-
+		
+		assertEquals(clothing, container.toArray()[0]);
+		assertEquals(clothing, containerToCheck.toArray()[1]);
+		assertEquals(container.toArray()[1], containerToCheck.toArray()[0]);
 		assertTrue(container.containsAll(containerToCheck));
 	}
 	
@@ -626,6 +629,7 @@ class ContainerTest {
 		containerToCheck.add(null);
 		containerToCheck.add(clothing);
 		
+		assertEquals(containerToCheck.toArray()[1], container.toArray()[0]);
 		assertTrue(container.containsAll(containerToCheck));
 	}
 	
@@ -638,7 +642,9 @@ class ContainerTest {
 		container.add(clothing);
 		containerToCheck.add(clothing);
 		
-		assertTrue(container.containsAll(containerToCheck));
+		assertTrue(container.retainAll(containerToCheck));
+		assertEquals(containerToCheck.toArray()[0], container.toArray()[0]);
+
 	}
 
 	@Test
@@ -654,9 +660,11 @@ class ContainerTest {
 		containerToCheck.add(clothing);
 		containerToCheck.add(dryFood);
 
+		assertNotEquals(clothing, container.toArray()[0]);
+		assertNotEquals(clothing, container.toArray()[1]);
 		assertFalse(container.containsAll(containerToCheck));
 	}
-
+	
 	@Test
 	void retainAllShouldReturnTrueIfContainsOnlyOneExistingElement() {
 		Container<Product> container = new Container<>();
@@ -666,7 +674,27 @@ class ContainerTest {
 		container.add(food);
 		containerToCheck.add(food);
 		
-		assertTrue(container.retainAll(containerToCheck));
+		container.retainAll(containerToCheck);
+		assertEquals(food, container.toArray()[0]);
+	}
+	
+	@Test
+	void retainAllShouldReturnTrueIfContainsElementsWithNullAndRemovesAllOther() {
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		
+		container.add(clothing);
+		container.add(null);
+		container.add(food);
+		containerToCheck.add(null);
+		containerToCheck.add(clothing);
+		
+		container.retainAll(containerToCheck);
+		assertEquals(clothing, container.toArray()[0]);
+		assertEquals(null, container.toArray()[1]);
+		assertEquals(2, container.size());
 	}
 
 	@Test
@@ -683,11 +711,14 @@ class ContainerTest {
 		containerToCheck.add(clothing);
 		containerToCheck.add(dryFood);
 		
-		assertTrue(container.retainAll(containerToCheck));
+		container.retainAll(containerToCheck);
+		assertEquals(clothing, container.toArray()[0]);
+		assertEquals(dryFood, container.toArray()[1]);
+		assertEquals(2, container.size());
 	}
-	
+
 	@Test
-	void retainAllShouldRemoveAllElementsThatAreNotContains() {
+	void retainAllShouldReturnTrueIfNotContainAllElementsAndRemovesAllOthers() {
 		Container<Product> container = new Container<>();
 		Container<Product> containerToCheck = new Container<>();
 		Clothing clothing = new Clothing();
@@ -695,11 +726,13 @@ class ContainerTest {
 		DryFood dryFood = new DryFood();
 		
 		container.add(food);
+		container.add(food);
 		container.add(clothing);
 		containerToCheck.add(dryFood);
-		containerToCheck.add(clothing);
+		containerToCheck.add(dryFood);
 		
-		assertTrue(container.retainAll(containerToCheck));
+		container.retainAll(containerToCheck);
+		assertEquals(0, container.size());
 	}
 
 	@Test
@@ -710,8 +743,9 @@ class ContainerTest {
 		
 		container.add(dryFood);
 		containerToCheck.add(dryFood);
-
-		assertTrue(container.removeAll(containerToCheck));
+		
+		container.removeAll(containerToCheck);
+		assertEquals(0, container.size());
 	}
 
 	@Test
@@ -728,8 +762,30 @@ class ContainerTest {
 		container.add(clothing);
 		containerToCheck.add(clothing);
 		containerToCheck.add(dryFood);
+
+		container.removeAll(containerToCheck);
+		assertEquals(food, container.toArray()[0]);
+		assertEquals(food, container.toArray()[1]);
+	}
+	
+	@Test
+	void removeAllShouldReturnTrueIfContainsElementsWithNullAndRemovesThem() {
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
+		Clothing clothing = new Clothing();
+		Food food = new Food();
 		
-		assertTrue(container.removeAll(containerToCheck));
+		container.add(null);
+		container.add(food);
+		container.add(food);
+		container.add(clothing);
+		containerToCheck.add(clothing);
+		containerToCheck.add(null);
+		
+		container.removeAll(containerToCheck);
+		assertEquals(food, container.toArray()[0]);
+		assertEquals(food, container.toArray()[1]);
+		assertEquals(2, container.size());
 	}
 	
 	@Test
@@ -745,8 +801,10 @@ class ContainerTest {
 		container.add(food1);
 		containerToCheck.add(clothing);
 		containerToCheck.add(dryFood);
-		
-		assertFalse(container.removeAll(containerToCheck));
+
+		container.removeAll(containerToCheck);
+		assertEquals(food, container.toArray()[0]);
+		assertEquals(food1, container.toArray()[1]);
 	}
 	
 	@Test
@@ -758,8 +816,9 @@ class ContainerTest {
 		
 		container.add(clothing);
 		containerToCheck.add(food);
-		
-		assertFalse(container.removeAll(containerToCheck));
+
+		container.removeAll(containerToCheck);
+		assertEquals(clothing, container.toArray()[0]);
 	}
 	
 	@Test

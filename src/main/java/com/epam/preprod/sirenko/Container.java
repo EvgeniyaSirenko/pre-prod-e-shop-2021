@@ -52,6 +52,7 @@ public class Container<E extends Product> implements List<E> {
 	@Override
 	public void clear() {
 		size = 0;
+		array = new Object[]{};
 	}
 	
 	/**
@@ -79,10 +80,11 @@ public class Container<E extends Product> implements List<E> {
 	 * Increases the capacity of this ArrayList instance, if necessary
 	 **/
 	private void capacityCheckAndResizeIfNeeded(int newCapacity) {
+		int updatedCapacity = array.length + CAPACITY;
 		if (size == 0) {
 			array = new Object[CAPACITY];
-		} else if (newCapacity - CAPACITY > 0) {
-			array = Arrays.copyOf(array, newCapacity);
+		} else if (newCapacity > array.length) {
+			array = Arrays.copyOf(array, updatedCapacity);
 		}
 	}
 	
@@ -107,8 +109,14 @@ public class Container<E extends Product> implements List<E> {
 				}
 		} else {
 			for (int i = 0; i < size; i++) {
-				if (array[i].equals(object)) {
-					return true;
+				if (array[i] == null) {
+					if (object == null) {
+						return true;
+					}
+				} else {
+					if (array[i].equals(object)) {
+						return true;
+					}
 				}
 			}
 		}

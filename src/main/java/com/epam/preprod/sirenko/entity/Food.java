@@ -17,7 +17,7 @@ public class Food extends Product {
 	
 	public Food(String name, BigDecimal price, int foodWeight) {
 		super(name, price);
-		weight = foodWeight;
+		this.weight = foodWeight;
 	}
 	
 	public int getWeight() {

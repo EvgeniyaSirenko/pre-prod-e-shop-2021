@@ -19,8 +19,8 @@ public class DryFood extends Food {
 	
 	public DryFood(String name, BigDecimal price, int foodWeight, String dryFoodBrandName, PetGroup dryFoodPetGroup) {
 		super(name, price, foodWeight);
-		brandName = dryFoodBrandName;
-		petGroup = dryFoodPetGroup;
+		this.brandName = dryFoodBrandName;
+		this.petGroup = dryFoodPetGroup;
 	}
 	
 	public String getBrandName() {
