@@ -210,6 +210,25 @@ class ContainerTest {
 		Object[] expected = container.toArray(array);
 		assertArrayEquals(expected, newArray);
 	}
+	//TODO
+	@Test
+	void toArrayShouldReturnArrayWhenGivenArrayIsEmpty() {
+		Container<Product> container = new Container<>();
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		Product[] array = new Product[3];
+		Product[] newArray = new Product[]{clothing, food, food};
+		
+		container.add(clothing);
+		container.add(food);
+		container.add(food);
+		
+		Object[] expected = container.toArray(array);
+		for (int i = 0; i < array.length; i++) {
+			System.out.println("element " + i + " is " + array[i]);
+		}
+		assertArrayEquals(expected, newArray);
+	}
 	
 	@Test
 	void shouldReturnArrayOfGivenObjectsWhenArrayIsBigger() {
@@ -591,6 +610,22 @@ class ContainerTest {
 		containerToCheck.add(food);
 		containerToCheck.add(clothing);
 
+		assertTrue(container.containsAll(containerToCheck));
+	}
+	
+	@Test
+	void containsAllShouldReturnTrueIfContainsAllElementsWithNull() {
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		
+		container.add(clothing);
+		container.add(null);
+		container.add(food);
+		containerToCheck.add(null);
+		containerToCheck.add(clothing);
+		
 		assertTrue(container.containsAll(containerToCheck));
 	}
 	

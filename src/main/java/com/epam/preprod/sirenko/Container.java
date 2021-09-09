@@ -69,9 +69,7 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public void add(int index, E element) {
-		if (index >= size || index < 0) {
-			throw new IndexOutOfBoundsException(EXCEPTION_INFO_INDEX + index + EXCEPTION_INFO_SIZE + size);
-		}
+		indexToSizeCheck(index);
 		capacityCheckAndResizeIfNeeded(size + 1);
 		array[index] = element;
 		size++;
@@ -102,9 +100,16 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public boolean contains(Object object) {
-		for (int i = 0; i < size; i++) {
-			if (array[i].equals(object)) {
-				return true;
+		if (object == null) {
+			for (int i = 0; i < array.length; i++)
+				if (array[i] == null) {
+					return true;
+				}
+		} else {
+			for (int i = 0; i < size; i++) {
+				if (array[i].equals(object)) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -138,9 +143,7 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public E get(int index) {
-		if (index >= size || index < 0) {
-			throw new IndexOutOfBoundsException(EXCEPTION_INFO_INDEX + index + EXCEPTION_INFO_SIZE + size);
-		}
+		indexToSizeCheck(index);
 		return (E) array[index];
 	}
 	
@@ -149,9 +152,7 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public E set(int index, E element) {
-		if (index >= size || index < 0) {
-			throw new IndexOutOfBoundsException(EXCEPTION_INFO_INDEX + index + EXCEPTION_INFO_SIZE + size);
-		}
+		indexToSizeCheck(index);
 		array[index] = element;
 		return (E) array[index];
 	}
@@ -161,9 +162,7 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public E remove(int index) {
-		if (index >= size || index < 0) {
-			throw new IndexOutOfBoundsException(EXCEPTION_INFO_INDEX + index + EXCEPTION_INFO_SIZE + size);
-		}
+		indexToSizeCheck(index);
 		E toRemove = (E) array[index];
 		int numMoved = size - index - 1;
 		if (numMoved > 0) {
@@ -174,6 +173,12 @@ public class Container<E extends Product> implements List<E> {
 		return toRemove;
 	}
 	
+	public void indexToSizeCheck(int index) {
+		if (index >= size || index < 0) {
+			throw new IndexOutOfBoundsException(EXCEPTION_INFO_INDEX + index + EXCEPTION_INFO_SIZE + size);
+		}
+	}
+	
 	/**
 	 * Removes the first occurrence of the specified element from this list, if it is present.
 	 * If the list does not contain the element, it is unchanged
@@ -181,7 +186,7 @@ public class Container<E extends Product> implements List<E> {
 	@Override
 	public boolean remove(Object object) {
 		if (object == null) {
-			for (int i = 0; i < array.length; i++)
+			for (int i = 0; i < size; i++)
 				if (array[i] == null) {
 					remove(i);
 					return true;
@@ -326,9 +331,6 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public boolean containsAll(Collection collection) {
-		if (collection.size() > size) {
-			return false;
-		}
 		for (Object o : collection) {
 			if (!contains(o)) {
 				return false;
