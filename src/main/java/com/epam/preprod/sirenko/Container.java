@@ -227,19 +227,14 @@ public class Container<E extends Product> implements List<E> {
 	}
 	
 	/**
-	 * Inserts all of the elements in the specified collection into this list, starting at the specified position
+	 * Inserts all of the elements in the specified collection into this list,
+	 * starting at the specified position
 	 **/
 	@Override
 	public boolean addAll(int index, Collection collection) {
 		Object[] obj = collection.toArray();
 		int objLength = obj.length;
 		capacityCheckAndResizeIfNeeded(size + objLength);
-		
-		int numMoved = size - index;
-		if (numMoved > 0) {
-			System.arraycopy(array, index, array, index + objLength,
-					numMoved);
-		}
 		System.arraycopy(obj, 0, array, index, objLength);
 		size = size + objLength;
 		return objLength != 0;
@@ -285,7 +280,6 @@ public class Container<E extends Product> implements List<E> {
 		}
 		return -1;
 	}
-	
 	
 	/**
 	 * Removes from this list all of its elements that are not contained in the
