@@ -116,14 +116,8 @@ public class Container<E extends Product> implements List<E> {
 			}
 		} else {
 			for (int i = 0; i < size; i++) {
-				if (array[i] == null) {
-					if (object == null) {
-						return true;
-					}
-				} else {
-					if (array[i].equals(object)) {
-						return true;
-					}
+				if (array[i] != null && array[i].equals(object)) {
+					return true;
 				}
 			}
 		}
