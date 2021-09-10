@@ -73,8 +73,10 @@ class ContainerTest {
 		container.add(food);
 		container.add(1, clothing);
 		
-		assertNotNull(container.get(1));
-		assertEquals(container.get(1), clothing);
+		assertEquals(clothing, container.get(0));
+		assertEquals(clothing, container.get(1));
+		assertEquals(food, container.get(2));
+		assertEquals(3, container.size());
 	}
 	
 	@Test
@@ -315,20 +317,20 @@ class ContainerTest {
 	@Test
 	void shouldAddAllElementsWithCurrentCapacity() {
 		Container<Product> container = new Container<>(CAPACITY);
-		Container<Product> expectedContainer = new Container<>();
 		Container<Product> containerToAdd = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		container.add(clothing);
 		container.add(food);
 		containerToAdd.add(food);
-		expectedContainer.add(clothing);
-		expectedContainer.add(food);
-		expectedContainer.add(food);
+
 		
 		container.addAll(containerToAdd);
 
-		assertEquals(expectedContainer.size(), container.size());
+		assertEquals(3, container.size());
+		assertEquals(clothing, container.get(0));
+		assertEquals(food, container.get(1));
+		assertEquals(food, container.get(2));
 	}
 	
 	@Test
@@ -342,8 +344,9 @@ class ContainerTest {
 		containerToAdd.add(clothing);
 		
 		container.addAll(1, containerToAdd);
-
-		assertEquals(clothing, container.toArray()[1]);
+		assertEquals(food, container.get(0));
+		assertEquals(clothing, container.get(1));
+		assertEquals(food, container.get(2));
 		assertEquals(3, container.size());
 	}
 	@Test
@@ -603,9 +606,9 @@ class ContainerTest {
 		
 		boolean result = container.containsAll(containerToCheck);
 		
-		assertEquals(clothing, container.toArray()[0]);
-		assertEquals(clothing, containerToCheck.toArray()[1]);
-		assertEquals(container.toArray()[1], containerToCheck.toArray()[0]);
+		assertEquals(clothing, container.get(0));
+		assertEquals(clothing, containerToCheck.get(1));
+		assertEquals(container.get(1), containerToCheck.get(0));
 		assertTrue(result);
 	}
 	
@@ -623,7 +626,7 @@ class ContainerTest {
 		
 		boolean result = container.containsAll(containerToCheck);
 		
-		assertEquals(containerToCheck.toArray()[1], container.toArray()[0]);
+		assertEquals(containerToCheck.get(1), container.get(0));
 		assertTrue(result);
 	}
 	
@@ -638,7 +641,7 @@ class ContainerTest {
 		boolean result = container.containsAll(containerToCheck);
 		
 		assertTrue(result);
-		assertEquals(containerToCheck.toArray()[0], container.toArray()[0]);
+		assertEquals(containerToCheck.get(0), container.get(0));
 
 	}
 
@@ -656,8 +659,8 @@ class ContainerTest {
 		
 		boolean result = container.containsAll(containerToCheck);
 		
-		assertNotEquals(clothing, container.toArray()[0]);
-		assertNotEquals(clothing, container.toArray()[1]);
+		assertNotEquals(clothing, container.get(0));
+		assertNotEquals(clothing, container.get(1));
 		assertFalse(result);
 	}
 	
@@ -671,7 +674,7 @@ class ContainerTest {
 		
 		container.retainAll(containerToCheck);
 		
-		assertEquals(food, container.toArray()[0]);
+		assertEquals(food, container.get(0));
 	}
 	
 	@Test
@@ -688,8 +691,8 @@ class ContainerTest {
 		
 		container.retainAll(containerToCheck);
 		
-		assertEquals(clothing, container.toArray()[0]);
-		assertEquals(null, container.toArray()[1]);
+		assertEquals(clothing, container.get(0));
+		assertNull(container.get(1));
 		assertEquals(2, container.size());
 	}
 
@@ -708,8 +711,8 @@ class ContainerTest {
 		
 		container.retainAll(containerToCheck);
 		
-		assertEquals(clothing, container.toArray()[0]);
-		assertEquals(dryFood, container.toArray()[1]);
+		assertEquals(clothing, container.get(0));
+		assertEquals(dryFood, container.get(1));
 		assertEquals(2, container.size());
 	}
 
@@ -760,8 +763,8 @@ class ContainerTest {
 
 		container.removeAll(containerToCheck);
 		
-		assertEquals(food, container.toArray()[0]);
-		assertEquals(food, container.toArray()[1]);
+		assertEquals(food, container.get(0));
+		assertEquals(food, container.get(1));
 	}
 	
 	@Test
@@ -779,8 +782,8 @@ class ContainerTest {
 		
 		container.removeAll(containerToCheck);
 		
-		assertEquals(food, container.toArray()[0]);
-		assertEquals(food, container.toArray()[1]);
+		assertEquals(food, container.get(0));
+		assertEquals(food, container.get(1));
 		assertEquals(2, container.size());
 	}
 	
@@ -799,8 +802,8 @@ class ContainerTest {
 
 		container.removeAll(containerToCheck);
 		
-		assertEquals(food, container.toArray()[0]);
-		assertEquals(food1, container.toArray()[1]);
+		assertEquals(food, container.get(0));
+		assertEquals(food1, container.get(1));
 	}
 	
 	@Test
@@ -814,7 +817,7 @@ class ContainerTest {
 
 		container.removeAll(containerToCheck);
 		
-		assertEquals(clothing, container.toArray()[0]);
+		assertEquals(clothing, container.get(0));
 	}
 	
 	@Test

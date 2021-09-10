@@ -72,6 +72,12 @@ public class Container<E extends Product> implements List<E> {
 	public void add(int index, E element) {
 		indexToSizeCheck(index);
 		capacityCheckAndResizeIfNeeded(size + 1);
+		
+		int numMoved = size - index;
+		if (numMoved > 0) {
+			System.arraycopy(array, index, array, index + 1,
+					numMoved);
+		}
 		array[index] = element;
 		size++;
 	}
@@ -235,6 +241,12 @@ public class Container<E extends Product> implements List<E> {
 		Object[] obj = collection.toArray();
 		int objLength = obj.length;
 		capacityCheckAndResizeIfNeeded(size + objLength);
+		
+		int numMoved = size - index;
+		if (numMoved > 0) {
+			System.arraycopy(array, index, array, index + objLength,
+					numMoved);
+		}
 		System.arraycopy(obj, 0, array, index, objLength);
 		size = size + objLength;
 		return objLength != 0;
@@ -287,10 +299,9 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public boolean retainAll(Collection collection) {
-		int oldIndex = 0;
 		int newIndex = 0;
 		boolean modified = false;
-		for (; oldIndex < size; oldIndex++) {
+		for (int oldIndex = 0; oldIndex < size; oldIndex++) {
 			if (collection.contains(array[oldIndex])) {
 				array[newIndex++] = array[oldIndex];
 				modified = true;
