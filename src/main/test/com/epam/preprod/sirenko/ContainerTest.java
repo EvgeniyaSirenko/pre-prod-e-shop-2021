@@ -337,10 +337,10 @@ class ContainerTest {
 		Container<Product> containerToAdd = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
-		
 		container.add(food);
 		container.add(food);
 		containerToAdd.add(clothing);
+		
 		container.addAll(1, containerToAdd);
 
 		assertEquals(clothing, container.toArray()[1]);
@@ -353,13 +353,13 @@ class ContainerTest {
 		Container<Product> containerToAdd = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
-		
 		container.add(clothing);
 		container.add(food);
 		containerToAdd.add(food);
 		expectedContainer.add(clothing);
 		expectedContainer.add(food);
 		expectedContainer.add(food);
+		
 		container.addAll(0, containerToAdd);
 		
 		assertEquals(expectedContainer.size(), container.size());
@@ -370,13 +370,14 @@ class ContainerTest {
 		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
-		
 		container.add(clothing);
 		container.add(food);
 		container.add(clothing);
 		container.add(food);
 		
-		assertEquals(1, container.indexOf(food));
+		int index = container.indexOf(food);
+		
+		assertEquals(1, index);
 	}
 	
 	
@@ -385,13 +386,14 @@ class ContainerTest {
 		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
-		
 		container.add(clothing);
 		container.add(null);
 		container.add(clothing);
 		container.add(food);
 		
-		assertEquals(1, container.indexOf(null));
+		int index = container.indexOf(null);
+		
+		assertEquals(1, index);
 	}
 	
 	
@@ -400,23 +402,25 @@ class ContainerTest {
 		Container<Product> container = new Container<>(CAPACITY);
 		Clothing clothing = new Clothing();
 		Food food = new Food();
-		
 		container.add(clothing);
 		container.add(food);
 		container.add(clothing);
 		container.add(food);
 		
-		assertEquals(1, container.indexOf(food));
+		int index = container.indexOf(food);
+		
+		assertEquals(1, index);
 	}
 	
 	@Test
 	void shouldReturnIndexOfFirstOccurrenceOfTheOnlyOneExistingElement() {
 		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
-		
 		container.add(clothing);
 		
-		assertEquals(0, container.indexOf(clothing));
+		int index = container.indexOf(clothing);
+		
+		assertEquals(0, index);
 	}
 	
 	@Test
@@ -424,13 +428,14 @@ class ContainerTest {
 		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
-		
 		container.add(clothing);
 		container.add(food);
 		container.add(clothing);
 		container.add(food);
 		
-		assertEquals(3, container.lastIndexOf(food));
+		int index = container.lastIndexOf(food);
+		
+		assertEquals(3, index);
 	}
 	
 	@Test
@@ -438,13 +443,14 @@ class ContainerTest {
 		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
-		
 		container.add(clothing);
 		container.add(food);
 		container.add(clothing);
 		container.add(null);
 		
-		assertEquals(3, container.lastIndexOf(null));
+		int index = container.indexOf(null);
+		
+		assertEquals(3, index);
 	}
 	
 	
@@ -453,33 +459,36 @@ class ContainerTest {
 		Container<Product> container = new Container<>(CAPACITY);
 		Clothing clothing = new Clothing();
 		Food food = new Food();
-		
 		container.add(clothing);
 		container.add(food);
 		container.add(clothing);
 		container.add(food);
 		
-		assertEquals(3, container.lastIndexOf(food));
+		int index = container.lastIndexOf(food);
+		
+		assertEquals(3, index);
 	}
 	
 	@Test
 	void shouldReturnIndexOfLastOccurrenceOfTheOnlyOneExistingElement() {
 		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
-		
 		container.add(clothing);
 		
-		assertEquals(0, container.lastIndexOf(clothing));
+		int index = container.indexOf(clothing);
+		
+		assertEquals(0, index);
 	}
 	
 	@Test
 	void shouldReturnIndexOfLastOccurrenceOfTheOnlyOneExistingElementWithCapacity() {
 		Container<Product> container = new Container<>(CAPACITY);
 		Clothing clothing = new Clothing();
-		
 		container.add(clothing);
 		
-		assertEquals(0, container.lastIndexOf(clothing));
+		int index = container.indexOf(clothing);
+		
+		assertEquals(0, index);
 	}
 	
 	@Test
@@ -487,21 +496,20 @@ class ContainerTest {
 		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
-		
 		container.add(clothing);
 		container.add(food);
+		
 		container.remove(0);
 		
-		Product product = container.get(0);
-		assertEquals(product, food);
+		assertEquals(container.get(0), food);
 	}
 	
 	@Test
 	void shouldRemoveTheOnlyOneExistedElementById() {
 		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
-		
 		container.add(clothing);
+		
 		container.remove(0);
 		
 		assertEquals( 0, container.size());
@@ -512,9 +520,9 @@ class ContainerTest {
 		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
-		
 		container.add(clothing);
 		container.add(food);
+		
 		container.remove(1);
 		
 		Throwable exception = assertThrows(IndexOutOfBoundsException.class, ()-> {
@@ -528,7 +536,6 @@ class ContainerTest {
 		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
-		
 		container.add(clothing);
 		container.add(food);
 		
@@ -543,14 +550,13 @@ class ContainerTest {
 		Container<Product> container = new Container<>();
 		DryFood dryFood = new DryFood();
 		Clothing clothing = new Clothing();
-		
 		container.add(dryFood);
 		container.add(clothing);
 		container.add(dryFood);
+		
 		container.remove(dryFood);
 		
-		Product product = container.get(0);
-		assertEquals(product, clothing);
+		assertEquals(container.get(0), clothing);
 	}
 	
 	
@@ -559,14 +565,13 @@ class ContainerTest {
 		Container<Product> container = new Container<>();
 		DryFood dryFood = new DryFood();
 		Clothing clothing = new Clothing();
-		
 		container.add(null);
 		container.add(clothing);
 		container.add(dryFood);
+		
 		container.remove(null);
 		
-		Product product = container.get(0);
-		assertEquals(product, clothing);
+		assertEquals(container.get(0), clothing);
 	}
 	
 	@Test
@@ -574,7 +579,6 @@ class ContainerTest {
 		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
-		
 		container.add(clothing);
 		container.add(food);
 		
@@ -591,17 +595,18 @@ class ContainerTest {
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		DryFood dryFood = new DryFood();
-		
 		container.add(clothing);
 		container.add(food);
 		container.add(dryFood);
 		containerToCheck.add(food);
 		containerToCheck.add(clothing);
 		
+		boolean result = container.containsAll(containerToCheck);
+		
 		assertEquals(clothing, container.toArray()[0]);
 		assertEquals(clothing, containerToCheck.toArray()[1]);
 		assertEquals(container.toArray()[1], containerToCheck.toArray()[0]);
-		assertTrue(container.containsAll(containerToCheck));
+		assertTrue(result);
 	}
 	
 	@Test
@@ -610,15 +615,16 @@ class ContainerTest {
 		Container<Product> containerToCheck = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
-		
 		container.add(clothing);
 		container.add(null);
 		container.add(food);
 		containerToCheck.add(null);
 		containerToCheck.add(clothing);
 		
+		boolean result = container.containsAll(containerToCheck);
+		
 		assertEquals(containerToCheck.toArray()[1], container.toArray()[0]);
-		assertTrue(container.containsAll(containerToCheck));
+		assertTrue(result);
 	}
 	
 	@Test
@@ -626,11 +632,12 @@ class ContainerTest {
 		Container<Product> container = new Container<>();
 		Container<Product> containerToCheck = new Container<>();
 		Clothing clothing = new Clothing();
-		
 		container.add(clothing);
 		containerToCheck.add(clothing);
 		
-		assertTrue(container.retainAll(containerToCheck));
+		boolean result = container.containsAll(containerToCheck);
+		
+		assertTrue(result);
 		assertEquals(containerToCheck.toArray()[0], container.toArray()[0]);
 
 	}
@@ -642,15 +649,16 @@ class ContainerTest {
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		DryFood dryFood = new DryFood();
-		
 		container.add(food);
 		container.add(dryFood);
 		containerToCheck.add(clothing);
 		containerToCheck.add(dryFood);
-
+		
+		boolean result = container.containsAll(containerToCheck);
+		
 		assertNotEquals(clothing, container.toArray()[0]);
 		assertNotEquals(clothing, container.toArray()[1]);
-		assertFalse(container.containsAll(containerToCheck));
+		assertFalse(result);
 	}
 	
 	@Test
@@ -658,11 +666,11 @@ class ContainerTest {
 		Container<Product> container = new Container<>();
 		Container<Product> containerToCheck = new Container<>();
 		Food food = new Food();
-		
 		container.add(food);
 		containerToCheck.add(food);
 		
 		container.retainAll(containerToCheck);
+		
 		assertEquals(food, container.toArray()[0]);
 	}
 	
@@ -672,7 +680,6 @@ class ContainerTest {
 		Container<Product> containerToCheck = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
-		
 		container.add(clothing);
 		container.add(null);
 		container.add(food);
@@ -680,6 +687,7 @@ class ContainerTest {
 		containerToCheck.add(clothing);
 		
 		container.retainAll(containerToCheck);
+		
 		assertEquals(clothing, container.toArray()[0]);
 		assertEquals(null, container.toArray()[1]);
 		assertEquals(2, container.size());
@@ -692,7 +700,6 @@ class ContainerTest {
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		DryFood dryFood = new DryFood();
-		
 		container.add(food);
 		container.add(clothing);
 		container.add(dryFood);
@@ -700,6 +707,7 @@ class ContainerTest {
 		containerToCheck.add(dryFood);
 		
 		container.retainAll(containerToCheck);
+		
 		assertEquals(clothing, container.toArray()[0]);
 		assertEquals(dryFood, container.toArray()[1]);
 		assertEquals(2, container.size());
@@ -712,7 +720,6 @@ class ContainerTest {
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		DryFood dryFood = new DryFood();
-		
 		container.add(food);
 		container.add(food);
 		container.add(clothing);
@@ -720,6 +727,7 @@ class ContainerTest {
 		containerToCheck.add(dryFood);
 		
 		container.retainAll(containerToCheck);
+		
 		assertEquals(0, container.size());
 	}
 
@@ -728,11 +736,11 @@ class ContainerTest {
 		Container<Product> container = new Container<>();
 		Container<Product> containerToCheck = new Container<>();
 		DryFood dryFood = new DryFood();
-		
 		container.add(dryFood);
 		containerToCheck.add(dryFood);
 		
 		container.removeAll(containerToCheck);
+		
 		assertEquals(0, container.size());
 	}
 
@@ -743,7 +751,6 @@ class ContainerTest {
 		Food food = new Food();
 		Clothing clothing = new Clothing();
 		DryFood dryFood = new DryFood();
-		
 		container.add(dryFood);
 		container.add(food);
 		container.add(food);
@@ -752,6 +759,7 @@ class ContainerTest {
 		containerToCheck.add(dryFood);
 
 		container.removeAll(containerToCheck);
+		
 		assertEquals(food, container.toArray()[0]);
 		assertEquals(food, container.toArray()[1]);
 	}
@@ -762,7 +770,6 @@ class ContainerTest {
 		Container<Product> containerToCheck = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
-		
 		container.add(null);
 		container.add(food);
 		container.add(food);
@@ -771,6 +778,7 @@ class ContainerTest {
 		containerToCheck.add(null);
 		
 		container.removeAll(containerToCheck);
+		
 		assertEquals(food, container.toArray()[0]);
 		assertEquals(food, container.toArray()[1]);
 		assertEquals(2, container.size());
@@ -784,13 +792,13 @@ class ContainerTest {
 		Food food1 = new Food();
 		Clothing clothing = new Clothing();
 		DryFood dryFood = new DryFood();
-		
 		container.add(food);
 		container.add(food1);
 		containerToCheck.add(clothing);
 		containerToCheck.add(dryFood);
 
 		container.removeAll(containerToCheck);
+		
 		assertEquals(food, container.toArray()[0]);
 		assertEquals(food1, container.toArray()[1]);
 	}
@@ -801,11 +809,11 @@ class ContainerTest {
 		Container<Product> containerToCheck = new Container<>();
 		Food food = new Food();
 		Clothing clothing = new Clothing();
-		
 		container.add(clothing);
 		containerToCheck.add(food);
 
 		container.removeAll(containerToCheck);
+		
 		assertEquals(clothing, container.toArray()[0]);
 	}
 	
@@ -814,11 +822,11 @@ class ContainerTest {
 		Container<Product> container = new Container<>();
 		DryFood dryFood = new DryFood();
 		Clothing clothing = new Clothing();
-		
 		container.add(dryFood);
 		container.add(clothing);
 		
 		Product product = container.iterator().next();
+		
 		assertEquals(product, dryFood);
 	}
 	
@@ -829,21 +837,22 @@ class ContainerTest {
 		Clothing clothing = new Clothing();
 		Predicate<Product> predicate = x -> x.equals(clothing);
 		Iterator<Product> iterator = container.iterator(predicate);
-		
 		container.add(dryFood);
 		container.add(clothing);
 		
-		assertEquals(iterator.next(), clothing);
+		Product product = iterator.next();
+		
+		assertEquals(product, clothing);
 	}
 	
 	@Test
 	void shouldReturnTheOnlyOneExistingNextElement() {
 		Container<Product> container = new Container<>();
 		DryFood dryFood = new DryFood();
-		
 		container.add(dryFood);
 		
 		Product product = container.iterator().next();
+		
 		assertEquals(product, dryFood);
 	}
 	
@@ -863,6 +872,7 @@ class ContainerTest {
 		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Predicate<Product> predicate = x -> x.equals(clothing);
+		
 		Iterator<Product> iterator = container.iterator(predicate);
 		
 		assertThrows(NoSuchElementException.class, ()-> {
@@ -891,7 +901,6 @@ class ContainerTest {
 	void shouldReturnTrueIfHasNext() {
 		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
-		
 		container.add(clothing);
 		
 		assertTrue(container.iterator().hasNext());
@@ -905,7 +914,6 @@ class ContainerTest {
 		clothing.setSeason(Season.WINTER);
 		Predicate<Product> predicate = x -> x.equals(clothing);
 		Iterator<Product> iterator = container.iterator(predicate);
-		
 		container.add(clothing);
 		
 		assertTrue(iterator.hasNext());
@@ -919,7 +927,6 @@ class ContainerTest {
 		dryFood.setPetGroup(PetGroup.CAT);
 		Predicate<Product> predicate = x -> x.equals(dryFood);
 		Iterator<Product> iterator = container.iterator(predicate);
-		
 		container.add(clothing);
 		container.add(dryFood);
 		

@@ -143,8 +143,9 @@ public class Container<E extends Product> implements List<E> {
 		}
 		System.arraycopy(array, 0, object, 0, size);
 		if (object.length > size) {
-			for (int i = size; i < object.length; i++)
-			object[i] = null;
+			for (int i = size; i < object.length; i++) {
+				object[i] = null;
+			}
 		}
 		return object;
 	}
@@ -317,10 +318,9 @@ public class Container<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public boolean removeAll(Collection collection) {
-		int oldIndex = 0;
 		int newIndex = 0;
 		boolean modified = false;
-		for (; oldIndex < size; oldIndex++) {
+		for (int oldIndex = 0; oldIndex < size; oldIndex++) {
 			if (!collection.contains(array[oldIndex])) {
 				array[newIndex++] = array[oldIndex];
 			} else {
