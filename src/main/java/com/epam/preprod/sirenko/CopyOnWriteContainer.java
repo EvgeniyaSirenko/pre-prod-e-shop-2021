@@ -34,8 +34,7 @@ public class CopyOnWriteContainer<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public void clear() {
-		Object[] objects = new Object[]{};
-		array = objects;
+		array = new Object[]{};
 	}
 	
 	/**
