@@ -5,12 +5,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-public class TwoListWrapper<E extends Container> implements List<E>{
+public class TwoListWrapper<E> implements List<E>{
 	private List<E> unmodifiedList;
 	private List<E> modifiedList;
 	
 	
-	public TwoListWrapper(List unmodifiedList, List modifiedList) {
+	public TwoListWrapper(List<E> unmodifiedList, List<E> modifiedList) {
 		this.unmodifiedList = unmodifiedList;
 		this.modifiedList = modifiedList;
 	}

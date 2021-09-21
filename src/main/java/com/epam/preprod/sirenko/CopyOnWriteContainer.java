@@ -9,7 +9,7 @@ import java.util.*;
  *
  * @author E.Sirenko
  **/
-public class SafeContainer<E extends Product> implements List<E> {
+public class CopyOnWriteContainer<E extends Product> implements List<E> {
 	private Object[] array;
 	private static final String EXCEPTION_INFO_INDEX = "Index: ";
 	private static final String EXCEPTION_INFO_SIZE = ", Size: ";
@@ -17,7 +17,7 @@ public class SafeContainer<E extends Product> implements List<E> {
 	/**
 	 * Constructs an empty list with capacity of ten.
 	 **/
-	public SafeContainer() {
+	public CopyOnWriteContainer() {
 		this.array = new Object[]{};
 	}
 	
@@ -34,11 +34,7 @@ public class SafeContainer<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public void clear() {
-		Object[] objects = Arrays.copyOf(array, array.length + 1);
-		for (int i = 0; i < objects.length; i++) {
-			objects[i] = null;
-		}
-		objects = new Object[]{};
+		Object[] objects = new Object[]{};
 		array = objects;
 	}
 	
@@ -352,17 +348,17 @@ public class SafeContainer<E extends Product> implements List<E> {
 	 **/
 	@Override
 	public Iterator<E> iterator() {
-		return new SafeIterator<>(array, 0);
+		return new CopyOnWriteIterator<>(array, 0);
 	}
 	
 	/**
 	 * Iterates elements in this container in proper sequence
 	 **/
-	private class SafeIterator<T extends Product> implements Iterator<T> {
+	private class CopyOnWriteIterator<T extends Product> implements Iterator<T> {
 		private int index;
 		private final Object[] arrayCopy;
 		
-		public SafeIterator(Object[] objects, int index) {
+		public CopyOnWriteIterator(Object[] objects, int index) {
 			this.arrayCopy = objects;
 			this.index = index;
 		}

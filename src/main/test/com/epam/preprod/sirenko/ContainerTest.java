@@ -298,20 +298,19 @@ class ContainerTest {
 	@Test
 	void shouldAddAllElements() {
 		Container<Product> container = new Container<>();
-		Container<Product> expectedContainer = new Container<>();
 		Container<Product> containerToAdd = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		container.add(clothing);
 		container.add(food);
 		containerToAdd.add(food);
-		expectedContainer.add(clothing);
-		expectedContainer.add(food);
-		expectedContainer.add(food);
 		
 		container.addAll(containerToAdd);
 		
-		assertEquals(expectedContainer.size(), container.size());
+		assertEquals(3, container.size());
+		assertEquals(clothing, container.get(0));
+		assertEquals(food, container.get(1));
+		assertEquals(food, container.get(2));
 	}
 	
 	@Test
@@ -323,7 +322,6 @@ class ContainerTest {
 		container.add(clothing);
 		container.add(food);
 		containerToAdd.add(food);
-
 		
 		container.addAll(containerToAdd);
 
@@ -344,6 +342,7 @@ class ContainerTest {
 		containerToAdd.add(clothing);
 		
 		container.addAll(1, containerToAdd);
+		
 		assertEquals(food, container.get(0));
 		assertEquals(clothing, container.get(1));
 		assertEquals(food, container.get(2));
@@ -865,9 +864,7 @@ class ContainerTest {
 		
 		Iterator<Product> iterator = container.iterator();
 		
-		assertThrows(NoSuchElementException.class, ()-> {
-			iterator.next();
-		});
+		assertThrows(NoSuchElementException.class, iterator::next);
 	}
 	
 	@Test
@@ -878,9 +875,7 @@ class ContainerTest {
 		
 		Iterator<Product> iterator = container.iterator(predicate);
 		
-		assertThrows(NoSuchElementException.class, ()-> {
-			iterator.next();
-		});
+		assertThrows(NoSuchElementException.class, iterator::next);
 	}
 	
 	@Test
@@ -940,9 +935,7 @@ class ContainerTest {
 	void listIteratorShouldThrowUnsupportedOperationException() {
 		Container<Product> container = new Container<>();
 		
-		assertThrows(UnsupportedOperationException.class, ()-> {
-			container.listIterator();
-		});
+		assertThrows(UnsupportedOperationException.class, container::listIterator);
 	}
 	
 	@Test
