@@ -53,13 +53,13 @@ public class TwoListWrapper<E> implements List<E> {
 	/**
 	 * Returns an iterator over the elements in both lists
 	 **/
-	private class TwoListIterator<T> implements Iterator<E> { //question about T (I can't use E here)
+	private class TwoListIterator<T extends E> implements Iterator<E> {
 		private int unmodifiedListIndex = 0;
 		private int modifiedListIndex = 0;
-		private List<E> unmodifiedList;
-		private List<E> modifiedList;
+		private List<T> unmodifiedList;
+		private List<T> modifiedList;
 		
-		public TwoListIterator(List<E> unmodifiedList, List<E> modifiedList) {
+		public TwoListIterator(List<T> unmodifiedList, List<T> modifiedList) {
 			this.modifiedList = modifiedList;
 			this.unmodifiedList = unmodifiedList;
 		}
