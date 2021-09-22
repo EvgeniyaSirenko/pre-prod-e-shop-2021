@@ -54,8 +54,8 @@ public class TwoListWrapper<E> implements List<E> {
 	 * Returns an iterator over the elements in both lists
 	 **/
 	private class TwoListIterator implements Iterator<E> {
-		private Iterator<E> unmodifiedListIterator;
-		private Iterator<E> modifiedListIterator;
+		private final Iterator<E> unmodifiedListIterator; //question: final has to be in upper case?
+		private final Iterator<E> modifiedListIterator;
 		
 		public TwoListIterator() {
 			this.unmodifiedListIterator = unmodifiedList.iterator();
