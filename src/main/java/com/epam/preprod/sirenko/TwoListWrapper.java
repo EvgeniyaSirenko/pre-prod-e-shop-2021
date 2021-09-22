@@ -47,22 +47,43 @@ public class TwoListWrapper<E> implements List<E> {
 	 */
 	@Override
 	public Iterator<E> iterator() {
-		return new TwoListIterator<>();
+		return new TwoListIterator<>(unmodifiedList, modifiedList);
 	}
 	
 	/**
 	 * Returns an iterator over the elements in both lists
 	 **/
-	private class TwoListIterator<E> implements Iterator<E> {
+	private class TwoListIterator<T> implements Iterator<E> { //question about T (I can't use E here)
+		private int unmodifiedListIndex = 0;
+		private int modifiedListIndex = 0;
+		private List<E> unmodifiedList;
+		private List<E> modifiedList;
+		
+		public TwoListIterator(List<E> unmodifiedList, List<E> modifiedList) {
+			this.modifiedList = modifiedList;
+			this.unmodifiedList = unmodifiedList;
+		}
 		
 		@Override
 		public boolean hasNext() {
-			return false;
+			if (unmodifiedList.isEmpty() && modifiedListIndex != modifiedList.size()) {
+				return true;
+			}
+			if (modifiedList.isEmpty() && unmodifiedListIndex != unmodifiedList.size()) {
+				return true;
+			}
+			return unmodifiedListIndex != unmodifiedList.size() && modifiedListIndex != modifiedList.size();
 		}
 		
 		@Override
 		public E next() {
-			return null;
+			if (unmodifiedListIndex < unmodifiedList.size()) {
+				return unmodifiedList.get(unmodifiedListIndex++);
+			}
+			if (modifiedListIndex < modifiedList.size()) {
+				return modifiedList.get(modifiedListIndex++);
+			}
+			throw new NoSuchElementException();
 		}
 	}
 	

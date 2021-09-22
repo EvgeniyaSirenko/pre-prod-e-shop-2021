@@ -3,7 +3,9 @@ package com.epam.preprod.sirenko;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -370,6 +372,70 @@ class TwoListWrapperTest {
 			twoListWrapper.retainAll(listToRemove);
 		});
 		assertEquals("Can't retain collection of unmodified list", exception.getMessage());
+	}
+	
+	@Test
+	void nextShouldThrowNoSuchElementExceptionWhenNextElementNotExist() {
+		TwoListWrapper<Object> twoListWrapper = new TwoListWrapper<>(UNMODIFIED_EMPTY_LIST, modifiedList);
+		Iterator<Object> iterator = twoListWrapper.iterator();
+		
+		assertThrows(NoSuchElementException.class, iterator::next);
+	}
+	
+	@Test
+	void nextShouldReturnNextElementWhenModifiedListIsEmpty() {
+		TwoListWrapper<Object> twoListWrapper = new TwoListWrapper<>(UNMODIFIED_LIST, modifiedList);
+		Iterator<Object> iterator = twoListWrapper.iterator();
+
+		assertEquals("Hello", iterator.next());
+	}
+	
+	@Test
+	void nextShouldReturnNextElementWhenUnmodifiedListIsEmpty() {
+		TwoListWrapper<Object> twoListWrapper = new TwoListWrapper<>(UNMODIFIED_EMPTY_LIST, modifiedList);
+		modifiedList.add("hi");
+		modifiedList.add("there");
+		Iterator<Object> iterator = twoListWrapper.iterator();
+
+		assertEquals("hi", iterator.next());
+	}
+	
+	@Test
+	void nextShouldReturnNextElement() {
+		TwoListWrapper<Object> twoListWrapper = new TwoListWrapper<>(UNMODIFIED_LIST, modifiedList);
+		modifiedList.add("fella");
+		modifiedList.add("!");
+		Iterator<Object> iterator = twoListWrapper.iterator();
+
+		assertEquals("Hello", iterator.next());
+	}
+	
+	@Test
+	void hasNextShouldReturnFalseWhenNextElementNotExist() {
+		TwoListWrapper<Object> twoListWrapper = new TwoListWrapper<>(UNMODIFIED_EMPTY_LIST, modifiedList);
+		Iterator<Object> iterator = twoListWrapper.iterator();
+		
+		assertFalse(iterator.hasNext());
+		assertEquals(0, twoListWrapper.size());
+	}
+	
+	@Test
+	void hasNextShouldReturnTrueWhenHasNextElementOnlyInUnmodifiedList() {
+		TwoListWrapper<Object> twoListWrapper = new TwoListWrapper<>(UNMODIFIED_LIST, modifiedList);
+		Iterator<Object> iterator = twoListWrapper.iterator();
+
+		assertTrue(iterator.hasNext());
+		assertEquals(3, twoListWrapper.size());
+	}
+	
+	@Test
+	void hasNextShouldReturnTrueWhenHasNextElementOnlyInModifiedList() {
+		TwoListWrapper<Object> twoListWrapper = new TwoListWrapper<>(UNMODIFIED_EMPTY_LIST, modifiedList);
+		modifiedList.add("fella");
+		Iterator<Object> iterator = twoListWrapper.iterator();
+		
+		assertTrue(iterator.hasNext());
+		assertEquals(1, twoListWrapper.size());
 	}
 	
 	@Test
