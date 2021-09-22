@@ -356,10 +356,6 @@ class TwoListWrapperTest {
 		
 		twoListWrapper.retainAll(listToRetain);
 		
-		System.out.println(twoListWrapper.get(0));
-		System.out.println(twoListWrapper.get(1));
-		System.out.println(twoListWrapper.get(2));
-		System.out.println(twoListWrapper.get(3));
 		assertEquals("fella", twoListWrapper.get(3));
 		assertEquals(4, twoListWrapper.size());
 	}

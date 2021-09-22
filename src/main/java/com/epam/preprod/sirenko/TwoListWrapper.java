@@ -111,8 +111,7 @@ public class TwoListWrapper<E> implements List<E> {
 	 */
 	@Override
 	public boolean add(E element) {
-		modifiedList.add(element);
-		return true;
+		return modifiedList.add(element);
 	}
 	
 	/**
@@ -148,8 +147,7 @@ public class TwoListWrapper<E> implements List<E> {
 	 */
 	@Override
 	public boolean addAll(Collection collection) {
-		modifiedList.addAll(collection);
-		return true;
+		return modifiedList.addAll(collection);
 	}
 	
 	/**
@@ -162,10 +160,8 @@ public class TwoListWrapper<E> implements List<E> {
 	public boolean addAll(int index, Collection collection) {
 		if (index < unmodifiedList.size()) {
 			throw new IllegalArgumentException("Can't add element to unmodified list");
-		} else {
-			modifiedList.addAll(index - unmodifiedList.size(), collection);
 		}
-		return true;
+		return modifiedList.addAll(index - unmodifiedList.size(), collection);
 	}
 	
 	/**
@@ -179,8 +175,7 @@ public class TwoListWrapper<E> implements List<E> {
 				throw new IllegalArgumentException("Can't remove collection from unmodified list");
 			}
 		}
-		modifiedList.removeAll(collection);
-		return true;
+		return modifiedList.removeAll(collection);
 	}
 	
 	/**
@@ -193,10 +188,8 @@ public class TwoListWrapper<E> implements List<E> {
 	public boolean retainAll(Collection collection) {
 		if (!collection.containsAll(unmodifiedList)) {
 			throw new IllegalArgumentException("Can't retain collection of unmodified list");
-		} else {
-			modifiedList.retainAll(collection);
 		}
-		return true;
+		return modifiedList.retainAll(collection);
 	}
 	
 	/**
@@ -226,10 +219,8 @@ public class TwoListWrapper<E> implements List<E> {
 	public E set(int index, E element) {
 		if (index < unmodifiedList.size()) {
 			throw new IllegalArgumentException("Can't set element to unmodified list");
-		} else {
-			modifiedList.set(index - unmodifiedList.size(), element);
 		}
-		return modifiedList.get(index - unmodifiedList.size());
+		return modifiedList.set(index - unmodifiedList.size(), element);
 	}
 	
 	/**
@@ -242,9 +233,8 @@ public class TwoListWrapper<E> implements List<E> {
 	public void add(int index, E element) {
 		if (index < unmodifiedList.size()) {
 			throw new IllegalArgumentException("Can't add element to unmodified list");
-		} else {
-			modifiedList.add(index - unmodifiedList.size(), element);
 		}
+		modifiedList.add(index - unmodifiedList.size(), element);
 	}
 	
 	/**
@@ -255,14 +245,11 @@ public class TwoListWrapper<E> implements List<E> {
 	 */
 	@Override
 	public E remove(int index) {
-		E toRemove;
 		if (index < unmodifiedList.size()) {
 			throw new IllegalArgumentException("Can't remove element to unmodified list");
 		} else {
-			toRemove = modifiedList.get(index - unmodifiedList.size());
-			modifiedList.remove(index - unmodifiedList.size());
+			return modifiedList.remove(index - unmodifiedList.size());
 		}
-		return toRemove;
 	}
 	
 	/**
@@ -283,10 +270,10 @@ public class TwoListWrapper<E> implements List<E> {
 	 */
 	@Override
 	public int lastIndexOf(Object object) {
-		if (unmodifiedList.contains(object)) {
-			return unmodifiedList.lastIndexOf(object);
+	if (modifiedList.contains(object)) {
+			return modifiedList.lastIndexOf(object) + unmodifiedList.size();
 		}
-		return modifiedList.lastIndexOf(object) + unmodifiedList.size();
+		return unmodifiedList.lastIndexOf(object);
 	}
 	
 	@Override
