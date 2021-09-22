@@ -47,15 +47,20 @@ public class TwoListWrapper<E> implements List<E> {
 	 */
 	@Override
 	public Iterator<E> iterator() {
-		return new TwoListIterator<>();
+		return new TwoListIterator();
 	}
 	
 	/**
 	 * Returns an iterator over the elements in both lists
 	 **/
-	private class TwoListIterator<T> implements Iterator<E> {
-		private Iterator<E> unmodifiedListIterator = unmodifiedList.iterator();
-		private Iterator<E> modifiedListIterator = modifiedList.iterator();
+	private class TwoListIterator implements Iterator<E> {
+		private Iterator<E> unmodifiedListIterator;
+		private Iterator<E> modifiedListIterator;
+		
+		public TwoListIterator() {
+			this.unmodifiedListIterator = unmodifiedList.iterator();
+			this.modifiedListIterator = modifiedList.iterator();
+		}
 		
 		@Override
 		public boolean hasNext() {
