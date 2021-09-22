@@ -47,43 +47,30 @@ public class TwoListWrapper<E> implements List<E> {
 	 */
 	@Override
 	public Iterator<E> iterator() {
-		return new TwoListIterator<>(unmodifiedList, modifiedList);
+		return new TwoListIterator<>();
 	}
 	
 	/**
 	 * Returns an iterator over the elements in both lists
 	 **/
-	private class TwoListIterator<T extends E> implements Iterator<E> {
-		private int unmodifiedListIndex = 0;
-		private int modifiedListIndex = 0;
-		private List<T> unmodifiedList;
-		private List<T> modifiedList;
-		
-		public TwoListIterator(List<T> unmodifiedList, List<T> modifiedList) {
-			this.modifiedList = modifiedList;
-			this.unmodifiedList = unmodifiedList;
-		}
+	private class TwoListIterator<T> implements Iterator<E> {
+		private Iterator<E> unmodifiedListIterator = unmodifiedList.iterator();
+		private Iterator<E> modifiedListIterator = modifiedList.iterator();
 		
 		@Override
 		public boolean hasNext() {
-			if (unmodifiedList.isEmpty() && modifiedListIndex != modifiedList.size()) {
+			if (unmodifiedListIterator.hasNext()) {
 				return true;
 			}
-			if (modifiedList.isEmpty() && unmodifiedListIndex != unmodifiedList.size()) {
-				return true;
-			}
-			return unmodifiedListIndex != unmodifiedList.size() && modifiedListIndex != modifiedList.size();
+			return modifiedListIterator.hasNext();
 		}
 		
 		@Override
 		public E next() {
-			if (unmodifiedListIndex < unmodifiedList.size()) {
-				return unmodifiedList.get(unmodifiedListIndex++);
+			if (unmodifiedListIterator.hasNext()) {
+				return unmodifiedListIterator.next();
 			}
-			if (modifiedListIndex < modifiedList.size()) {
-				return modifiedList.get(modifiedListIndex++);
-			}
-			throw new NoSuchElementException();
+			return modifiedListIterator.next();
 		}
 	}
 	
@@ -291,7 +278,7 @@ public class TwoListWrapper<E> implements List<E> {
 	 */
 	@Override
 	public int lastIndexOf(Object object) {
-	if (modifiedList.contains(object)) {
+		if (modifiedList.contains(object)) {
 			return modifiedList.lastIndexOf(object) + unmodifiedList.size();
 		}
 		return unmodifiedList.lastIndexOf(object);
