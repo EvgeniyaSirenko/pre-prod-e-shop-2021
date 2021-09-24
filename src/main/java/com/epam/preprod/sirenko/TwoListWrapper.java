@@ -43,7 +43,7 @@ public class TwoListWrapper<E> implements List<E> {
 	}
 	
 	/**
-	 * Returns an iterator over the elements in both lists in proper sequence.
+	 * Returns an iterator over the elements in both lists in proper sequence
 	 */
 	@Override
 	public Iterator<E> iterator() {

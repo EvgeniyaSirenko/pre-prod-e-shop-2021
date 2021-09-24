@@ -32,7 +32,7 @@ public class UniqueObjectsList extends ArrayList<Object> {
 	
 	/**
 	 * Replaces the element at the specified position in this list with
-	 * the specified element.
+	 * the specified element
 	 */
 	@Override
 	public Object set(int index, Object object) {

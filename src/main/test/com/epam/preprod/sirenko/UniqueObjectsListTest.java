@@ -78,7 +78,6 @@ class UniqueObjectsListTest {
 		
 		uniqueObjectsList.set(0, otherFood);
 		
-		assertEquals(2, uniqueObjectsList.size());
 		assertEquals(otherFood, uniqueObjectsList.get(0));
 		assertEquals(dryFood, uniqueObjectsList.get(1));
 	}
