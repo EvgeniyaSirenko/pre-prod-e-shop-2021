@@ -3,6 +3,12 @@ package com.epam.preprod.sirenko;
 import java.util.ArrayList;
 import java.util.Collection;
 
+
+/**
+ * ArrayList extending class that holds unique objects
+ *
+ * @author E.Sirenko
+ **/
 public class UniqueObjectsList extends ArrayList<Object> {
 	private static final String MESSAGE_CANT_ADD_ELEMENT = "Can't add such element";
 	private static final String MESSAGE_CANT_ADD_ELEMENTS = "Can't add such elements";
