@@ -12,7 +12,7 @@ public class UniqueObjectsList extends ArrayList<Object> {
 	 **/
 	@Override
 	public boolean add(Object object) {
-		if (super.contains(object)) {
+		if (contains(object)) {
 			throw new IllegalArgumentException(MESSAGE_CANT_ADD_ELEMENT);
 		}
 		return super.add(object);
@@ -24,7 +24,7 @@ public class UniqueObjectsList extends ArrayList<Object> {
 	 */
 	@Override
 	public void add(int index, Object object) {
-		if (super.contains(object)) {
+		if (contains(object)) {
 			throw new IllegalArgumentException(MESSAGE_CANT_ADD_ELEMENT);
 		}
 		super.add(index, object);
@@ -36,7 +36,7 @@ public class UniqueObjectsList extends ArrayList<Object> {
 	 */
 	@Override
 	public Object set(int index, Object object) {
-		if (super.contains(object)) {
+		if (contains(object)) {
 			throw new IllegalArgumentException(MESSAGE_CANT_ADD_ELEMENT);
 		}
 		return super.set(index, object);
@@ -48,7 +48,7 @@ public class UniqueObjectsList extends ArrayList<Object> {
 	 */
 	@Override
 	public boolean addAll(Collection collection) {
-		if (super.containsAll(collection)) {
+		if (containsAll(collection)) {
 			throw new IllegalArgumentException(MESSAGE_CANT_ADD_ELEMENTS);
 		}
 		return super.addAll(collection);
@@ -61,7 +61,7 @@ public class UniqueObjectsList extends ArrayList<Object> {
 	 */
 	@Override
 	public boolean addAll(int index, Collection collection) {
-		if (super.containsAll(collection)) {
+		if (containsAll(collection)) {
 			throw new IllegalArgumentException(MESSAGE_CANT_ADD_ELEMENTS);
 		}
 		return super.addAll(index, collection);
