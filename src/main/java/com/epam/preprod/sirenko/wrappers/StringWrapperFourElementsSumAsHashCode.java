@@ -1,17 +1,14 @@
-package com.epam.preprod.sirenko;
+package com.epam.preprod.sirenko.wrappers;
 
 /**
  * String key wrapper, as HashCode uses sum of first four elements of string
  *
  * @author E.Sirenko
  **/
-public class FourElementsOfStringSumAsHashCodeWrapper {
+public class StringWrapperFourElementsSumAsHashCode {
 		private String key;
 	
-	public FourElementsOfStringSumAsHashCodeWrapper() {
-	}
-	
-	public FourElementsOfStringSumAsHashCodeWrapper(String key) {
+	public StringWrapperFourElementsSumAsHashCode(String key) {
 		this.key = key;
 	}
 	
@@ -32,11 +29,11 @@ public class FourElementsOfStringSumAsHashCodeWrapper {
 			if (obj == this) {
 				return true;
 			}
-			if (!(obj instanceof FourElementsOfStringSumAsHashCodeWrapper)) {
+			if (!(obj instanceof StringWrapperFourElementsSumAsHashCode)) {
 				return false;
 			}
-			FourElementsOfStringSumAsHashCodeWrapper fourElementsOfStringSumAsHashCodeWrapper = (FourElementsOfStringSumAsHashCodeWrapper) obj;
-			return fourElementsOfStringSumAsHashCodeWrapper.getKey().equals(this.key);
+			StringWrapperFourElementsSumAsHashCode stringWrapperFourElementsSumAsHashCode = (StringWrapperFourElementsSumAsHashCode) obj;
+			return stringWrapperFourElementsSumAsHashCode.getKey().equals(this.key);
 	}
 	
 	public String getKey() {
