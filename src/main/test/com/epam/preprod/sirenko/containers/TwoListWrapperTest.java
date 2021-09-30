@@ -1,4 +1,4 @@
-package com.epam.preprod.sirenko;
+package com.epam.preprod.sirenko.containers;
 
 import org.junit.jupiter.api.Test;
 

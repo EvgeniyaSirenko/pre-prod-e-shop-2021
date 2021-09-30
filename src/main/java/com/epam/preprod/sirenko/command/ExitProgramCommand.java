@@ -4,12 +4,12 @@ import com.epam.preprod.sirenko.entity.Product;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.List;
+import java.util.Map;
 
-public class ExitProgramCommand extends Command {
+public class ExitProgramCommand implements Command {
 	//TODO
 	@Override
-	public List<Product> execute() {
+	public void execute() {
 		try (Socket socket = new Socket()) {
 			socket.shutdownInput();
 		} catch (IOException e) {

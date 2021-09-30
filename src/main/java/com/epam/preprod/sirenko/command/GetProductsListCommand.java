@@ -1,15 +1,19 @@
 package com.epam.preprod.sirenko.command;
 
-import com.epam.preprod.sirenko.DAO.ProductsInDBDAO;
-import com.epam.preprod.sirenko.entity.Product;
+import com.epam.preprod.sirenko.services.GetAllProductsListService;
+import com.epam.preprod.sirenko.services.ProductService;
 
-import java.util.List;
-
-public class GetProductsListCommand extends Command{
+public class GetProductsListCommand implements Command{
+	//ProductService productService;
+	GetAllProductsListService getAllProductsList;
+	
+	public GetProductsListCommand(GetAllProductsListService getAllProductsList) {
+		//this.productService = productService;
+		this.getAllProductsList = getAllProductsList;
+	}
 	
 	@Override
-	public List<Product> execute() {
-		ProductsInDBDAO productsInDBDAO = new ProductsInDBDAO();
-		return productsInDBDAO.productsSetup();
+	public void execute() {
+	getAllProductsList.getAllProducts();
 	}
 }

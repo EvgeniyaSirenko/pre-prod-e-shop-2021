@@ -1,21 +1,26 @@
-package com.epam.preprod.sirenko;
+package com.epam.preprod.sirenko.containers;
 
 import com.epam.preprod.sirenko.entity.Clothing;
 import com.epam.preprod.sirenko.entity.DryFood;
 import com.epam.preprod.sirenko.entity.Food;
 import com.epam.preprod.sirenko.entity.Product;
+import com.epam.preprod.sirenko.enums.PetGroup;
+import com.epam.preprod.sirenko.enums.Season;
+import com.epam.preprod.sirenko.enums.Size;
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.function.Predicate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CopyOnWriteContainerTest {
+class ContainerTest {
+	private static final int CAPACITY = 5;
 	
 	@Test
 	void shouldReturnSizeOfContainer() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		Food food = new Food();
 		DryFood dryFood = new DryFood();
 		container.add(food);
@@ -26,7 +31,7 @@ class CopyOnWriteContainerTest {
 	
 	@Test
 	void shouldClearContainer() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		Food food = new Food();
 		container.add(food);
 		
@@ -37,7 +42,19 @@ class CopyOnWriteContainerTest {
 	
 	@Test
 	void shouldAddElementToContainer() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
+		Food food = new Food();
+		
+		container.add(food);
+		
+		assertNotNull(container.get(0));
+		assertEquals(container.get(0), food);
+	}
+	
+	
+	@Test
+	void shouldAddElementToContainerWithCapacity() {
+		Container<Product> container = new Container<>(CAPACITY);
 		Food food = new Food();
 		
 		container.add(food);
@@ -48,7 +65,7 @@ class CopyOnWriteContainerTest {
 	
 	@Test
 	void shouldAddElementToContainerByIndex() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		
@@ -63,23 +80,106 @@ class CopyOnWriteContainerTest {
 	}
 	
 	@Test
+	void shouldAddElementToContainerWithCapacityByIndex() {
+		Container<Product> container = new Container<>(CAPACITY);
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		
+		container.add(clothing);
+		container.add(food);
+		container.add(1, clothing);
+		
+		assertNotNull(container.get(1));
+		assertEquals(container.get(1), clothing);
+	}
+	
+	@Test
 	void shouldThrowExceptionWhenAddElementWithIndexIsOutOfBound() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		
 		container.add(clothing);
 		container.add(food);
 		
-		Throwable exception = assertThrows(IndexOutOfBoundsException.class, () -> {
+		Throwable exception = assertThrows(IndexOutOfBoundsException.class, ()-> {
+			container.add(3, clothing);
+		});
+		assertEquals("Index: 3, Size: 2", exception.getMessage());
+	}
+	@Test
+	void shouldThrowExceptionWhenAddElementWithIndexIsOutOfBoundOfContainerWithCapacity() {
+		Container<Product> container = new Container<>(CAPACITY);
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		
+		container.add(clothing);
+		container.add(food);
+		
+		Throwable exception = assertThrows(IndexOutOfBoundsException.class, ()-> {
 			container.add(3, clothing);
 		});
 		assertEquals("Index: 3, Size: 2", exception.getMessage());
 	}
 	
 	@Test
+	void isEmptyShouldReturnTrueIfSizeIsZero() {
+		Container<Product> container = new Container<>(CAPACITY);
+
+		assertEquals(0, container.size());
+	}
+	
+	@Test
+	void isEmptyShouldReturnFalseIfSizeIsNotZero() {
+		Container<Product> container = new Container<>(CAPACITY);
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		container.add(clothing);
+		container.add(food);
+		
+		assertFalse(container.isEmpty());
+	}
+	
+	@Test
+	void shouldReturnTrueIfContainsElement() {
+		Container<Product> container = new Container<>(CAPACITY);
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		container.add(clothing);
+		container.add(food);
+		
+		assertEquals(clothing, container.get(0));
+		assertEquals(food, container.get(1));
+	}
+	
+	@Test
+	void shouldReturnFalseIfNotContainsElement() {
+		Container<Product> container = new Container<>(CAPACITY);
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		container.add(clothing);
+		
+		assertNotEquals(food, container.get(0));
+		assertFalse(container.contains(food));
+	}
+	
+	@Test
 	void shouldReturnArray() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		Product[] array = new Product[]{clothing, food};
+		container.add(clothing);
+		container.add(food);
+		
+		Object[] containerArray = container.toArray();
+		
+		assertArrayEquals(containerArray, array);
+	}
+	
+	@Test
+	void shouldReturnArrayWithCurrentCapacity() {
+		Container<Product> container = new Container<>(CAPACITY);
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		Product[] array = new Product[]{clothing, food};
@@ -93,7 +193,7 @@ class CopyOnWriteContainerTest {
 	
 	@Test
 	void shouldReturnArrayOfGivenObjectsWhenArrayIsSmaller() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		Product[] array = new Product[]{clothing, food};
@@ -107,10 +207,10 @@ class CopyOnWriteContainerTest {
 		assertEquals(food, containerArray[1]);
 		assertEquals(food, containerArray[2]);
 	}
-	
+
 	@Test
 	void toArrayShouldReturnArrayWhenGivenArrayIsEmpty() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		Product[] array = new Product[3];
@@ -127,7 +227,7 @@ class CopyOnWriteContainerTest {
 	
 	@Test
 	void shouldReturnArrayOfGivenObjectsWhenArrayIsBigger() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		Product[] array = new Product[]{clothing, food, food};
@@ -141,8 +241,22 @@ class CopyOnWriteContainerTest {
 	}
 	
 	@Test
+	void shouldReturnArrayOfGivenObjectsWithCurrentCapacity() {
+		Container<Product> container = new Container<>(CAPACITY);
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		Product[] array = new Product[]{clothing, food};
+		container.add(clothing);
+		container.add(food);
+		
+		Object[] containerArray = container.toArray(array);
+		
+		assertArrayEquals(containerArray, array);
+	}
+	
+	@Test
 	void shouldGetElementById() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		container.add(clothing);
@@ -155,13 +269,13 @@ class CopyOnWriteContainerTest {
 	
 	@Test
 	void shouldThrowExceptionWhenGetElementWithIndexIsOutOfBound() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		container.add(clothing);
 		container.add(food);
 		
-		Throwable exception = assertThrows(IndexOutOfBoundsException.class, () -> {
+		Throwable exception = assertThrows(IndexOutOfBoundsException.class, ()-> {
 			container.get(3);
 		});
 		assertEquals("Index: 3, Size: 2", exception.getMessage());
@@ -169,7 +283,7 @@ class CopyOnWriteContainerTest {
 	
 	@Test
 	void shouldSetElementToContainerByIndex() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		container.add(clothing);
@@ -183,8 +297,8 @@ class CopyOnWriteContainerTest {
 	
 	@Test
 	void shouldAddAllElements() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
-		CopyOnWriteContainer<Product> containerToAdd = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
+		Container<Product> containerToAdd = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		container.add(clothing);
@@ -200,9 +314,27 @@ class CopyOnWriteContainerTest {
 	}
 	
 	@Test
+	void shouldAddAllElementsWithCurrentCapacity() {
+		Container<Product> container = new Container<>(CAPACITY);
+		Container<Product> containerToAdd = new Container<>();
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		container.add(clothing);
+		container.add(food);
+		containerToAdd.add(food);
+		
+		container.addAll(containerToAdd);
+
+		assertEquals(3, container.size());
+		assertEquals(clothing, container.get(0));
+		assertEquals(food, container.get(1));
+		assertEquals(food, container.get(2));
+	}
+	
+	@Test
 	void shouldAddAllElementsFromCurrentIndex() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
-		CopyOnWriteContainer<Product> containerToAdd = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
+		Container<Product> containerToAdd = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		container.add(food);
@@ -210,15 +342,34 @@ class CopyOnWriteContainerTest {
 		containerToAdd.add(clothing);
 		
 		container.addAll(1, containerToAdd);
+		
 		assertEquals(food, container.get(0));
 		assertEquals(clothing, container.get(1));
 		assertEquals(food, container.get(2));
 		assertEquals(3, container.size());
 	}
+	@Test
+	void shouldAddAllElementsFromCurrentIndexWithCurrentCapacity() {
+		Container<Product> container = new Container<>(CAPACITY);
+		Container<Product> expectedContainer = new Container<>();
+		Container<Product> containerToAdd = new Container<>();
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		container.add(clothing);
+		container.add(food);
+		containerToAdd.add(food);
+		expectedContainer.add(clothing);
+		expectedContainer.add(food);
+		expectedContainer.add(food);
+		
+		container.addAll(0, containerToAdd);
+		
+		assertEquals(expectedContainer.size(), container.size());
+	}
 	
 	@Test
 	void shouldReturnIndexOfFirstOccurrenceOfElement() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		container.add(clothing);
@@ -234,7 +385,7 @@ class CopyOnWriteContainerTest {
 	
 	@Test
 	void shouldReturnIndexOfFirstOccurrenceOfElementNull() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		container.add(clothing);
@@ -247,9 +398,25 @@ class CopyOnWriteContainerTest {
 		assertEquals(1, index);
 	}
 	
+	
+	@Test
+	void shouldReturnIndexOfFirstOccurrenceOfElementWithCurrentCapacity() {
+		Container<Product> container = new Container<>(CAPACITY);
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		container.add(clothing);
+		container.add(food);
+		container.add(clothing);
+		container.add(food);
+		
+		int index = container.indexOf(food);
+		
+		assertEquals(1, index);
+	}
+	
 	@Test
 	void shouldReturnIndexOfFirstOccurrenceOfTheOnlyOneExistingElement() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		container.add(clothing);
 		
@@ -260,7 +427,7 @@ class CopyOnWriteContainerTest {
 	
 	@Test
 	void shouldReturnIndexOfLastOccurrenceOfElement() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		container.add(clothing);
@@ -275,7 +442,7 @@ class CopyOnWriteContainerTest {
 	
 	@Test
 	void shouldReturnIndexOfLastOccurrenceOfElementNull() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		container.add(clothing);
@@ -288,9 +455,25 @@ class CopyOnWriteContainerTest {
 		assertEquals(3, index);
 	}
 	
+	
+	@Test
+	void shouldReturnIndexOfLastOccurrenceOfElementWithCurrentCapacity() {
+		Container<Product> container = new Container<>(CAPACITY);
+		Clothing clothing = new Clothing();
+		Food food = new Food();
+		container.add(clothing);
+		container.add(food);
+		container.add(clothing);
+		container.add(food);
+		
+		int index = container.lastIndexOf(food);
+		
+		assertEquals(3, index);
+	}
+	
 	@Test
 	void shouldReturnIndexOfLastOccurrenceOfTheOnlyOneExistingElement() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		container.add(clothing);
 		
@@ -300,8 +483,19 @@ class CopyOnWriteContainerTest {
 	}
 	
 	@Test
-	void shouldRemoveElementByIndex() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+	void shouldReturnIndexOfLastOccurrenceOfTheOnlyOneExistingElementWithCapacity() {
+		Container<Product> container = new Container<>(CAPACITY);
+		Clothing clothing = new Clothing();
+		container.add(clothing);
+		
+		int index = container.indexOf(clothing);
+		
+		assertEquals(0, index);
+	}
+	
+	@Test
+	void shouldRemoveElementById() {
+		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		container.add(clothing);
@@ -313,19 +507,19 @@ class CopyOnWriteContainerTest {
 	}
 	
 	@Test
-	void shouldRemoveTheOnlyOneExistedElementByIndex() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+	void shouldRemoveTheOnlyOneExistedElementById() {
+		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		container.add(clothing);
 		
 		container.remove(0);
 		
-		assertEquals(0, container.size());
+		assertEquals( 0, container.size());
 	}
 	
 	@Test
-	void shouldRemoveLastElementByIndex() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+	void shouldRemoveLastElementById() {
+		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		container.add(clothing);
@@ -333,7 +527,7 @@ class CopyOnWriteContainerTest {
 		
 		container.remove(1);
 		
-		Throwable exception = assertThrows(IndexOutOfBoundsException.class, () -> {
+		Throwable exception = assertThrows(IndexOutOfBoundsException.class, ()-> {
 			container.get(1);
 		});
 		assertEquals("Index: 1, Size: 1", exception.getMessage());
@@ -341,13 +535,13 @@ class CopyOnWriteContainerTest {
 	
 	@Test
 	void shouldThrowExceptionWhenRemoveElementWithIndexIsOutOfBound() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		container.add(clothing);
 		container.add(food);
 		
-		Throwable exception = assertThrows(IndexOutOfBoundsException.class, () -> {
+		Throwable exception = assertThrows(IndexOutOfBoundsException.class, ()-> {
 			container.remove(3);
 		});
 		assertEquals("Index: 3, Size: 2", exception.getMessage());
@@ -355,7 +549,7 @@ class CopyOnWriteContainerTest {
 	
 	@Test
 	void shouldRemoveElementByFirstOccurrence() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		DryFood dryFood = new DryFood();
 		Clothing clothing = new Clothing();
 		container.add(dryFood);
@@ -370,7 +564,7 @@ class CopyOnWriteContainerTest {
 	
 	@Test
 	void shouldRemoveElementNullByFirstOccurrence() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		DryFood dryFood = new DryFood();
 		Clothing clothing = new Clothing();
 		container.add(null);
@@ -384,22 +578,22 @@ class CopyOnWriteContainerTest {
 	
 	@Test
 	void shouldThrowExceptionWhenSetElementWithIndexIsOutOfBound() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		container.add(clothing);
 		container.add(food);
 		
-		Throwable exception = assertThrows(IndexOutOfBoundsException.class, () -> {
+		Throwable exception = assertThrows(IndexOutOfBoundsException.class, ()-> {
 			container.set(3, clothing);
 		});
 		assertEquals("Index: 3, Size: 2", exception.getMessage());
 	}
-	
+
 	@Test
 	void containsAllShouldReturnTrueIfContainsAllElements() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
-		CopyOnWriteContainer<Product> containerToCheck = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		DryFood dryFood = new DryFood();
@@ -419,8 +613,8 @@ class CopyOnWriteContainerTest {
 	
 	@Test
 	void containsAllShouldReturnTrueIfContainsAllElementsWithNull() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
-		CopyOnWriteContainer<Product> containerToCheck = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		container.add(clothing);
@@ -437,8 +631,8 @@ class CopyOnWriteContainerTest {
 	
 	@Test
 	void containsAllShouldReturnTrueIfContainsOnlyOneExistingElements() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
-		CopyOnWriteContainer<Product> containerToCheck = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
 		Clothing clothing = new Clothing();
 		container.add(clothing);
 		containerToCheck.add(clothing);
@@ -447,13 +641,13 @@ class CopyOnWriteContainerTest {
 		
 		assertTrue(result);
 		assertEquals(containerToCheck.get(0), container.get(0));
-		
+
 	}
-	
+
 	@Test
 	void containsAllShouldReturnFalseIfNotContainsAllElements() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
-		CopyOnWriteContainer<Product> containerToCheck = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		DryFood dryFood = new DryFood();
@@ -471,8 +665,8 @@ class CopyOnWriteContainerTest {
 	
 	@Test
 	void retainAllShouldReturnTrueIfContainsOnlyOneExistingElement() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
-		CopyOnWriteContainer<Product> containerToCheck = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
 		Food food = new Food();
 		container.add(food);
 		containerToCheck.add(food);
@@ -484,8 +678,8 @@ class CopyOnWriteContainerTest {
 	
 	@Test
 	void retainAllShouldReturnTrueIfContainsElementsWithNullAndRemovesAllOther() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
-		CopyOnWriteContainer<Product> containerToCheck = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		container.add(clothing);
@@ -500,11 +694,11 @@ class CopyOnWriteContainerTest {
 		assertNull(container.get(1));
 		assertEquals(2, container.size());
 	}
-	
+
 	@Test
 	void retainAllShouldReturnTrueIfContainsElementsAndRemovesAllOther() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
-		CopyOnWriteContainer<Product> containerToCheck = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		DryFood dryFood = new DryFood();
@@ -520,11 +714,11 @@ class CopyOnWriteContainerTest {
 		assertEquals(dryFood, container.get(1));
 		assertEquals(2, container.size());
 	}
-	
+
 	@Test
 	void retainAllShouldReturnTrueIfNotContainAllElementsAndRemovesAllOthers() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
-		CopyOnWriteContainer<Product> containerToCheck = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		DryFood dryFood = new DryFood();
@@ -538,11 +732,11 @@ class CopyOnWriteContainerTest {
 		
 		assertEquals(0, container.size());
 	}
-	
+
 	@Test
 	void removeAllShouldReturnTrueIfContainsOnlyOneExistingElementAndRemoveIt() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
-		CopyOnWriteContainer<Product> containerToCheck = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
 		DryFood dryFood = new DryFood();
 		container.add(dryFood);
 		containerToCheck.add(dryFood);
@@ -551,11 +745,11 @@ class CopyOnWriteContainerTest {
 		
 		assertEquals(0, container.size());
 	}
-	
+
 	@Test
 	void removeAllShouldReturnTrueIfContainsElementsAndRemovesThem() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
-		CopyOnWriteContainer<Product> containerToCheck = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
 		Food food = new Food();
 		Clothing clothing = new Clothing();
 		DryFood dryFood = new DryFood();
@@ -565,7 +759,7 @@ class CopyOnWriteContainerTest {
 		container.add(clothing);
 		containerToCheck.add(clothing);
 		containerToCheck.add(dryFood);
-		
+
 		container.removeAll(containerToCheck);
 		
 		assertEquals(food, container.get(0));
@@ -574,8 +768,8 @@ class CopyOnWriteContainerTest {
 	
 	@Test
 	void removeAllShouldReturnTrueIfContainsElementsWithNullAndRemovesThem() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
-		CopyOnWriteContainer<Product> containerToCheck = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
 		Clothing clothing = new Clothing();
 		Food food = new Food();
 		container.add(null);
@@ -594,8 +788,8 @@ class CopyOnWriteContainerTest {
 	
 	@Test
 	void removeAllShouldReturnFalseIfNotContainsElements() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
-		CopyOnWriteContainer<Product> containerToCheck = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
 		Food food = new Food();
 		Food food1 = new Food();
 		Clothing clothing = new Clothing();
@@ -604,7 +798,7 @@ class CopyOnWriteContainerTest {
 		container.add(food1);
 		containerToCheck.add(clothing);
 		containerToCheck.add(dryFood);
-		
+
 		container.removeAll(containerToCheck);
 		
 		assertEquals(food, container.get(0));
@@ -613,13 +807,13 @@ class CopyOnWriteContainerTest {
 	
 	@Test
 	void removeAllShouldReturnFalseIfNotContainsOnlyOneExistingElement() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
-		CopyOnWriteContainer<Product> containerToCheck = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
+		Container<Product> containerToCheck = new Container<>();
 		Food food = new Food();
 		Clothing clothing = new Clothing();
 		container.add(clothing);
 		containerToCheck.add(food);
-		
+
 		container.removeAll(containerToCheck);
 		
 		assertEquals(clothing, container.get(0));
@@ -627,7 +821,7 @@ class CopyOnWriteContainerTest {
 	
 	@Test
 	void shouldReturnNextElement() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		DryFood dryFood = new DryFood();
 		Clothing clothing = new Clothing();
 		container.add(dryFood);
@@ -639,8 +833,23 @@ class CopyOnWriteContainerTest {
 	}
 	
 	@Test
+	void shouldReturnNextElementOnCondition() {
+		Container<Product> container = new Container<>();
+		DryFood dryFood = new DryFood();
+		Clothing clothing = new Clothing();
+		Predicate<Product> predicate = x -> x.equals(clothing);
+		Iterator<Product> iterator = container.iterator(predicate);
+		container.add(dryFood);
+		container.add(clothing);
+		
+		Product product = iterator.next();
+		
+		assertEquals(product, clothing);
+	}
+	
+	@Test
 	void shouldReturnTheOnlyOneExistingNextElement() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		DryFood dryFood = new DryFood();
 		container.add(dryFood);
 		
@@ -651,7 +860,7 @@ class CopyOnWriteContainerTest {
 	
 	@Test
 	void shouldThrowNoSuchElementExceptionWhenNextElementNotExist() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		
 		Iterator<Product> iterator = container.iterator();
 		
@@ -659,15 +868,36 @@ class CopyOnWriteContainerTest {
 	}
 	
 	@Test
+	void shouldThrowNoSuchElementExceptionWhenNextElementOnConditionNotExist() {
+		Container<Product> container = new Container<>();
+		Clothing clothing = new Clothing();
+		Predicate<Product> predicate = x -> x.equals(clothing);
+		
+		Iterator<Product> iterator = container.iterator(predicate);
+		
+		assertThrows(NoSuchElementException.class, iterator::next);
+	}
+	
+	@Test
 	void shouldReturnFalseWhenNextElementNotExist() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		
 		assertFalse(container.iterator().hasNext());
 	}
 	
 	@Test
+	void shouldReturnFalseWhenNextElementOnConditionNotExist() {
+		Container<Product> container = new Container<>();
+		Clothing clothing = new Clothing();
+		Predicate<Product> predicate = x -> x.equals(clothing);
+		Iterator<Product> iterator = container.iterator(predicate);
+		
+		assertFalse(iterator.hasNext());
+	}
+	
+	@Test
 	void shouldReturnTrueIfHasNext() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
 		container.add(clothing);
 		
@@ -675,43 +905,53 @@ class CopyOnWriteContainerTest {
 	}
 	
 	@Test
-	void iteratorShouldUseUnchangedContainer() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+	void shouldReturnTrueIfHasNextElementOnConditionWhenOnlyOneExists() {
+		Container<Product> container = new Container<>();
 		Clothing clothing = new Clothing();
-		Food food = new Food();
-		DryFood dryFood = new DryFood();
+		clothing.setSize(Size.S);
+		clothing.setSeason(Season.WINTER);
+		Predicate<Product> predicate = x -> x.equals(clothing);
+		Iterator<Product> iterator = container.iterator(predicate);
 		container.add(clothing);
-		container.add(food);
+		
+		assertTrue(iterator.hasNext());
+	}
+	
+	@Test
+	void shouldReturnTrueIfHasNextElementOnCondition() {
+		Container<Product> container = new Container<>();
+		Clothing clothing = new Clothing();
+		DryFood dryFood = new DryFood();
+		dryFood.setPetGroup(PetGroup.CAT);
+		Predicate<Product> predicate = x -> x.equals(dryFood);
+		Iterator<Product> iterator = container.iterator(predicate);
+		container.add(clothing);
 		container.add(dryFood);
 		
-		Iterator<Product> iterator = container.iterator();
-		container.set(0, food);
-		
-		assertEquals(clothing, iterator.next());
-		assertEquals(food, container.get(0));
+		assertTrue(iterator.hasNext());
 	}
 	
 	@Test
 	void listIteratorShouldThrowUnsupportedOperationException() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		
 		assertThrows(UnsupportedOperationException.class, container::listIterator);
 	}
 	
 	@Test
 	void listIteratorWithIndexShouldThrowUnsupportedOperationException() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		
-		assertThrows(UnsupportedOperationException.class, () -> {
+		assertThrows(UnsupportedOperationException.class, ()-> {
 			container.listIterator(3);
 		});
 	}
 	
 	@Test
 	void subListShouldThrowUnsupportedOperationException() {
-		CopyOnWriteContainer<Product> container = new CopyOnWriteContainer<>();
+		Container<Product> container = new Container<>();
 		
-		assertThrows(UnsupportedOperationException.class, () -> {
+		assertThrows(UnsupportedOperationException.class, ()-> {
 			container.subList(0, 0);
 		});
 	}
