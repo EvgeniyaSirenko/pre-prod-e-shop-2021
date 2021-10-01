@@ -6,31 +6,26 @@ import com.epam.preprod.sirenko.dao.ProductDAO;
 import java.io.*;
 
 public class Demo {
-	CommandContainer commandContainer;
-	ProductDAO productDAO;
-	
-	public Demo() {
-	}
-	
-	public Demo(CommandContainer commandContainer, ProductDAO productDAO) {
-		this.commandContainer = commandContainer;
-		this.productDAO = productDAO;
-	}
-	
 	
 	public static void main(String[] args) throws IOException {
-		PrintToConsole.printString("Print 1 and press Enter to exit program");
-		PrintToConsole.printString("Print 2 and press Enter to see all available products");
-		PrintToConsole.printString("Print 3 and press Enter to add product to cart");
-		PrintToConsole.printString("Print 4 and press Enter to see your cart");
-		PrintToConsole.printString("Print 5 and press Enter to make an order");
-		PrintToConsole.printString("Print 6 and press Enter to see 5 last added to cart products");
-		
+		CommandContainer commandContainer = new CommandContainer();
+		//TODO without line 13 I don't have productsList, Sonar says it's useless
 		ProductDAO productDAO = new ProductDAO();
-		productDAO.getAllProductsList();
 		GetConsoleInput getConsoleInput = new GetConsoleInput();
-		getConsoleInput.readFromConsole();
-		
-
+		PrintToConsole.printInstruction();
+		while (true) {
+			if (getConsoleInput.readFromConsole().equals("out")) {
+				commandContainer.getCommand("out").execute();
+				return;
+			}
+			//TODO this if statement is to check add command
+//			if (GetConsoleInput.inputString.equals("food")) {
+//				commandContainer.getCommand("addProductToCart").execute();
+//				// without line 25 I get error out of line 28
+//				getConsoleInput.readFromConsole();
+//			}
+			PrintToConsole.printInstruction();
+			commandContainer.getCommand(GetConsoleInput.inputString).execute();
+		}
 	}
 }

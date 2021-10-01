@@ -44,7 +44,9 @@ public class Clothing extends Product {
 	@Override
 	public String toString() {
 		return "Clothing{" +
-				"size=" + size +
+				"name=" + super.getName() +
+				", price=" + super.getPrice() +
+				", size=" + size +
 				", season=" + season +
 				'}';
 	}

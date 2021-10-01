@@ -1,19 +1,16 @@
 package com.epam.preprod.sirenko.command;
 
-import com.epam.preprod.sirenko.services.GetAllProductsListService;
 import com.epam.preprod.sirenko.services.ProductService;
 
-public class GetProductsListCommand implements Command{
-	//ProductService productService;
-	GetAllProductsListService getAllProductsList;
+public class GetProductsListCommand implements Command {
+	ProductService productService;
 	
-	public GetProductsListCommand(GetAllProductsListService getAllProductsList) {
-		//this.productService = productService;
-		this.getAllProductsList = getAllProductsList;
+	public GetProductsListCommand(ProductService productService) {
+		this.productService = productService;
 	}
 	
 	@Override
 	public void execute() {
-	getAllProductsList.getAllProducts();
+		productService.getAllProducts();
 	}
 }
