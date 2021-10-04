@@ -1,9 +1,10 @@
 package com.epam.preprod.sirenko.command;
 
+import com.epam.preprod.sirenko.PrintToConsole;
 import com.epam.preprod.sirenko.services.ProductService;
 
 public class GetProductsListCommand implements Command {
-	ProductService productService;
+	private ProductService productService;
 	
 	public GetProductsListCommand(ProductService productService) {
 		this.productService = productService;
@@ -11,6 +12,6 @@ public class GetProductsListCommand implements Command {
 	
 	@Override
 	public void execute() {
-		productService.getAllProducts();
+		PrintToConsole.printList(productService.getAllProducts());
 	}
 }

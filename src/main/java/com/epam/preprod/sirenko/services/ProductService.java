@@ -6,7 +6,7 @@ import com.epam.preprod.sirenko.entity.Product;
 import java.util.List;
 
 public class ProductService {
-	ProductDAO productDAO;
+	private ProductDAO productDAO;
 	
 	public ProductService(ProductDAO productDAO) {
 		this.productDAO = productDAO;
@@ -18,5 +18,9 @@ public class ProductService {
 	
 	public Product getProductByName(String name) {
 		return productDAO.getProductByName(name);
+	}
+	
+	public Product getProductByIndex(Integer index) {
+		return productDAO.getProductByIndex(index);
 	}
 }

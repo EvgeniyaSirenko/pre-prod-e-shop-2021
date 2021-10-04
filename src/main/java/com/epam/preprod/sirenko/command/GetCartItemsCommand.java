@@ -1,9 +1,10 @@
 package com.epam.preprod.sirenko.command;
 
+import com.epam.preprod.sirenko.PrintToConsole;
 import com.epam.preprod.sirenko.services.CartService;
 
 public class GetCartItemsCommand implements Command {
-	CartService cartService;
+	private CartService cartService;
 	
 	public GetCartItemsCommand(CartService cartService) {
 		this.cartService = cartService;
@@ -11,6 +12,6 @@ public class GetCartItemsCommand implements Command {
 	
 	@Override
 	public void execute() {
-		cartService.getCartItems();
+		PrintToConsole.printMap(cartService.getCartItems());
 	}
 }

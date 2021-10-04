@@ -6,17 +6,21 @@ import com.epam.preprod.sirenko.entity.Product;
 import java.util.Map;
 
 public class CartService {
-	CartDAO cartDAO;
+	private CartDAO cartDAO;
 	
 	public CartService(CartDAO cartDAO) {
 		this.cartDAO = cartDAO;
 	}
 	
-	public void addProductToCart() {
-		cartDAO.addToCart();
+	public void addProductToCart(Product product) {
+		cartDAO.addToCart(product);
 	}
 	
 	public Map<Product, Integer> getCartItems() {
 		return cartDAO.getCartItems();
+	}
+	
+	public void clearCart() {
+		cartDAO.clearCart();
 	}
 }
