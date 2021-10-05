@@ -1,6 +1,7 @@
 package com.epam.preprod.sirenko.containers;
 
 import com.epam.preprod.sirenko.command.*;
+import com.epam.preprod.sirenko.command.impl.*;
 import com.epam.preprod.sirenko.dao.CartDAO;
 import com.epam.preprod.sirenko.dao.OrderDAO;
 import com.epam.preprod.sirenko.dao.ProductDAO;
@@ -9,6 +10,7 @@ import com.epam.preprod.sirenko.services.OrderService;
 import com.epam.preprod.sirenko.services.ProductService;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -43,6 +45,8 @@ public class CommandContainer {
 		OrderService orderService = new OrderService(orderDAO);
 		MakeOrderCommand makeOrderCommand = new MakeOrderCommand(orderService, cartService);
 		commands.put("order", makeOrderCommand);
+		GetFiveProductsLastAddedToCartCommand getFiveProductsLastAddedToCartCommand = new GetFiveProductsLastAddedToCartCommand(cartService);
+		commands.put("last5", getFiveProductsLastAddedToCartCommand);
 	}
 	
 	public Command getCommand(String commandName) {

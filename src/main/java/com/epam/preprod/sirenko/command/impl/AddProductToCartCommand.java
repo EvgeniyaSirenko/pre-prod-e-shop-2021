@@ -1,7 +1,8 @@
-package com.epam.preprod.sirenko.command;
+package com.epam.preprod.sirenko.command.impl;
 
 import com.epam.preprod.sirenko.ConsoleReader;
 import com.epam.preprod.sirenko.PrintToConsole;
+import com.epam.preprod.sirenko.command.Command;
 import com.epam.preprod.sirenko.entity.Product;
 import com.epam.preprod.sirenko.services.CartService;
 import com.epam.preprod.sirenko.services.ProductService;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class AddProductToCartCommand implements Command {
 	private CartService cartService;
-	public ProductService productService;
+	private ProductService productService;
 	
 	public AddProductToCartCommand(CartService cartService, ProductService productService) {
 		this.cartService = cartService;
@@ -27,7 +28,11 @@ public class AddProductToCartCommand implements Command {
 		PrintToConsole.printString("Print product number and press Enter to add product to cart");
 		try {
 			String productNumber = ConsoleReader.readFromConsole();
-			Product productToAdd = productService.getProductByIndex(Integer.parseInt(productNumber)-1);
+			if (Integer.parseInt(productNumber) > products.size() || Integer.parseInt(productNumber) < 1) {
+				PrintToConsole.printString("No such product number");
+				return;
+			}
+			Product productToAdd = productService.getAllProducts().get(Integer.parseInt(productNumber)-1);
 			cartService.addProductToCart(productToAdd);
 		} catch (IOException e) {
 			e.printStackTrace();

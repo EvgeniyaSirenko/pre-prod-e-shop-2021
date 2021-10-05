@@ -1,6 +1,7 @@
-package com.epam.preprod.sirenko.command;
+package com.epam.preprod.sirenko.command.impl;
 
 import com.epam.preprod.sirenko.PrintToConsole;
+import com.epam.preprod.sirenko.command.Command;
 
 public class NoCommandCommand implements Command {
 	

@@ -2,18 +2,27 @@ package com.epam.preprod.sirenko.dao;
 
 import com.epam.preprod.sirenko.entity.Product;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class CartDAO {
-	private Map<Product, Integer> cart = new LinkedHashMap<>();
+public class CartDAO extends LinkedHashMap<Product, Integer> {
+	private static final int MAX_ENTRIES = 5;
+	private Map<Product, Integer> cart = new HashMap<>();
+	private Map<Product, Integer> cartCopy = new LinkedHashMap<>() {
+		@Override
+		protected boolean removeEldestEntry(Map.Entry<Product, Integer> eldest) {
+			return cartCopy.size() > MAX_ENTRIES;
+		}
+	};
 	
 	public void addToCart(Product product) {
-		if (cart.get(product) == null) {
-			cart.put(product, 1);
-			return;
+		Integer quantity = cart.get(product);
+		if (quantity == null) {
+			quantity = 0;
 		}
-		cart.put(product, cart.get(product) + 1);
+		cart.put(product, quantity + 1);
+		cartCopy.put(product, quantity + 1);
 	}
 	
 	public Map<Product, Integer> getCartItems() {
@@ -21,6 +30,10 @@ public class CartDAO {
 	}
 	
 	public void clearCart() {
-		cart = new LinkedHashMap<>();
+		cart = new HashMap<>();
+	}
+
+	public Map<Product, Integer> getFiveLastAddedProductsToCart() {
+		return cartCopy;
 	}
 }

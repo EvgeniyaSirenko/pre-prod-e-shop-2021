@@ -15,12 +15,4 @@ public class ProductService {
 	public List<Product> getAllProducts() {
 		return productDAO.getAllProductsList();
 	}
-	
-	public Product getProductByName(String name) {
-		return productDAO.getProductByName(name);
-	}
-	
-	public Product getProductByIndex(Integer index) {
-		return productDAO.getProductByIndex(index);
-	}
 }

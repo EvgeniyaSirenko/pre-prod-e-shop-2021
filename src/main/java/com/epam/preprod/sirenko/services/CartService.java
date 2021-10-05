@@ -23,4 +23,8 @@ public class CartService {
 	public void clearCart() {
 		cartDAO.clearCart();
 	}
+	
+	public Map<Product, Integer> getFiveLastAddedProductsToCart() {
+		return cartDAO.getFiveLastAddedProductsToCart();
+	}
 }

@@ -1,12 +1,13 @@
-package com.epam.preprod.sirenko.command;
+package com.epam.preprod.sirenko.command.impl;
 
 import com.epam.preprod.sirenko.PrintToConsole;
+import com.epam.preprod.sirenko.command.Command;
 import com.epam.preprod.sirenko.services.CartService;
 import com.epam.preprod.sirenko.services.OrderService;
 
 public class MakeOrderCommand implements Command {
-	OrderService orderService;
-	CartService cartService;
+	private OrderService orderService;
+	private CartService cartService;
 	
 	public MakeOrderCommand(OrderService orderService, CartService cartService) {
 		this.orderService = orderService;
@@ -18,6 +19,6 @@ public class MakeOrderCommand implements Command {
 		orderService.makeOrder(cartService.getCartItems());
 		cartService.clearCart();
 		PrintToConsole.printString("Total amount of the order is: ");
-		PrintToConsole.printBigDecimal(orderService.countAmount());
+		PrintToConsole.printBigDecimal(orderService.getOrderTotalPrice());
 	}
 }

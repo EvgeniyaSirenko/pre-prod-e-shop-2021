@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 public class OrderService {
-	OrderDAO orderDAO;
+	private OrderDAO orderDAO;
 	
 	public OrderService(OrderDAO orderDAO) {
 		this.orderDAO = orderDAO;
@@ -17,8 +17,8 @@ public class OrderService {
 		orderDAO.makeOrder(cart);
 	}
 	
-	public BigDecimal countAmount() {
-		return orderDAO.countAmount();
+	public BigDecimal getOrderTotalPrice() {
+		return orderDAO.getOrderTotalPrice();
 	}
 	
 }
