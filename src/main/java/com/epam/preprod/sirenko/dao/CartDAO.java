@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class CartDAO extends LinkedHashMap<Product, Integer> {
+public class CartDAO {
 	private static final int MAX_ENTRIES = 5;
 	private Map<Product, Integer> cart = new HashMap<>();
 	private Map<Product, Integer> cartCopy = new LinkedHashMap<>() {
@@ -33,7 +33,7 @@ public class CartDAO extends LinkedHashMap<Product, Integer> {
 		cart = new HashMap<>();
 	}
 
-	public Map<Product, Integer> getFiveLastAddedProductsToCart() {
+	public Map<Product, Integer> getMaxEntriesLastAddedToCart() {
 		return cartCopy;
 	}
 }

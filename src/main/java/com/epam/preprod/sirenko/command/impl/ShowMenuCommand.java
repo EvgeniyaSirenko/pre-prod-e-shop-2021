@@ -14,6 +14,8 @@ public class ShowMenuCommand implements Command {
 		PrintToConsole.printString("Print cart and press Enter to see your cart");
 		PrintToConsole.printString("Print order and press Enter to make an order");
 		PrintToConsole.printString("Print last5 and press Enter to see 5 last added to cart products");
+		PrintToConsole.printString("Print ordersList and press Enter to see orders of current period");
+		PrintToConsole.printString("Print orderDate and press Enter to find order closest to date");
 		PrintToConsole.printString("--------------------------------------------------");
 	}
 }

@@ -3,7 +3,7 @@ package com.epam.preprod.sirenko.services;
 import com.epam.preprod.sirenko.dao.OrderDAO;
 import com.epam.preprod.sirenko.entity.Product;
 
-import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Map;
 
 public class OrderService {
@@ -13,12 +13,7 @@ public class OrderService {
 		this.orderDAO = orderDAO;
 	}
 	
-	public void makeOrder(Map<Product, Integer> cart) {
-		orderDAO.makeOrder(cart);
+	public void makeOrder(Timestamp creationTime, Map<Product, Integer> cart) {
+		orderDAO.makeOrder(creationTime, cart);
 	}
-	
-	public BigDecimal getOrderTotalPrice() {
-		return orderDAO.getOrderTotalPrice();
-	}
-	
 }
