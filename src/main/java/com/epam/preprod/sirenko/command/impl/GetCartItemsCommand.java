@@ -13,6 +13,6 @@ public class GetCartItemsCommand implements Command {
 	
 	@Override
 	public void execute() {
-		PrintToConsole.printMap(cartService.getCartItems());
+		PrintToConsole.printCartMap(cartService.getCartItems());
 	}
 }

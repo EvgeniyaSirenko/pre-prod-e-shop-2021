@@ -13,6 +13,6 @@ public class GetFiveProductsLastAddedToCartCommand implements Command {
 	
 	@Override
 	public void execute() {
-		PrintToConsole.printMap(cartService.getMaxEntriesLastAddedToCart());
+		PrintToConsole.printCartMap(cartService.getMaxEntriesLastAddedToCart());
 	}
 }

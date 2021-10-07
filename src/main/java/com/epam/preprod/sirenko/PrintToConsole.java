@@ -3,6 +3,7 @@ package com.epam.preprod.sirenko;
 import com.epam.preprod.sirenko.entity.Product;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +25,12 @@ public class PrintToConsole {
 			System.out.println(o);
 		}
 	}
-	public static void printMap(Map<Product, Integer> map) {
+	public static void printCartMap(Map<Product, Integer> map) {
 		System.out.println(map.entrySet());
 	}
+	
+	public static void printOrderMap(Map<Timestamp, Map<Product, Integer>> map) {
+		System.out.println(map.entrySet());
+	}
+	
 }

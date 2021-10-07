@@ -16,4 +16,12 @@ public class OrderService {
 	public void makeOrder(Timestamp creationTime, Map<Product, Integer> cart) {
 		orderDAO.makeOrder(creationTime, cart);
 	}
+	
+	public Map<Timestamp, Map<Product, Integer>> getOrdersListOfCurrentPeriod(Timestamp dateFrom, Timestamp dateTo) {
+		return orderDAO.getOrdersListOfCurrentPeriod(dateFrom, dateTo);
+	}
+	
+	public Map<Product, Integer> getOrdersClosestToDate(Timestamp date) {
+		return orderDAO.getOrdersClosestToDate(date);
+	}
 }

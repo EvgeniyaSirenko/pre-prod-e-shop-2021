@@ -46,9 +46,10 @@ public class CommandContainer {
 		commands.put("order", makeOrderCommand);
 		GetFiveProductsLastAddedToCartCommand getFiveProductsLastAddedToCartCommand = new GetFiveProductsLastAddedToCartCommand(cartService);
 		commands.put("last5", getFiveProductsLastAddedToCartCommand);
-		GetOrdersListOfCurrentPeriod getOrdersListOfCurrentPeriod = new GetOrdersListOfCurrentPeriod(orderService);
-		commands.put("ordersList", getOrdersListOfCurrentPeriod);
-		//orderDate
+		GetOrdersListOfCurrentPeriodCommand getOrdersListOfCurrentPeriodCommand = new GetOrdersListOfCurrentPeriodCommand(orderService);
+		commands.put("ordersList", getOrdersListOfCurrentPeriodCommand);
+		GetOrderClosestToGivenDateCommand getOrderClosestToGivenDateCommand = new GetOrderClosestToGivenDateCommand(orderService);
+		commands.put("orderDate", getOrderClosestToGivenDateCommand);
 	}
 	
 	public Command getCommand(String commandName) {
