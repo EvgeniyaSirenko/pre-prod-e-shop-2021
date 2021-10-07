@@ -44,7 +44,7 @@ public class CommandContainer {
 		OrderService orderService = new OrderService(orderDAO);
 		MakeOrderCommand makeOrderCommand = new MakeOrderCommand(orderService, cartService);
 		commands.put("order", makeOrderCommand);
-		GetFiveProductsLastAddedToCartCommand getFiveProductsLastAddedToCartCommand = new GetFiveProductsLastAddedToCartCommand(cartService);
+		GetProductsLastAddedToCartCommand getFiveProductsLastAddedToCartCommand = new GetProductsLastAddedToCartCommand(cartService);
 		commands.put("last5", getFiveProductsLastAddedToCartCommand);
 		GetOrdersListOfCurrentPeriodCommand getOrdersListOfCurrentPeriodCommand = new GetOrdersListOfCurrentPeriodCommand(orderService);
 		commands.put("ordersList", getOrdersListOfCurrentPeriodCommand);

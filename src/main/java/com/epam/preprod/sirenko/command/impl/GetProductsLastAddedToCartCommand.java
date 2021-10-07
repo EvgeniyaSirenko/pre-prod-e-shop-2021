@@ -4,15 +4,18 @@ import com.epam.preprod.sirenko.PrintToConsole;
 import com.epam.preprod.sirenko.command.Command;
 import com.epam.preprod.sirenko.services.CartService;
 
-public class GetFiveProductsLastAddedToCartCommand implements Command {
+/**
+ * This class calls cartService to print to console products last added to cart
+ */
+public class GetProductsLastAddedToCartCommand implements Command {
 	private CartService cartService;
 	
-	public GetFiveProductsLastAddedToCartCommand(CartService cartService) {
+	public GetProductsLastAddedToCartCommand(CartService cartService) {
 		this.cartService = cartService;
 	}
 	
 	@Override
 	public void execute() {
-		PrintToConsole.printCartMap(cartService.getMaxEntriesLastAddedToCart());
+		PrintToConsole.printCartMap(cartService.getProductsLastAddedToCart());
 	}
 }

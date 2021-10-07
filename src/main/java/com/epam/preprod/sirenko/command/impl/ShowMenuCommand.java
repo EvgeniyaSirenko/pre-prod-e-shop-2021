@@ -3,6 +3,9 @@ package com.epam.preprod.sirenko.command.impl;
 import com.epam.preprod.sirenko.PrintToConsole;
 import com.epam.preprod.sirenko.command.Command;
 
+/**
+ * This class prints to console program menu
+ */
 public class ShowMenuCommand implements Command {
 	
 	@Override

@@ -10,6 +10,10 @@ import com.epam.preprod.sirenko.services.ProductService;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * This class prints to console all existing products, waits for input products number
+ * to call productService for adding given product to cart
+ */
 public class AddProductToCartCommand implements Command {
 	private CartService cartService;
 	private ProductService productService;

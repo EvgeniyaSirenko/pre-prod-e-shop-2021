@@ -4,6 +4,9 @@ import com.epam.preprod.sirenko.PrintToConsole;
 import com.epam.preprod.sirenko.command.Command;
 import com.epam.preprod.sirenko.services.CartService;
 
+/**
+ * This class calls productService to get cart items
+ */
 public class GetCartItemsCommand implements Command {
 	private CartService cartService;
 	

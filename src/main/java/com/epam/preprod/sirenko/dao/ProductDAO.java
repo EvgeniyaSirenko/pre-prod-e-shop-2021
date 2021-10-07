@@ -11,6 +11,9 @@ import com.epam.preprod.sirenko.enums.Size;
 import java.math.BigDecimal;
 import java.util.*;
 
+/**
+ * This class creates arrayList of setup products
+ */
 public class ProductDAO {
 	
 	private ArrayList<Product> allProducts = new ArrayList<>();

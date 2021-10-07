@@ -25,8 +25,8 @@ public class CartService {
 		cartDAO.clearCart();
 	}
 	
-	public Map<Product, Integer> getMaxEntriesLastAddedToCart() {
-		return cartDAO.getMaxEntriesLastAddedToCart();
+	public Map<Product, Integer> getProductsLastAddedToCart() {
+		return cartDAO.getEntriesLastAddedToCart();
 	}
 	
 	public BigDecimal getOrderTotalPrice() {

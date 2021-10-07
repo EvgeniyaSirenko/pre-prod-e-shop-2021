@@ -6,13 +6,16 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * This class holds hashMap of orders and it's copy in cacheLRU
+ */
 public class CartDAO {
 	private static final int MAX_ENTRIES = 5;
 	private Map<Product, Integer> cart = new HashMap<>();
-	private Map<Product, Integer> cartCopy = new LinkedHashMap<>() {
+	private Map<Product, Integer> cacheLRU = new LinkedHashMap<>() {
 		@Override
 		protected boolean removeEldestEntry(Map.Entry<Product, Integer> eldest) {
-			return cartCopy.size() > MAX_ENTRIES;
+			return cacheLRU.size() > MAX_ENTRIES;
 		}
 	};
 	
@@ -22,7 +25,7 @@ public class CartDAO {
 			quantity = 0;
 		}
 		cart.put(product, quantity + 1);
-		cartCopy.put(product, quantity + 1);
+		cacheLRU.put(product, quantity + 1);
 	}
 	
 	public Map<Product, Integer> getCartItems() {
@@ -33,7 +36,7 @@ public class CartDAO {
 		cart = new HashMap<>();
 	}
 
-	public Map<Product, Integer> getMaxEntriesLastAddedToCart() {
-		return cartCopy;
+	public Map<Product, Integer> getEntriesLastAddedToCart() {
+		return cacheLRU;
 	}
 }
