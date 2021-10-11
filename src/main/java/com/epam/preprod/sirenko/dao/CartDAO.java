@@ -20,6 +20,10 @@ public class CartDAO {
 	};
 	
 	public void addToCart(Product product) {
+		//TODO not sure if I need this check and test of it
+		if (product == null) {
+			throw new IllegalArgumentException();
+		}
 		Integer quantity = cart.get(product);
 		if (quantity == null) {
 			quantity = 0;
