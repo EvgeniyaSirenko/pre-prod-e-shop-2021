@@ -17,7 +17,6 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CartDAOTest {
-	private static Map<Product, Integer> cart;
 	private static Food food;
 	private static Food otherFood;
 	private static Clothing clothing;
@@ -27,7 +26,6 @@ class CartDAOTest {
 	
 	@BeforeAll
 	static void setData() {
-		cart = new HashMap<>();
 		food = new Food("food", BigDecimal.valueOf(10), 20);
 		otherFood = new Food("otherFood", BigDecimal.valueOf(40), 30);
 		clothing = new Clothing("clothing", BigDecimal.valueOf(20), Size.S, Season.WINTER);
