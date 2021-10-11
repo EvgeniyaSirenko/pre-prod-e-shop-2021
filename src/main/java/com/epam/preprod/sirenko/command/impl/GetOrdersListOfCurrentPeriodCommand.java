@@ -24,13 +24,7 @@ public class GetOrdersListOfCurrentPeriodCommand implements Command {
 	public void execute() {
 		try {
 			Timestamp dateFrom = getTimestamp("Print from what date to search in format 2021-09-23 13:45:00 and press Enter");
-			if (dateFrom == null) {
-				return;
-			}
 			Timestamp dateTo = getTimestamp("Print to what date to search in format 2021-09-23 13:45:00 and press Enter");
-			if (dateTo == null) {
-				return;
-			}
 			if (dateFrom.compareTo(dateTo) >= 0) {
 				PrintToConsole.printString("To wat date need to be after from what date");
 				return;
@@ -43,12 +37,7 @@ public class GetOrdersListOfCurrentPeriodCommand implements Command {
 	
 	private Timestamp getTimestamp(String message) throws IOException {
 		PrintToConsole.printString(message);
-		String dateToString = ConsoleReader.readFromConsole();
-		Timestamp dateTo = ConverterToTimestamp.convertStringToTimestamp(dateToString);
-		if (dateToString == null || dateTo == null) {
-			PrintToConsole.printString("Print date in format 2021-09-23 13:45:00 and press Enter");
-			return null;
-		}
-		return dateTo;
+		String dateString = ConsoleReader.readFromConsole();
+		return ConverterToTimestamp.convertStringToTimestamp(dateString);
 	}
 }

@@ -30,10 +30,6 @@ public class MakeOrderCommand implements Command {
 		try {
 			String date = ConsoleReader.readFromConsole();
 			Timestamp creationDate = ConverterToTimestamp.convertStringToTimestamp(date);
-			if (date == null || creationDate == null) {
-				PrintToConsole.printString("Print date in format 2021-09-23 13:45:00 and press Enter");
-				return;
-			}
 			orderService.makeOrder(creationDate, cartService.getCartItems());
 		} catch (IOException e) {
 			e.printStackTrace();

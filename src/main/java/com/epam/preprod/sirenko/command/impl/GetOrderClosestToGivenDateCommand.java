@@ -26,10 +26,6 @@ public class GetOrderClosestToGivenDateCommand implements Command {
 		try {
 			String dateString = ConsoleReader.readFromConsole();
 			Timestamp date = ConverterToTimestamp.convertStringToTimestamp(dateString);
-			if (date == null || dateString == null) {
-				PrintToConsole.printString("Print date in format 2021-09-23 13:45:00 and press Enter");
-				return;
-			}
 			if (orderService.getOrdersClosestToDate(date) == null) {
 				PrintToConsole.printString("No orders found");
 			} else {
