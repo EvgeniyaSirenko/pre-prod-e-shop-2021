@@ -8,6 +8,7 @@ import com.epam.preprod.sirenko.enums.PetGroup;
 import com.epam.preprod.sirenko.enums.Season;
 import com.epam.preprod.sirenko.enums.Size;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -17,15 +18,17 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CartDAOTest {
-	private static Food food;
-	private static Food otherFood;
-	private static Clothing clothing;
-	private static Clothing otherClothing;
-	private static DryFood dryFood;
-	private static DryFood otherDryFood;
+	private CartDAO cartDAO;
+	private Food food;
+	private Food otherFood;
+	private Clothing clothing;
+	private Clothing otherClothing;
+	private DryFood dryFood;
+	private DryFood otherDryFood;
 	
-	@BeforeAll
-	static void setData() {
+	@BeforeEach
+	void setData() {
+		cartDAO = new CartDAO();
 		food = new Food("food", BigDecimal.valueOf(10), 20);
 		otherFood = new Food("otherFood", BigDecimal.valueOf(40), 30);
 		clothing = new Clothing("clothing", BigDecimal.valueOf(20), Size.S, Season.WINTER);
@@ -37,8 +40,6 @@ class CartDAOTest {
 	
 	@Test
 	void testAddToCartShouldAddProductToCart() {
-		CartDAO cartDAO = new CartDAO();
-		
 		cartDAO.addToCart(food);
 		
 		assertEquals(1, cartDAO.getCartItems().size());
@@ -46,21 +47,10 @@ class CartDAOTest {
 	}
 	
 	@Test
-	void testAddToCartShouldThrowExceptionIfProductIsNull() {
-		CartDAO cartDAO = new CartDAO();
-		
-		assertThrows(IllegalArgumentException.class, () -> {
-			cartDAO.addToCart(null);
-		});
-	}
-	
-	@Test
 	void testGetCartItemsShouldGetMapOfItems() {
-		CartDAO cartDAO = new CartDAO();
 		cartDAO.addToCart(food);
 		cartDAO.addToCart(otherFood);
 		cartDAO.addToCart(food);
-		
 		
 		assertEquals(2, cartDAO.getCartItems().size());
 		assertEquals(2, cartDAO.getCartItems().get(food));
@@ -69,7 +59,6 @@ class CartDAOTest {
 	
 	@Test
 	void testClearCartShouldClearCart() {
-		CartDAO cartDAO = new CartDAO();
 		cartDAO.addToCart(food);
 		
 		cartDAO.clearCart();
@@ -78,15 +67,13 @@ class CartDAOTest {
 	}
 	
 	@Test
-	void getEntriesLastAddedToCart() {
-		CartDAO cartDAO = new CartDAO();
+	void testGetAllProductsListShouldGetAllProductsList() {
 		cartDAO.addToCart(food);
 		cartDAO.addToCart(otherFood);
 		cartDAO.addToCart(clothing);
 		cartDAO.addToCart(otherClothing);
 		cartDAO.addToCart(dryFood);
 		cartDAO.addToCart(otherDryFood);
-		
 		
 		Map<Product, Integer> cache = cartDAO.getEntriesLastAddedToCart();
 		

@@ -6,6 +6,9 @@ import com.epam.preprod.sirenko.entity.Product;
 import java.sql.Timestamp;
 import java.util.Map;
 
+/**
+ * This class is for work with OrderDAO
+ */
 public class OrderService {
 	private OrderDAO orderDAO;
 	

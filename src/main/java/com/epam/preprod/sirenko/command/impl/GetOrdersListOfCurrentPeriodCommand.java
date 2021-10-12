@@ -2,7 +2,7 @@ package com.epam.preprod.sirenko.command.impl;
 
 import com.epam.preprod.sirenko.ConsoleReader;
 import com.epam.preprod.sirenko.PrintToConsole;
-import com.epam.preprod.sirenko.util.ConverterToTimestamp;
+import com.epam.preprod.sirenko.util.ConsoleInputTimestampManager;
 import com.epam.preprod.sirenko.command.Command;
 import com.epam.preprod.sirenko.services.OrderService;
 
@@ -26,7 +26,7 @@ public class GetOrdersListOfCurrentPeriodCommand implements Command {
 			Timestamp dateFrom = getTimestamp("Print from what date to search in format 2021-09-23 13:45:00 and press Enter");
 			Timestamp dateTo = getTimestamp("Print to what date to search in format 2021-09-23 13:45:00 and press Enter");
 			if (dateFrom.compareTo(dateTo) >= 0) {
-				PrintToConsole.printString("To wat date need to be after from what date");
+				PrintToConsole.printString("This date has to be later then the first date you printed");
 				return;
 			}
 			PrintToConsole.printOrderMap(orderService.getOrdersListOfCurrentPeriod(dateFrom, dateTo));
@@ -38,6 +38,6 @@ public class GetOrdersListOfCurrentPeriodCommand implements Command {
 	private Timestamp getTimestamp(String message) throws IOException {
 		PrintToConsole.printString(message);
 		String dateString = ConsoleReader.readFromConsole();
-		return ConverterToTimestamp.convertStringToTimestamp(dateString);
+		return ConsoleInputTimestampManager.manageTimestamp(dateString);
 	}
 }

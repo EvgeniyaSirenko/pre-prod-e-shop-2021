@@ -2,7 +2,7 @@ package com.epam.preprod.sirenko.command.impl;
 
 import com.epam.preprod.sirenko.ConsoleReader;
 import com.epam.preprod.sirenko.PrintToConsole;
-import com.epam.preprod.sirenko.util.ConverterToTimestamp;
+import com.epam.preprod.sirenko.util.ConsoleInputTimestampManager;
 import com.epam.preprod.sirenko.command.Command;
 import com.epam.preprod.sirenko.services.OrderService;
 
@@ -25,7 +25,7 @@ public class GetOrderClosestToGivenDateCommand implements Command {
 		PrintToConsole.printString("Print date to search in format 2021-09-23 13:45:00 and press Enter");
 		try {
 			String dateString = ConsoleReader.readFromConsole();
-			Timestamp date = ConverterToTimestamp.convertStringToTimestamp(dateString);
+			Timestamp date = ConsoleInputTimestampManager.manageTimestamp(dateString);
 			if (orderService.getOrdersClosestToDate(date) == null) {
 				PrintToConsole.printString("No orders found");
 			} else {

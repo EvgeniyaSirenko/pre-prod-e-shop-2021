@@ -5,6 +5,9 @@ import com.epam.preprod.sirenko.entity.Product;
 
 import java.util.List;
 
+/**
+ * This class is for work with ProductDAO
+ */
 public class ProductService {
 	private ProductDAO productDAO;
 	

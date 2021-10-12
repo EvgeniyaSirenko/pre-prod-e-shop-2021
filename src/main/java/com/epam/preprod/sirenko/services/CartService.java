@@ -6,6 +6,9 @@ import com.epam.preprod.sirenko.entity.Product;
 import java.math.BigDecimal;
 import java.util.Map;
 
+/**
+ * This class is for work with CartDAO
+ */
 public class CartService {
 	private CartDAO cartDAO;
 	

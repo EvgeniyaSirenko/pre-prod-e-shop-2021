@@ -8,6 +8,7 @@ import com.epam.preprod.sirenko.enums.PetGroup;
 import com.epam.preprod.sirenko.enums.Season;
 import com.epam.preprod.sirenko.enums.Size;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -20,21 +21,22 @@ import java.util.TreeMap;
 import static org.junit.jupiter.api.Assertions.*;
 
 class OrderDAOTest {
-	private static NavigableMap<Timestamp, Map<Product, Integer>> orders = new TreeMap<>();
-	private static Map<Product, Integer> cart1;
-	private static Map<Product, Integer> cart2;
-	private static Map<Product, Integer> cart3;
-	private static Food food;
-	private static Clothing clothing;
-	private static DryFood dryFood;
-	private static Timestamp creationDate;
-	private static Timestamp otherCreationDate;
-	private static Timestamp outOfPeriodCreationDate;
-	private static Timestamp fromDate;
-	private static Timestamp toDate;
+	private OrderDAO orderDAO;
+	private Map<Product, Integer> cart1;
+	private Map<Product, Integer> cart2;
+	private Map<Product, Integer> cart3;
+	private Food food;
+	private Clothing clothing;
+	private DryFood dryFood;
+	private Timestamp creationDate;
+	private Timestamp otherCreationDate;
+	private Timestamp outOfPeriodCreationDate;
+	private Timestamp fromDate;
+	private Timestamp toDate;
 	
-	@BeforeAll
-	static void setupData() {
+	@BeforeEach
+	void setupData() {
+		orderDAO = new OrderDAO();
 		cart1 = new HashMap<>();
 		cart2 = new HashMap<>();
 		cart3 = new HashMap<>();
@@ -53,8 +55,6 @@ class OrderDAOTest {
 	
 	@Test
 	void testMakeOrderShouldAddCartToOrdersMap() {
-		OrderDAO orderDAO = new OrderDAO();
-		
 		orderDAO.makeOrder(creationDate, cart1);
 		
 		assertEquals(1, orderDAO.getOrdersListOfCurrentPeriod(fromDate, toDate).size());
@@ -62,7 +62,6 @@ class OrderDAOTest {
 	
 	@Test
 	void testGetOrdersListOfCurrentPeriodShouldGetOrdersOfCurrentPeriod() {
-		OrderDAO orderDAO = new OrderDAO();
 		orderDAO.makeOrder(creationDate, cart1);
 		orderDAO.makeOrder(otherCreationDate, cart2);
 		orderDAO.makeOrder(outOfPeriodCreationDate, cart3);
@@ -72,7 +71,6 @@ class OrderDAOTest {
 	
 	@Test
 	void testGetOrdersClosestToDateShouldGetOrderWithClosestDate() {
-		OrderDAO orderDAO = new OrderDAO();
 		orderDAO.makeOrder(creationDate, cart1);
 		orderDAO.makeOrder(outOfPeriodCreationDate, cart2);
 	

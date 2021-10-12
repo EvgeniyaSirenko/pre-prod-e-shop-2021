@@ -21,7 +21,7 @@ public class PrintToConsole {
 	}
 	
 	public static void printList(List<Product> list) {
-		for(Object o : list) {
+		for (Object o : list) {
 			System.out.println(o);
 		}
 	}

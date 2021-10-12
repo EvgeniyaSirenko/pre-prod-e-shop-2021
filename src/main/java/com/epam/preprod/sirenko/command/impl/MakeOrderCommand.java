@@ -2,7 +2,7 @@ package com.epam.preprod.sirenko.command.impl;
 
 import com.epam.preprod.sirenko.ConsoleReader;
 import com.epam.preprod.sirenko.PrintToConsole;
-import com.epam.preprod.sirenko.util.ConverterToTimestamp;
+import com.epam.preprod.sirenko.util.ConsoleInputTimestampManager;
 import com.epam.preprod.sirenko.command.Command;
 import com.epam.preprod.sirenko.services.CartService;
 import com.epam.preprod.sirenko.services.OrderService;
@@ -29,7 +29,7 @@ public class MakeOrderCommand implements Command {
 		PrintToConsole.printString("Print date in format 2021-09-23 13:45:00 and press Enter");
 		try {
 			String date = ConsoleReader.readFromConsole();
-			Timestamp creationDate = ConverterToTimestamp.convertStringToTimestamp(date);
+			Timestamp creationDate = ConsoleInputTimestampManager.manageTimestamp(date);
 			orderService.makeOrder(creationDate, cartService.getCartItems());
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -7,7 +7,7 @@ import com.epam.preprod.sirenko.entity.Product;
 import com.epam.preprod.sirenko.enums.PetGroup;
 import com.epam.preprod.sirenko.enums.Season;
 import com.epam.preprod.sirenko.enums.Size;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -16,18 +16,19 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ProductDAOTest {
-	private static ArrayList<Product> allProducts;
-	private static Food food;
-	private static Food otherFood;
-	private static Clothing clothing;
-	private static Clothing otherClothing;
-	private static DryFood dryFood;
-	private static DryFood otherDryFood;
+	private ArrayList<Product> allProducts;
+	private Food food;
+	private Food otherFood;
+	private Clothing clothing;
+	private Clothing otherClothing;
+	private DryFood dryFood;
+	private DryFood otherDryFood;
+	private ProductDAO productDAO;
 	
-	
-	@BeforeAll
-	static void setData() {
+	@BeforeEach
+	void setData() {
 		allProducts = new ArrayList<>();
+		productDAO = new ProductDAO();
 		food = new Food("food", BigDecimal.valueOf(10), 20);
 		otherFood = new Food("otherFood", BigDecimal.valueOf(40), 30);
 		clothing = new Clothing("clothing", BigDecimal.valueOf(20), Size.S, Season.WINTER);
@@ -44,8 +45,6 @@ class ProductDAOTest {
 	
 	@Test
 	void testGetAllProductsListShouldGetAllProductsList() {
-		ProductDAO productDAO = new ProductDAO();
-		
 		productDAO.getAllProductsList();
 		
 		assertEquals(allProducts, productDAO.getAllProductsList());
