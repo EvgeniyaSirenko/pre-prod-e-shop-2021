@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * This class is for converting, should be used after ValidatorOfConsoleInput returns true (for NPE check)
+ * This class is for converting
  */
 public class ConverterToTimestamp {
 	
@@ -16,12 +16,12 @@ public class ConverterToTimestamp {
 	
 	public static Timestamp convertStringToTimestamp(String string) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date date = null;
 		try {
-			date = dateFormat.parse(string);
+			Date date = dateFormat.parse(string);
+			return new Timestamp(date.getTime());
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return new Timestamp(date.getTime());
+		throw new IllegalArgumentException();
 	}
 }

@@ -9,7 +9,7 @@ public class ValidatorOfConsoleInput {
 	private ValidatorOfConsoleInput() {
 	}
 	
-	public static Boolean dateValidator(String input) {
+	public static boolean dateValidator(String input) {
 		return input != null && input.matches(DATE);
 	}
 }

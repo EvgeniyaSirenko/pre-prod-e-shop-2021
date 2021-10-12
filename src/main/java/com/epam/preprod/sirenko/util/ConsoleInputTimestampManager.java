@@ -15,10 +15,12 @@ public class ConsoleInputTimestampManager {
 	}
 	
 	public static Timestamp manageTimestamp(String string) {
-		while (!ValidatorOfConsoleInput.dateValidator(string)) {
+		boolean validate = ValidatorOfConsoleInput.dateValidator(string);
+		while (!validate) {
 			PrintToConsole.printString("Print date in correct format 2021-09-23 13:45:00 and press Enter");
 			try {
 				string = ConsoleReader.readFromConsole();
+				validate = ValidatorOfConsoleInput.dateValidator(string);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
