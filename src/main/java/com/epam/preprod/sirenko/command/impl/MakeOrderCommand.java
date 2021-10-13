@@ -26,6 +26,10 @@ public class MakeOrderCommand implements Command {
 	
 	@Override
 	public void execute() {
+		if (cartService.getCartItems().size() < 1) {
+			PrintToConsole.printString("You need to add products to cart first");
+			return;
+		}
 		PrintToConsole.printString("Print date in format 2021-09-23 13:45:00 and press Enter");
 		try {
 			String date = ConsoleReader.readFromConsole();

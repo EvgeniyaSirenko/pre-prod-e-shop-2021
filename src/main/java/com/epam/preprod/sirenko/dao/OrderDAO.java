@@ -24,6 +24,9 @@ public class OrderDAO {
 	public Map<Product, Integer> getOrdersClosestToDate(Timestamp date) {
 		Timestamp before = orders.floorKey(date);
 		Timestamp after = orders.ceilingKey(date);
+		if (after == null && before == null) {
+			return (Map) orders;
+		}
 		if (after == null) {
 			return orders.get(before);
 		}
