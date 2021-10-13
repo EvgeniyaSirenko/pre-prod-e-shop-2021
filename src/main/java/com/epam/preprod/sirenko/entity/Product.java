@@ -40,7 +40,7 @@ public abstract class Product{
 	@Override
 	public String toString() {
 		return "Products{" +
-				"name='" + name + '\'' +
+				"name='" + name +
 				", price=" + price +
 				'}';
 	}

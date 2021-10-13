@@ -42,7 +42,10 @@ public class DryFood extends Food {
 	@Override
 	public String toString() {
 		return "DryFood{" +
-				"brandName='" + brandName + '\'' +
+				"name=" + super.getName() +
+				", price=" + super.getPrice() +
+				", amount=" + super.getWeight() +
+				", brandName=" + brandName +
 				", petGroup=" + petGroup +
 				'}';
 	}

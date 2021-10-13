@@ -31,7 +31,9 @@ public class Food extends Product {
 	@Override
 	public String toString() {
 		return "Food{" +
-				"amount=" + weight +
+				"name=" + super.getName() +
+				", price=" + super.getPrice() +
+				", amount=" + weight +
 				'}';
 	}
 	

@@ -1,4 +1,4 @@
-package com.epam.preprod.sirenko;
+package com.epam.preprod.sirenko.containers;
 
 import com.epam.preprod.sirenko.entity.DryFood;
 import com.epam.preprod.sirenko.entity.Food;
