@@ -1,7 +1,7 @@
 package com.epam.preprod.sirenko.command.impl;
 
-import com.epam.preprod.sirenko.ConsoleReader;
-import com.epam.preprod.sirenko.PrintToConsole;
+import com.epam.preprod.sirenko.util.ConsoleReader;
+import com.epam.preprod.sirenko.util.PrintToConsole;
 import com.epam.preprod.sirenko.command.Command;
 import com.epam.preprod.sirenko.entity.Product;
 import com.epam.preprod.sirenko.services.CartService;
