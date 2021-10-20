@@ -1,6 +1,5 @@
 package com.epam.preprod.sirenko.wrappers;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,8 +7,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -17,16 +14,27 @@ import java.util.NoSuchElementException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FileReaderWrapperTest {
-	File file;
-	BufferedWriter bufferedWriter;
+	private File file;
+	private File notExistingFile;
+	private BufferedWriter bufferedWriter;
 	
 	@BeforeEach
 	public void setData() throws IOException {
 		file = new File("test.txt");
+		notExistingFile = new File("");
+		bufferedWriter = new BufferedWriter(new FileWriter("test.txt"));
+		setupFile();
+		setupWriter();
+	}
+	
+	private void setupFile() throws IOException {
 		if (!file.exists()) {
 			file.createNewFile();
 		}
-		bufferedWriter = new BufferedWriter(new FileWriter("test.txt"));
+		file.deleteOnExit();
+	}
+	
+	private void setupWriter() throws IOException {
 		bufferedWriter.append("if you want to drink beer");
 		bufferedWriter.append(System.lineSeparator());
 		bufferedWriter.append("I recommend to go to Germany");
@@ -35,24 +43,17 @@ class FileReaderWrapperTest {
 		bufferedWriter.close();
 	}
 	
-	@AfterEach
-	public void deleteData() {
-		//file.delete() or deleteOnExit didn't work
-		Path path = Path.of(file.getPath());
-		Files.delete(path);
-	}
-
 	@Test
 	void testFileReaderWrapperShouldThrowExceptionWhenFileNotExist() {
 		Throwable exception = assertThrows(NoSuchElementException.class, () -> {
-			new FileReaderWrapper("myText.txt");
+			new FileReaderWrapper(notExistingFile);
 		});
 		assertEquals("No such file found", exception.getMessage());
 	}
 	
 	@Test
 	void testIteratorWithForEachShouldPrintAllLinesOfFile() {
-		FileReaderWrapper fileReaderWrapper = new FileReaderWrapper("test.txt");
+		FileReaderWrapper fileReaderWrapper = new FileReaderWrapper(file);
 		List<String> listOfFileLines = new ArrayList<>();
 		
 		for (Object line : fileReaderWrapper) {
@@ -63,5 +64,4 @@ class FileReaderWrapperTest {
 		assertEquals("I recommend to go to Germany", listOfFileLines.get(1));
 		assertEquals("for example to Cologne", listOfFileLines.get(2));
 	}
-
 }

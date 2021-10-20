@@ -10,12 +10,11 @@ import java.util.NoSuchElementException;
  * This class reads text files
  */
 public class FileReaderWrapper implements Iterable {
-	private String fileName;
+	private File file;
 	
-	public FileReaderWrapper(String fileName) {
-		File file = new File(fileName);
+	public FileReaderWrapper(File file) {
 		if (file.exists()) {
-			this.fileName = fileName;
+			this.file = file;
 		} else {
 			throw new NoSuchElementException("No such file found");
 		}
@@ -31,7 +30,7 @@ public class FileReaderWrapper implements Iterable {
 		
 		{
 			try {
-				bufferedReader = new BufferedReader(new FileReader(fileName));
+				bufferedReader = new BufferedReader(new FileReader(file.getName()));
 			} catch (FileNotFoundException e) {
 				PrintToConsole.printString("No such file found");
 			}
@@ -54,7 +53,6 @@ public class FileReaderWrapper implements Iterable {
 			String nextLine;
 			try {
 				nextLine = bufferedReader.readLine();
-				
 			} catch (IOException e) {
 				throw new IllegalArgumentException();
 			}
