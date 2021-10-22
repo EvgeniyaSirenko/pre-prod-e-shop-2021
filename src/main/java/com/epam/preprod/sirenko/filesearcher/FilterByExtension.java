@@ -10,7 +10,12 @@ public class FilterByExtension extends Filter {
 	}
 	
 	@Override
-	public boolean check(File file) {
-		return file.getName().endsWith("." + extension);
+	public boolean check(File file, File toCheckWith) {
+		String fileName = file.getName();
+		String fileNameToCheckWith = toCheckWith.getName();
+		if (fileName.endsWith("." + fileNameToCheckWith)) {
+			return true;
+		}
+		return false;
 	}
 }

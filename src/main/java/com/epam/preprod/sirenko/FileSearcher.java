@@ -18,24 +18,39 @@ public class FileSearcher {
 		this.filter = filter;
 	}
 	
+	//	File dir = new File(""); //NPE
+	//File dir = new File("/Users/evgeniya/Desktop/test");
+	//	File dir = new File(".");
+	
 	public List<File> fileSearch(File file) {
+		File dir = new File("."); //TODO
 		List<File> files = new ArrayList<>();
-		if (file.isDirectory()) {
-			fileSearch(file);
-		}
-	//	if (file.isFile()) {
-			if (filter.check(file)) {
-				files.add(file);
+		File[] filesList = dir.listFiles();
+		for (File f : filesList) {
+			if (f.isDirectory()) {
+				fileSearch(f); //TODO
 			}
-	//	}
-		System.out.println(files);
+			if (f.isFile()) {
+				if (filter.check(f, file)) {
+					files.add(f);
+				}
+			}
+		}
+		if (files.isEmpty()) {
+			System.out.println("File not found");
+		} else {
+			for (File f : files) {
+				System.out.println(f);
+			}
+			System.out.println("---------------------------------");
+			System.out.println("Found files: " + files.size());
+		}
 		return files;
 	}
 	
 	public static void main(String[] args) throws IOException {
 //		ChainBuilder chainBuilder = new ChainBuilder();
 //		chainBuilder.builder();
-		
 		int yesOrNo;
 		FileSearcher fileSearcher;
 		
@@ -49,13 +64,26 @@ public class FileSearcher {
 			Filter filter = new FilterByFileName(input);
 			filter.setNextFilter(new FilterByExtension(input));
 			fileSearcher = new FileSearcher(filter);
-			fileSearcher.fileSearch(fileName); //need file
+			fileSearcher.fileSearch(fileName);
 			
 		}
+		//TODO extract method or smth
 		if (yesOrNo == 0) {
 			PrintToConsole.printString("Search by file extension? Print 0 for no, 1 for yes");
 			yesOrNo = Integer.parseInt(ConsoleReader.readFromConsole());
-			//TODO
+			if (yesOrNo == 1) {
+				PrintToConsole.printString("Print file extension");
+				String input = ConsoleReader.readFromConsole();
+				File fileName = new File(input);
+				Filter filter = new FilterByExtension(input);
+				//filter.setNextFilter(new FilterBySize());
+				fileSearcher = new FileSearcher(filter);
+				fileSearcher.fileSearch(fileName);
+			}
+			if (yesOrNo == 0) {
+				PrintToConsole.printString("Search by file size range? Print 0 for no, 1 for yes");
+				yesOrNo = Integer.parseInt(ConsoleReader.readFromConsole());
+			}
 		}
 	}
 }

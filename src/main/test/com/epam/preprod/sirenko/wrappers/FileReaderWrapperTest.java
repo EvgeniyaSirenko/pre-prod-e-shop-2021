@@ -14,15 +14,14 @@ import java.util.NoSuchElementException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FileReaderWrapperTest {
+	private static final String FILE_NAME = "test.txt";
 	private File file;
-	private File notExistingFile;
 	private BufferedWriter bufferedWriter;
 	
 	@BeforeEach
 	public void setData() throws IOException {
-		file = new File("test.txt");
-		notExistingFile = new File("");
-		bufferedWriter = new BufferedWriter(new FileWriter("test.txt"));
+		file = new File(FILE_NAME);
+		bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME));
 		setupFile();
 		setupWriter();
 	}
@@ -45,6 +44,8 @@ class FileReaderWrapperTest {
 	
 	@Test
 	void testFileReaderWrapperShouldThrowExceptionWhenFileNotExist() {
+		File notExistingFile = new File("");
+		
 		Throwable exception = assertThrows(NoSuchElementException.class, () -> {
 			new FileReaderWrapper(notExistingFile);
 		});

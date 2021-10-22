@@ -10,27 +10,18 @@ public abstract class Filter {
 //	}
 	
 	/**
-	 * Helps build chain
-	 */
-//	public Filter linkWith(Filter nextFilter) {
-//		this.nextFilter = nextFilter;
-//		return nextFilter;
-//	}
-	
-	/**
 	 * Additional checking
 	 */
-	public abstract boolean check(File file);
+	public abstract boolean check(File file, File toCheckWith);
 	
 	/**
 	 * Checks next object or stops on the last
 	 */
 	public void setNextFilter(Filter filter) {
-		if (filter == null) {
+		if (this.nextFilter == null) {
+			this.nextFilter = filter;
 			return;
 		}
-		if (nextFilter != null) {
-			nextFilter.setNextFilter(filter);
-		}
+		nextFilter.setNextFilter(filter);
 	}
 }
