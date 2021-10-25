@@ -4,18 +4,14 @@ import java.io.File;
 
 public abstract class Filter {
 	private Filter nextFilter;
-
-//	protected Filter(Filter nextFilter) {
-//		this.nextFilter = nextFilter;
-//	}
 	
 	/**
-	 * Additional checking
+	 * Additional check of file
 	 */
-	public abstract boolean check(File file, File toCheckWith);
+	public abstract boolean check(File file);
 	
 	/**
-	 * Checks next object or stops on the last
+	 * Checks next filter and sets if it is null
 	 */
 	public void setNextFilter(Filter filter) {
 		if (this.nextFilter == null) {
