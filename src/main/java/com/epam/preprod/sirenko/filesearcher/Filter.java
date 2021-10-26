@@ -10,6 +10,17 @@ public abstract class Filter {
 	 */
 	public abstract boolean check(File file);
 	
+	
+	/**
+	 * Starts check in next Filter
+	 */
+	protected boolean checkNextFilter(File file) {
+		if (nextFilter == null) {
+			return true;
+		}
+		return nextFilter.check(file);
+	}
+	
 	/**
 	 * Checks next filter and sets if it is null
 	 */

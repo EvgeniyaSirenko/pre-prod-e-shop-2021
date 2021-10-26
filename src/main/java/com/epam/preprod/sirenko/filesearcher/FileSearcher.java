@@ -22,13 +22,10 @@ public class FileSearcher {
 				List<File> filesToAdd = fileSearch(f);
 				files.addAll(filesToAdd);
 			}
-			//TODO not sure if its correct without first if statement
-		//	if (f.isFile()) {
-				if (filter.check(f)) {
+			if (f.isFile() && filter.check(f)) {
 					files.add(f);
 				}
-		//	}
-		}
+			}
 		return files;
 	}
 }

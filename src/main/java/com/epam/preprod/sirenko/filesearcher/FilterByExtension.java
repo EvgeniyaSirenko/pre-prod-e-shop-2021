@@ -12,6 +12,10 @@ public class FilterByExtension extends Filter {
 	@Override
 	public boolean check(File file) {
 		String fileName = file.getName();
-		return fileName.endsWith(extension);
+		return fileName.endsWith(extension); //last filter should be like this
+//		if (fileName.endsWith(extension)) {
+//			return true;
+//		}
+//		return checkNextFilter(file);
 	}
 }

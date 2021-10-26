@@ -12,6 +12,9 @@ public class FilterByFileName extends Filter {
 	@Override
 	public boolean check(File file) {
 		String fileName = file.getName();
-		return fileName.startsWith(input);
+		if (fileName.startsWith(input)) {
+			return true;
+		}
+		return checkNextFilter(file);
 	}
 }
