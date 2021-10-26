@@ -13,7 +13,7 @@ public class FilterByFileName extends Filter {
 	public boolean check(File file) {
 		String fileName = file.getName();
 		if (fileName.startsWith(input)) {
-			return true;
+			return false;
 		}
 		return checkNextFilter(file);
 	}

@@ -5,16 +5,22 @@ import java.io.IOException;
 import java.util.List;
 
 public class FileSearcherDemo {
+	//TODO this String could be a local variable, or better to leave it here?
+	private static String startDirectory = "/Users/evgeniya/Desktop";
+	private static FileSearcher fileSearcher;
 	
-	public static void main(String[] args) throws IOException {
-		String startDirectory = "/Users/evgeniya/Desktop";
-	//	String input = "png";
+	private static void init() throws IOException {
 		String input = new ChainBuilder().builder();
 		Filter filter = new FilterByFileName(input);
 		filter.setNextFilter(new FilterByExtension(input));
-		FileSearcher fileSearcher = new FileSearcher(filter);
+		filter.setNextFilter(new FilterBySize(input));
+		filter.setNextFilter(new FilterByEditDate(input));
+		fileSearcher = new FileSearcher(filter);
+	}
+	
+	public static void main(String[] args) throws IOException {
+		init();
 		List<File> list = fileSearcher.fileSearch(new File(startDirectory));
-		
 		if (list.isEmpty()) {
 			System.out.println("File not found");
 		} else {
