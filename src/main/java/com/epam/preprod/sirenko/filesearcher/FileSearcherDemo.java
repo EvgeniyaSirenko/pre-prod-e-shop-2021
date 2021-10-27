@@ -6,7 +6,7 @@ import java.util.List;
 
 public class FileSearcherDemo {
 	//TODO this String could be a local variable, or better to leave it here?
-	private static String startDirectory = "/Users/evgeniya/Desktop";
+	private static String startDirectory = "/Users/evgeniya/Desktop/test";
 	private static FileSearcher fileSearcher;
 	
 	private static void init() throws IOException {

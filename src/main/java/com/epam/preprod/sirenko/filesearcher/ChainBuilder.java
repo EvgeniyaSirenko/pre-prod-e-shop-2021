@@ -12,7 +12,7 @@ public class ChainBuilder {
 	private static final String SECOND_QUESTION = "Search by file extension? Print 0 for no, 1 for yes";
 	private static final String SECOND_QUESTION_PRINT_EXTENSION = "Print file extension";
 	private static final String THIRD_QUESTION = "Search by file size range? Print 0 for no, 1 for yes";
-	private static final String THIRD_QUESTION_PRINT_SIZE = "Print size range in format 1 5";
+	private static final String THIRD_QUESTION_PRINT_SIZE = "Print size range in kilobytes in format 85 230";
 	private static final String FOURTH_QUESTION = "Search by file edit date range? Print 0 for no, 1 for yes";
 	private static final String FOURTH_QUESTION_PRINT_DATE = "Print file edit dates in format 2021-09-10 13:45:00 2021-09-23 13:45:00";
 	
