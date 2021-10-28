@@ -1,5 +1,8 @@
 package com.epam.preprod.sirenko.filesearcher;
 
+import com.epam.preprod.sirenko.filesearcher.filters.Filter;
+import com.epam.preprod.sirenko.filesearcher.services.impl.FileSearchServiceImpl;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -7,20 +10,16 @@ import java.util.List;
 public class FileSearcherDemo {
 	//TODO this String could be a local variable, or better to leave it here?
 	private static String startDirectory = "/Users/evgeniya/Desktop/test";
-	private static FileSearcher fileSearcher;
+	private static FileSearchServiceImpl fileSearchServiceImpl;
 	
 	private static void init() throws IOException {
-		String input = new ChainBuilder().builder();
-		Filter filter = new FilterByFileName(input);
-		filter.setNextFilter(new FilterByExtension(input));
-		filter.setNextFilter(new FilterBySize(input));
-		filter.setNextFilter(new FilterByEditDate(input));
-		fileSearcher = new FileSearcher(filter);
+		Filter filter = new ChainBuilder().builder();
+		fileSearchServiceImpl = new FileSearchServiceImpl(filter);
 	}
 	
 	public static void main(String[] args) throws IOException {
 		init();
-		List<File> list = fileSearcher.fileSearch(new File(startDirectory));
+		List<File> list = fileSearchServiceImpl.fileSearch(new File(startDirectory));
 		if (list.isEmpty()) {
 			System.out.println("File not found");
 		} else {

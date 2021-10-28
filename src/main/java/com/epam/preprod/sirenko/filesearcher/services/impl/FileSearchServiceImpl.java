@@ -1,4 +1,7 @@
-package com.epam.preprod.sirenko.filesearcher;
+package com.epam.preprod.sirenko.filesearcher.services.impl;
+
+import com.epam.preprod.sirenko.filesearcher.filters.Filter;
+import com.epam.preprod.sirenko.filesearcher.services.FileSearchService;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -7,10 +10,10 @@ import java.util.List;
 /**
  * This class returns list of found files
  */
-public class FileSearcher {
+public class FileSearchServiceImpl implements FileSearchService {
 	private Filter filter;
 	
-	public FileSearcher(Filter filter) {
+	public FileSearchServiceImpl(Filter filter) {
 		this.filter = filter;
 	}
 	

@@ -1,4 +1,4 @@
-package com.epam.preprod.sirenko.filesearcher;
+package com.epam.preprod.sirenko.filesearcher.filters;
 
 import java.io.*;
 
@@ -13,7 +13,7 @@ public class FilterByFileName extends Filter {
 	public boolean check(File file) {
 		String fileName = file.getName();
 		if (fileName.startsWith(input)) {
-			return false;
+			return true;
 		}
 		return checkNextFilter(file);
 	}

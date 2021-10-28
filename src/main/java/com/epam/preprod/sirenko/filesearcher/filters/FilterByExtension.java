@@ -1,4 +1,4 @@
-package com.epam.preprod.sirenko.filesearcher;
+package com.epam.preprod.sirenko.filesearcher.filters;
 
 import java.io.File;
 

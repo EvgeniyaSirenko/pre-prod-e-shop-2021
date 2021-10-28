@@ -1,4 +1,4 @@
-package com.epam.preprod.sirenko.filesearcher;
+package com.epam.preprod.sirenko.filesearcher.filters;
 
 import java.io.File;
 
@@ -12,9 +12,6 @@ public class FilterBySize extends Filter {
 	@Override
 	public boolean check(File file) {
 		long fileSize = file.length();
-		if (sizeRange.contains("-")) {
-			return checkNextFilter(file);
-		}
 		String[] sizeRangeArray = sizeRange.split("\\s");
 		long sizeRangeFromInKB = Long.parseLong(sizeRangeArray[0]);
 		long sizeRangeFromInBytes = sizeRangeFromInKB * 1024;

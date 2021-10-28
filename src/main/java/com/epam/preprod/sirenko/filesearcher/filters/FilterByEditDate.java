@@ -1,4 +1,4 @@
-package com.epam.preprod.sirenko.filesearcher;
+package com.epam.preprod.sirenko.filesearcher.filters;
 
 import java.io.File;
 import java.sql.Timestamp;
@@ -17,10 +17,9 @@ public class FilterByEditDate extends Filter {
 		String[] dateRangeArray = dateRange.split("(?<!\\G\\S+)\\s");
 		Timestamp timeFrom = Timestamp.valueOf(dateRangeArray[0]);
 		Timestamp timeTo = Timestamp.valueOf(dateRangeArray[1]);
-		//TODO next block print as many times as files quantity
-		if (timeFrom.after(timeTo)) {
-			System.out.println("You've entered wrong dates - first is not earlier then second");
+		if (fileModified.after(timeFrom) && fileModified.before(timeTo)) {
+			return true;
 		}
-		return fileModified.after(timeFrom) && fileModified.before(timeTo);
+		return checkNextFilter(file);
 	}
 }

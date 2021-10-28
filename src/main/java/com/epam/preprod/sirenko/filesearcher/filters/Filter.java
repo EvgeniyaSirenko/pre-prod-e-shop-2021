@@ -1,4 +1,4 @@
-package com.epam.preprod.sirenko.filesearcher;
+package com.epam.preprod.sirenko.filesearcher.filters;
 
 import java.io.File;
 
@@ -16,7 +16,7 @@ public abstract class Filter {
 	 */
 	protected boolean checkNextFilter(File file) {
 		if (nextFilter == null) {
-			return true;
+			return false;
 		}
 		return nextFilter.check(file);
 	}
@@ -25,7 +25,7 @@ public abstract class Filter {
 	 * Checks next filter and sets if it is null
 	 */
 	public void setNextFilter(Filter filter) {
-		if (this.nextFilter == null) {
+		if (nextFilter == null) {
 			this.nextFilter = filter;
 			return;
 		}
