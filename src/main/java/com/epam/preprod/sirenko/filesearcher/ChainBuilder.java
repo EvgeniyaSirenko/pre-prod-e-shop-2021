@@ -22,6 +22,10 @@ public class ChainBuilder {
 	private static final String FOURTH_QUESTION = "Search by file edit date range? Print 0 for no, 1 for yes";
 	private static final String FOURTH_QUESTION_PRINT_DATE = "Print file edit dates in format 2021-09-10 13:45:00 2021-09-23 13:45:00";
 	private Filter filter;
+//	private String fileName;
+//	private String fileExtension;
+//	private String sizeRange;
+//	private String editDateRange;
 	
 	
 	public Filter builder() throws IOException {

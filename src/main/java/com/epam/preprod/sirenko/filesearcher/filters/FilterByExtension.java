@@ -12,8 +12,8 @@ public class FilterByExtension extends Filter {
 	@Override
 	public boolean check(File file) {
 		String fileName = file.getName();
-		if (fileName.endsWith(extension)) {
-			return true;
+		if (!fileName.endsWith(extension)) {
+			return false;
 		}
 		return checkNextFilter(file);
 	}

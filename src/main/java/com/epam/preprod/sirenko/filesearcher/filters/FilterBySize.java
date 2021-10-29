@@ -17,8 +17,8 @@ public class FilterBySize extends Filter {
 		long sizeRangeFromInBytes = sizeRangeFromInKB * 1024;
 		long sizeRangeToInKB = Long.parseLong(sizeRangeArray[1]);
 		long sizeRangeToInBytes = sizeRangeToInKB * 1024;
-		if (fileSize > sizeRangeFromInBytes && fileSize < sizeRangeToInBytes) {
-			return true;
+		if (!(fileSize > sizeRangeFromInBytes && fileSize < sizeRangeToInBytes)) {
+			return false;
 		}
 		return checkNextFilter(file);
 	}
