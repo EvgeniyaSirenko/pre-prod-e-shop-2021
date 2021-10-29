@@ -16,7 +16,7 @@ public abstract class Filter {
 	 */
 	protected boolean checkNextFilter(File file) {
 		if (nextFilter == null) {
-			return false;
+			return true;
 		}
 		return nextFilter.check(file);
 	}

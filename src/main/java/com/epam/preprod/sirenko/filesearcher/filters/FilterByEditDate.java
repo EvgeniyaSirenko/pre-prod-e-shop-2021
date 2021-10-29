@@ -17,7 +17,7 @@ public class FilterByEditDate extends Filter {
 		String[] dateRangeArray = dateRange.split("(?<!\\G\\S+)\\s");
 		Timestamp timeFrom = Timestamp.valueOf(dateRangeArray[0]);
 		Timestamp timeTo = Timestamp.valueOf(dateRangeArray[1]);
-		if (!fileModified.after(timeFrom) && fileModified.before(timeTo)) {
+		if (!fileModified.after(timeFrom) && fileModified.before(timeTo) || fileModified.before(timeFrom) || fileModified.after(timeTo)) {
 			return false;
 		}
 		return checkNextFilter(file);

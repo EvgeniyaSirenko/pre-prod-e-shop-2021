@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 
 public class ChainBuilder {
+	private static final String INCORRECT_INPUT_NO_FILTERS_CHOSEN = "You haven't choose any filter. Try again.";
 	private static final String INCORRECT_INPUT_ONE_OR_ZERO = "Please print only 0 or 1";
 	private static final String INCORRECT_INPUT_SIZE_RANGE = "You've entered wrong format of size range";
 	private static final String INCORRECT_INPUT_SIZE_RANGE_FIRST_BIGGER = "You've entered wrong size range - first is bigger then second";
@@ -22,11 +23,6 @@ public class ChainBuilder {
 	private static final String FOURTH_QUESTION = "Search by file edit date range? Print 0 for no, 1 for yes";
 	private static final String FOURTH_QUESTION_PRINT_DATE = "Print file edit dates in format 2021-09-10 13:45:00 2021-09-23 13:45:00";
 	private Filter filter;
-//	private String fileName;
-//	private String fileExtension;
-//	private String sizeRange;
-//	private String editDateRange;
-	
 	
 	public Filter builder() throws IOException {
 		return firstInputRequest();
@@ -129,6 +125,10 @@ public class ChainBuilder {
 			return filter;
 		}
 		if (input == 0) {
+			if (filter == null) {
+				PrintToConsole.printString(INCORRECT_INPUT_NO_FILTERS_CHOSEN);
+				return firstInputRequest();
+			}
 			return filter;
 		}
 		PrintToConsole.printString(INCORRECT_INPUT_ONE_OR_ZERO);
