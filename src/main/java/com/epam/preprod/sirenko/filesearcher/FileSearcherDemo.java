@@ -8,8 +8,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class FileSearcherDemo {
-	//TODO this String could be a local variable, or better to leave it here?
-	private static String startDirectory = "/Users/evgeniya/Desktop/test";
+	private static final String START_DIRECTORY = "/Users/evgeniya/Desktop/test";
 	private static FileSearchServiceImpl fileSearchServiceImpl;
 	
 	private static void init() throws IOException {
@@ -19,7 +18,7 @@ public class FileSearcherDemo {
 	
 	public static void main(String[] args) throws IOException {
 		init();
-		List<File> list = fileSearchServiceImpl.fileSearch(new File(startDirectory));
+		List<File> list = fileSearchServiceImpl.fileSearch(new File(START_DIRECTORY));
 		if (list.isEmpty()) {
 			System.out.println("File not found");
 		} else {

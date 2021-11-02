@@ -43,6 +43,7 @@ public class ChainBuilder {
 			return secondInputRequest(filter);
 		}
 		if (input == 0) {
+			
 			return secondInputRequest(filter);
 		}
 		PrintToConsole.printString(INCORRECT_INPUT_ONE_OR_ZERO);
@@ -60,7 +61,6 @@ public class ChainBuilder {
 		if (input == 1) {
 			PrintToConsole.printString(SECOND_QUESTION_PRINT_EXTENSION);
 			String fileExtension = ConsoleReader.readFromConsole();
-//			createAndSetFilterIfNull(filter, fileExtension, new FilterByExtension(fileExtension));
 			if (filter == null) {
 				filter = new FilterByExtension(fileExtension);
 			} else {
@@ -168,14 +168,5 @@ public class ChainBuilder {
 			return false;
 		}
 		return true;
-	}
-	
-	//TODO doesn't work
-	private void createAndSetFilterIfNull(Filter filter, String input, Filter newFilter) {
-		if (filter == null) {
-			this.filter = newFilter;
-		} else {
-			filter.setNextFilter(new FilterByExtension(input));
-		}
 	}
 }
