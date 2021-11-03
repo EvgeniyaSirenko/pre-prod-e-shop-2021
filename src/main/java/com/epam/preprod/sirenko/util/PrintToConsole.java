@@ -1,4 +1,4 @@
-package com.epam.preprod.sirenko;
+package com.epam.preprod.sirenko.util;
 
 import com.epam.preprod.sirenko.entity.Product;
 

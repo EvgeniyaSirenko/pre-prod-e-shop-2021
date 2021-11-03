@@ -1,6 +1,7 @@
 package com.epam.preprod.sirenko;
 
 import com.epam.preprod.sirenko.containers.CommandContainer;
+import com.epam.preprod.sirenko.util.ConsoleReader;
 
 import java.io.*;
 

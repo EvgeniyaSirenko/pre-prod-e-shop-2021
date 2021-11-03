@@ -1,5 +1,6 @@
 package com.epam.preprod.sirenko.containers;
 
+import com.epam.preprod.sirenko.wrappers.TwoListWrapper;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

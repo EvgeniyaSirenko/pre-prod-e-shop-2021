@@ -1,8 +1,5 @@
 package com.epam.preprod.sirenko.util;
 
-import com.epam.preprod.sirenko.ConsoleReader;
-import com.epam.preprod.sirenko.PrintToConsole;
-
 import java.io.IOException;
 import java.sql.Timestamp;
 

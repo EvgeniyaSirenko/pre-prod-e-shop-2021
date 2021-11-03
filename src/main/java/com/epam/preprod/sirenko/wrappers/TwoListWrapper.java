@@ -1,4 +1,4 @@
-package com.epam.preprod.sirenko.containers;
+package com.epam.preprod.sirenko.wrappers;
 
 import java.util.*;
 
