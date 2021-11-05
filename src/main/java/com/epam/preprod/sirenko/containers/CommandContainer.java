@@ -42,7 +42,7 @@ public class CommandContainer {
 		commands.put("add", addProductToCartCommand);
 		GetCartItemsCommand getCartItemsCommand = new GetCartItemsCommand(cartService);
 		commands.put("cart", getCartItemsCommand);
-		ShowMenuCommand showMenuCommand =  new ShowMenuCommand(serializationServiceImpl);
+		ShowMenuCommand showMenuCommand =  new ShowMenuCommand();
 		commands.put("menu", showMenuCommand);
 		MakeOrderCommand makeOrderCommand = new MakeOrderCommand(orderService, cartService);
 		commands.put("order", makeOrderCommand);

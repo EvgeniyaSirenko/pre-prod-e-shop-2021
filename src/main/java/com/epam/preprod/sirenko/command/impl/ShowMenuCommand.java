@@ -1,6 +1,5 @@
 package com.epam.preprod.sirenko.command.impl;
 
-import com.epam.preprod.sirenko.services.impl.SerializationServiceImpl;
 import com.epam.preprod.sirenko.util.PrintToConsole;
 import com.epam.preprod.sirenko.command.Command;
 
@@ -8,15 +7,9 @@ import com.epam.preprod.sirenko.command.Command;
  * This class prints to console program menu
  */
 public class ShowMenuCommand implements Command {
-	private SerializationServiceImpl serializationServiceImpl;
-	
-	public ShowMenuCommand(SerializationServiceImpl serializationServiceImpl) {
-		this.serializationServiceImpl = serializationServiceImpl;
-	}
-	
+
 	@Override
 	public void execute() {
-		serializationServiceImpl.productsListReadFile();
 		PrintToConsole.printString("--------------------------------------------------");
 		PrintToConsole.printString("Print out and press Enter to exit program");
 		PrintToConsole.printString("Print products and press Enter to see all available products");

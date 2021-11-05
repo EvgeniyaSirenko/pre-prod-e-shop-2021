@@ -8,14 +8,14 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class SerializationServiceImpl implements SerializationService, Serializable {
-	private ProductDAO productDAO;
 	private static final String FILE_NAME = "products.dat";
+	private ProductDAO productDAO;
 	
 	public SerializationServiceImpl(ProductDAO productDAO) {
 		this.productDAO = productDAO;
 	}
 	
-	public void productsListWriteFile() {
+	public void serializedProductsListToFile() {
 		ArrayList<Product> allProducts = (ArrayList<Product>) productDAO.getAllProductsList();
 		if (!allProducts.isEmpty()) {
 			try (
@@ -29,19 +29,20 @@ public class SerializationServiceImpl implements SerializationService, Serializa
 		}
 	}
 	
-	public void productsListReadFile() {
-		ArrayList<Product> newProducts = new ArrayList<>();
+	public void serializedProductsListOutOfFile() {
+		ArrayList<Product> newProducts;
 		File file = new File(FILE_NAME);
-		if (file.exists()) {
-			try (
-					FileInputStream fileInputStream = new FileInputStream(FILE_NAME);
-					ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-			) {
-				newProducts = (ArrayList<Product>) objectInputStream.readObject();
-			} catch (IOException | ClassNotFoundException e) {
-				e.printStackTrace();
-			}
+		if (!file.exists()) {
+			return;
+		}
+		try (
+				FileInputStream fileInputStream = new FileInputStream(FILE_NAME);
+				ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+		) {
+			newProducts = (ArrayList<Product>) objectInputStream.readObject();
 			productDAO.setProductsList(newProducts);
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
 		}
 	}
 }

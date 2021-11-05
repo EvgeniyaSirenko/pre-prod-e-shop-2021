@@ -8,6 +8,7 @@ import com.epam.preprod.sirenko.enums.PetGroup;
 import com.epam.preprod.sirenko.enums.Season;
 import com.epam.preprod.sirenko.enums.Size;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * This class creates list of products
  */
-public class ProductsContainer {
+public class ProductsContainer implements Serializable {
 	private List<Product> allProducts = new ArrayList<>();
 	
 	public ProductsContainer() {
