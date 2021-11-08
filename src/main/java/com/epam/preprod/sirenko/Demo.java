@@ -15,7 +15,7 @@ public class Demo {
 	}
 	
 	private void init() {
-		serializationServiceImpl.serializedProductsListOutOfFile();
+		serializationServiceImpl.serializeProductsListFromFile();
 	}
 	
 	public static void main(String[] args) throws IOException {

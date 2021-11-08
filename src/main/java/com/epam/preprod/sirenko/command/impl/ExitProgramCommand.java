@@ -16,7 +16,7 @@ public class ExitProgramCommand implements Command {
 	
 	@Override
 	public void execute() {
-		serializationServiceImpl.serializedProductsListToFile();
+		serializationServiceImpl.serializeProductsListToFile();
 		PrintToConsole.printString("Program is stopped");
 	}
 }

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SerializationServiceImplTest {
+class SerializeProductsByDefaultAndGZipTest {
 	private static final String FILE_NAME = "test.txt";
 	private static final String FILE_GZ = "test.gz";
 	private File file;
@@ -38,10 +38,11 @@ class SerializationServiceImplTest {
 		allProducts.add(clothing);
 		allProducts.add(dryFood);
 		file.deleteOnExit();
+		fileGZip.deleteOnExit();
 	}
 	
 	@Test
-	void serializationServiceImplShouldSaveProductsListToThreadCurrentTimes() {
+	void shouldSaveProductsListToThreadCurrentTimes() {
 		int currentTimes = 3;
 		try (
 				FileOutputStream fileOutputStream = new FileOutputStream(FILE_NAME);
@@ -59,7 +60,7 @@ class SerializationServiceImplTest {
 	}
 	
 	@Test
-	void serializationServiceImplShouldSaveProductsListAsGZip() {
+	void shouldSaveProductsListAsGZip() {
 		int currentTimes = 3;
 		try (
 				FileOutputStream fileOutputStream = new FileOutputStream(FILE_GZ);

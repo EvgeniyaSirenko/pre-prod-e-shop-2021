@@ -15,12 +15,12 @@ public class SerializationServiceImpl implements SerializationService, Serializa
 		this.productDAO = productDAO;
 	}
 	
-	public void serializedProductsListToFile() {
+	public void serializeProductsListToFile() {
 		ArrayList<Product> allProducts = (ArrayList<Product>) productDAO.getAllProductsList();
 		if (!allProducts.isEmpty()) {
 			try (
 					FileOutputStream fileOutputStream = new FileOutputStream(FILE_NAME);
-					ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+					ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)
 			) {
 				objectOutputStream.writeObject(allProducts);
 			} catch (IOException e) {
@@ -29,7 +29,7 @@ public class SerializationServiceImpl implements SerializationService, Serializa
 		}
 	}
 	
-	public void serializedProductsListOutOfFile() {
+	public void serializeProductsListFromFile() {
 		ArrayList<Product> newProducts;
 		File file = new File(FILE_NAME);
 		if (!file.exists()) {
@@ -37,7 +37,7 @@ public class SerializationServiceImpl implements SerializationService, Serializa
 		}
 		try (
 				FileInputStream fileInputStream = new FileInputStream(FILE_NAME);
-				ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+				ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)
 		) {
 			newProducts = (ArrayList<Product>) objectInputStream.readObject();
 			productDAO.setProductsList(newProducts);

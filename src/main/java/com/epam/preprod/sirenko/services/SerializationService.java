@@ -1,7 +1,7 @@
 package com.epam.preprod.sirenko.services;
 
 public interface SerializationService {
-	void serializedProductsListToFile();
+	void serializeProductsListToFile();
 	
-	void serializedProductsListOutOfFile();
+	void serializeProductsListFromFile();
 }
