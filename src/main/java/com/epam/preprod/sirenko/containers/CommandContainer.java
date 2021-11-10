@@ -52,6 +52,8 @@ public class CommandContainer {
 		commands.put("ordersList", getOrdersListOfCurrentPeriodCommand);
 		GetOrderClosestToGivenDateCommand getOrderClosestToGivenDateCommand = new GetOrderClosestToGivenDateCommand(orderService);
 		commands.put("orderDate", getOrderClosestToGivenDateCommand);
+		CreateNewProductCommand createNewProductCommand = new CreateNewProductCommand(productService);
+		commands.put("create", createNewProductCommand);
 	}
 	
 	public Command getCommand(String commandName) {

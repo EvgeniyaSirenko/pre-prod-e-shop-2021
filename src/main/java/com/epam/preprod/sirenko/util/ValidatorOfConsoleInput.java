@@ -12,4 +12,8 @@ public class ValidatorOfConsoleInput {
 	public static boolean dateValidator(String input) {
 		return input != null && input.matches(DATE);
 	}
+	
+	public static boolean checkInputStringIsNumberOneOrZero(String inputString) {
+		return inputString.matches("[01]");
+	}
 }

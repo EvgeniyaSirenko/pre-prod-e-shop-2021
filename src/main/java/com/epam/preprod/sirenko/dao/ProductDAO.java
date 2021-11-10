@@ -19,4 +19,8 @@ public class ProductDAO implements Serializable {
 	public void setProductsList(List<Product> newProducts) {
 		productsContainer.setAllProductsList(newProducts);
 	}
+	
+	public void addProduct(Product newProduct) {
+		productsContainer.addProductToList(newProduct);
+	}
 }

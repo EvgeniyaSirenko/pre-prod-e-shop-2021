@@ -45,4 +45,8 @@ public class ProductsContainer implements Serializable {
 	public void setAllProductsList(List<Product> newProducts) {
 		allProducts = newProducts;
 	}
+	
+	public void addProductToList(Product newProduct) {
+		allProducts.add(newProduct);
+	}
 }

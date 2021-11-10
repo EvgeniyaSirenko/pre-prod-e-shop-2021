@@ -3,6 +3,7 @@ package com.epam.preprod.sirenko.filesearcher;
 import com.epam.preprod.sirenko.filesearcher.filters.*;
 import com.epam.preprod.sirenko.util.ConsoleReader;
 import com.epam.preprod.sirenko.util.PrintToConsole;
+import com.epam.preprod.sirenko.util.ValidatorOfConsoleInput;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -31,7 +32,7 @@ public class ChainBuilder {
 	private Filter firstInputRequest() throws IOException {
 		PrintToConsole.printString(FIRST_QUESTION);
 		String inputString = ConsoleReader.readFromConsole();
-		if (!checkInputStringIsNumber(inputString)) {
+		if (!ValidatorOfConsoleInput.checkInputStringIsNumberOneOrZero(inputString)) {
 			PrintToConsole.printString(INCORRECT_INPUT_ONE_OR_ZERO);
 			return firstInputRequest();
 		}
@@ -53,7 +54,7 @@ public class ChainBuilder {
 	private Filter secondInputRequest(Filter filter) throws IOException {
 		PrintToConsole.printString(SECOND_QUESTION);
 		String inputString = ConsoleReader.readFromConsole();
-		if (!checkInputStringIsNumber(inputString)) {
+		if (!ValidatorOfConsoleInput.checkInputStringIsNumberOneOrZero(inputString)) {
 			PrintToConsole.printString(INCORRECT_INPUT_ONE_OR_ZERO);
 			return secondInputRequest(filter);
 		}
@@ -78,7 +79,7 @@ public class ChainBuilder {
 	private Filter thirdInputRequest(Filter filter) throws IOException {
 		PrintToConsole.printString(THIRD_QUESTION);
 		String inputString = ConsoleReader.readFromConsole();
-		if (!checkInputStringIsNumber(inputString)) {
+		if (!ValidatorOfConsoleInput.checkInputStringIsNumberOneOrZero(inputString)) {
 			PrintToConsole.printString(INCORRECT_INPUT_ONE_OR_ZERO);
 			return thirdInputRequest(filter);
 		}
@@ -106,7 +107,7 @@ public class ChainBuilder {
 	private Filter fourthInputRequest(Filter filter) throws IOException {
 		PrintToConsole.printString(FOURTH_QUESTION);
 		String inputString = ConsoleReader.readFromConsole();
-		if (!checkInputStringIsNumber(inputString)) {
+		if (!ValidatorOfConsoleInput.checkInputStringIsNumberOneOrZero(inputString)) {
 			PrintToConsole.printString(INCORRECT_INPUT_ONE_OR_ZERO);
 			return fourthInputRequest(filter);
 		}
@@ -133,10 +134,6 @@ public class ChainBuilder {
 		}
 		PrintToConsole.printString(INCORRECT_INPUT_ONE_OR_ZERO);
 		return fourthInputRequest(filter);
-	}
-	
-	private boolean checkInputStringIsNumber(String inputString) {
-		return inputString.matches("[0-9]");
 	}
 	
 	private boolean checkInputIsCorrectSizeRange(String inputString) {
