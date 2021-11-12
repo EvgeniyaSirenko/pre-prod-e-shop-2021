@@ -8,7 +8,7 @@ public class FoodFactoryImpl implements CreateProductFactory {
 	@Override
 	public Product createProduct(Strategy strategy) {
 		Food food = new Food();
-		food.setName(strategy.getString());
+		food.setName(strategy.getStringName());
 		food.setPrice(strategy.getBigDecimal());
 		food.setWeight(strategy.getInt());
 		return food;

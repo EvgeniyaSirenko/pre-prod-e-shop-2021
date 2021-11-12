@@ -44,7 +44,7 @@ public class DryFood extends Food {
 		return "DryFood{" +
 				"name=" + super.getName() +
 				", price=" + super.getPrice() +
-				", amount=" + super.getWeight() +
+				", weight=" + super.getWeight() +
 				", brandName=" + brandName +
 				", petGroup=" + petGroup +
 				'}';

@@ -6,12 +6,13 @@ import com.epam.preprod.sirenko.containers.FactoryContainer;
 import com.epam.preprod.sirenko.dao.ProductDAO;
 import com.epam.preprod.sirenko.entity.Product;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * This class is for work with ProductDAO
  */
-public class ProductService {
+public class ProductService implements Serializable {
 	private ProductDAO productDAO;
 	
 	public ProductService(ProductDAO productDAO) {
@@ -26,8 +27,6 @@ public class ProductService {
 		FactoryContainer factoryContainer = new FactoryContainer();
 		CreateProductFactory createProductFactory = factoryContainer.getFactory(factoryName);
 		Product product = createProductFactory.createProduct(strategy);
-		
-		//adding to products list here is correct?
 		productDAO.addProduct(product);
 	}
 }

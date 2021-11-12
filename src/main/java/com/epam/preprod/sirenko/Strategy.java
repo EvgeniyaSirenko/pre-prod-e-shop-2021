@@ -1,10 +1,17 @@
 package com.epam.preprod.sirenko;
 
+import com.epam.preprod.sirenko.enums.PetGroup;
+import com.epam.preprod.sirenko.enums.Season;
+import com.epam.preprod.sirenko.enums.Size;
+
 import java.math.BigDecimal;
 
 public interface Strategy {
-	Enum getEnum(); //TODO
-	String getString();
+	PetGroup getPetGroup();
+	Season getSeason();
+	Size getSize();
+	String getStringName();
+	String getStringBrandName();
 	int getInt();
 	BigDecimal getBigDecimal();
 }
