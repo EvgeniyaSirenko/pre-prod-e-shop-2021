@@ -1,10 +1,9 @@
 package com.epam.preprod.sirenko.services;
 
-import com.epam.preprod.sirenko.CreateProductFactory;
-import com.epam.preprod.sirenko.Strategy;
-import com.epam.preprod.sirenko.containers.FactoryContainer;
+import com.epam.preprod.sirenko.strategy.CreateProductFactory;
 import com.epam.preprod.sirenko.dao.ProductDAO;
 import com.epam.preprod.sirenko.entity.Product;
+import com.epam.preprod.sirenko.util.PrintToConsole;
 
 import java.io.Serializable;
 import java.util.List;
@@ -23,10 +22,9 @@ public class ProductService implements Serializable {
 		return productDAO.getAllProductsList();
 	}
 	
-	public void createNewProduct(Strategy strategy, String factoryName) {
-		FactoryContainer factoryContainer = new FactoryContainer();
-		CreateProductFactory createProductFactory = factoryContainer.getFactory(factoryName);
-		Product product = createProductFactory.createProduct(strategy);
+	public void createNewProduct(CreateProductFactory createProductFactory) {
+		Product product = createProductFactory.createProduct();
 		productDAO.addProduct(product);
+		PrintToConsole.printString("New product successfully created");
 	}
 }

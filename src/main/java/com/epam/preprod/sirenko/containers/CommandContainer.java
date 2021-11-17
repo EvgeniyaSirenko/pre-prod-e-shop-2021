@@ -17,10 +17,11 @@ import java.util.Map;
  * All commands holder
  */
 public class CommandContainer {
-
 	private Map<String, Command> commands = new HashMap<>();
+	private FactoryContainer factoryContainer;
 	
-	public CommandContainer() {
+	public CommandContainer(FactoryContainer factoryContainer) {
+		this.factoryContainer = factoryContainer;
 		init();
 	}
 	
@@ -42,7 +43,7 @@ public class CommandContainer {
 		commands.put("add", addProductToCartCommand);
 		GetCartItemsCommand getCartItemsCommand = new GetCartItemsCommand(cartService);
 		commands.put("cart", getCartItemsCommand);
-		ShowMenuCommand showMenuCommand =  new ShowMenuCommand();
+		ShowMenuCommand showMenuCommand = new ShowMenuCommand();
 		commands.put("menu", showMenuCommand);
 		MakeOrderCommand makeOrderCommand = new MakeOrderCommand(orderService, cartService);
 		commands.put("order", makeOrderCommand);
@@ -52,8 +53,10 @@ public class CommandContainer {
 		commands.put("ordersList", getOrdersListOfCurrentPeriodCommand);
 		GetOrderClosestToGivenDateCommand getOrderClosestToGivenDateCommand = new GetOrderClosestToGivenDateCommand(orderService);
 		commands.put("orderDate", getOrderClosestToGivenDateCommand);
-		CreateNewProductCommand createNewProductCommand = new CreateNewProductCommand(productService);
+		CreateNewProductCommand createNewProductCommand = new CreateNewProductCommand(productService, factoryContainer);
 		commands.put("create", createNewProductCommand);
+		OnProgramStartSerializeProductsListCommand startCommand = new OnProgramStartSerializeProductsListCommand(serializationServiceImpl);
+		commands.put("start", startCommand);
 	}
 	
 	public Command getCommand(String commandName) {

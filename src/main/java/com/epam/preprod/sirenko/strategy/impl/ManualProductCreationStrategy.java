@@ -1,31 +1,33 @@
-package com.epam.preprod.sirenko;
+package com.epam.preprod.sirenko.strategy.impl;
 
 import com.epam.preprod.sirenko.enums.PetGroup;
 import com.epam.preprod.sirenko.enums.Season;
 import com.epam.preprod.sirenko.enums.Size;
+import com.epam.preprod.sirenko.strategy.Strategy;
 import com.epam.preprod.sirenko.util.ConsoleReader;
 import com.epam.preprod.sirenko.util.PrintToConsole;
+import com.epam.preprod.sirenko.util.ValidatorOfConsoleInput;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 
-public class CreatedByInputProductImpl implements Strategy {
+public class ManualProductCreationStrategy implements Strategy {
 	private static final String INPUT_PRICE = "Enter price in format 123.04 and press Enter";
 	private static final String INPUT_WEIGHT = "Enter weight in format 200 and press Enter";
 	private static final String INPUT_STRING_NAME = "Enter name from 5 to 15 letters only and press Enter";
 	private static final String INPUT_STRING_BRAND_NAME = "Enter brand name from 5 to 15 letters only and press Enter";
 	private static final String INPUT_PET_GROUP = "Enter pet group name and press Enter";
+	private static final String INPUT_SEASON = "Enter season and press Enter";
+	private static final String INPUT_SIZE = "Enter size and press Enter";
 	
 	@Override
 	public PetGroup getPetGroup() {
 		PetGroup petGroup = null;
-		for (PetGroup element : PetGroup.values()) {
-			System.out.println(element);
-		}
+		printPetGroupElements();
 		PrintToConsole.printString(INPUT_PET_GROUP);
 		try {
 			String input = ConsoleReader.readFromConsole();
-			if (!checkInputIsCorrectPetGroup(input)) {
+			if (!ValidatorOfConsoleInput.checkInputIsCorrectPetGroup(input)) {
 				getPetGroup();
 			}
 			petGroup = PetGroup.valueOf(input);
@@ -37,12 +39,54 @@ public class CreatedByInputProductImpl implements Strategy {
 	
 	@Override
 	public Season getSeason() {
-		return null;
+		Season season = null;
+		printSeasonElements();
+		PrintToConsole.printString(INPUT_SEASON);
+		try {
+			String input = ConsoleReader.readFromConsole();
+			if (!ValidatorOfConsoleInput.checkInputIsCorrectSeason(input)) {
+				getSeason();
+			}
+			season = Season.valueOf(input);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return season;
 	}
 	
 	@Override
 	public Size getSize() {
-		return null;
+		Size size = null;
+		printSizeElements();
+		PrintToConsole.printString(INPUT_SIZE);
+		try {
+			String input = ConsoleReader.readFromConsole();
+			if (!ValidatorOfConsoleInput.checkInputIsCorrectSize(input)) {
+				getSize();
+			}
+			size = Size.valueOf(input);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return size;
+	}
+	
+	private void printPetGroupElements() {
+		for (PetGroup element : PetGroup.values()) {
+			System.out.println(element);
+		}
+	}
+	
+	private void printSeasonElements() {
+		for (Season element : Season.values()) {
+			System.out.println(element);
+		}
+	}
+	
+	private void printSizeElements() {
+		for (Size element : Size.values()) {
+			System.out.println(element);
+		}
 	}
 	
 	@Override
@@ -63,7 +107,7 @@ public class CreatedByInputProductImpl implements Strategy {
 		PrintToConsole.printString(INPUT_WEIGHT);
 		try {
 			String input = ConsoleReader.readFromConsole();
-			if (!checkInputIsCorrectWeight(input)) {
+			if (!ValidatorOfConsoleInput.checkInputIsCorrectWeight(input)) {
 				getInt();
 			}
 			weight = Integer.parseInt(input);
@@ -79,7 +123,7 @@ public class CreatedByInputProductImpl implements Strategy {
 		PrintToConsole.printString(INPUT_PRICE);
 		try {
 			String input = ConsoleReader.readFromConsole();
-			if (!checkInputIsCorrectPrice(input)) {
+			if (!ValidatorOfConsoleInput.checkInputIsCorrectPrice(input)) {
 				getBigDecimal();
 			}
 			price = new BigDecimal(input);
@@ -89,32 +133,11 @@ public class CreatedByInputProductImpl implements Strategy {
 		return price;
 	}
 	
-	private boolean checkInputIsCorrectPetGroup(String inputString) {
-		for (PetGroup value : PetGroup.values()) {
-			if (value.name().equals(inputString)) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	private boolean checkInputIsCorrectPrice(String inputString) {
-		return inputString.matches("([0-9]+).([0-9]{2})");
-	}
-	
-	private boolean checkInputIsCorrectWeight(String inputString) {
-		return inputString.matches("\\d+");
-	}
-	
-	private boolean checkInputIsCorrectString(String inputString) {
-		return inputString.matches("[a-zA-Z]{5,15}");
-	}
-	
 	private String getString() {
 		String name = null;
 		try {
 			String input = ConsoleReader.readFromConsole();
-			if (!checkInputIsCorrectString(input)) {
+			if (!ValidatorOfConsoleInput.checkInputIsCorrectString(input)) {
 				getStringName();
 			}
 			name = input;

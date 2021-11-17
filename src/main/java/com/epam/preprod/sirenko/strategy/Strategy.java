@@ -1,4 +1,4 @@
-package com.epam.preprod.sirenko;
+package com.epam.preprod.sirenko.strategy;
 
 import com.epam.preprod.sirenko.enums.PetGroup;
 import com.epam.preprod.sirenko.enums.Season;

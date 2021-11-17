@@ -25,9 +25,11 @@ class SerializeProductsByDefaultAndGZipTest {
 	private Food food;
 	private Clothing clothing;
 	private DryFood dryFood;
+	private FileOutputStream fileOutputStream;
+	private ObjectOutputStream objectOutputStream;
 	
 	@BeforeEach
-	void setData() {
+	void setData() throws IOException {
 		file = new File(FILE_NAME);
 		fileGZip = new File(FILE_GZ);
 		allProducts = new ArrayList<>();
@@ -41,38 +43,27 @@ class SerializeProductsByDefaultAndGZipTest {
 		fileGZip.deleteOnExit();
 	}
 	
-	@Test
-	void shouldSaveProductsListToThreadCurrentTimes() {
+	private void setUpObjectOutputStream(File fileName) throws IOException {
+		fileOutputStream = new FileOutputStream(fileName);
+		objectOutputStream = new ObjectOutputStream(fileOutputStream);
 		int currentTimes = 3;
-		try (
-				FileOutputStream fileOutputStream = new FileOutputStream(FILE_NAME);
-				ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-		) {
-			for (int i = 0; i < currentTimes; i++) {
-				objectOutputStream.writeObject(allProducts);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		for (int i = 0; i < currentTimes; i++) {
+			objectOutputStream.writeObject(allProducts);
 		}
+	}
+	
+	@Test
+	void shouldSaveProductsListToThreadCurrentTimes() throws IOException {
+		setUpObjectOutputStream(file);
 		
 		assertTrue(file.exists());
 		assertEquals(1182, file.length());
 	}
 	
 	@Test
-	void shouldSaveProductsListAsGZip() {
-		int currentTimes = 3;
-		try (
-				FileOutputStream fileOutputStream = new FileOutputStream(FILE_GZ);
-				ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-		) {
-			for (int i = 0; i < currentTimes; i++) {
-				objectOutputStream.writeObject(allProducts);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+	void shouldSaveProductsListAsGZip() throws IOException {
+		setUpObjectOutputStream(fileGZip);
+		
 		assertTrue(fileGZip.exists());
 		assertEquals(1182, fileGZip.length());
 	}
