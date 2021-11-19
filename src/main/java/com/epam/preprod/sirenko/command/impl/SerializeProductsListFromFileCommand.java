@@ -6,10 +6,10 @@ import com.epam.preprod.sirenko.services.impl.SerializationServiceImpl;
 /**
  * This class serialises from file products list
  */
-public class OnProgramStartSerializeProductsListCommand implements Command {
+public class SerializeProductsListFromFileCommand implements Command {
 	private SerializationServiceImpl serializationServiceImpl;
 	
-	public OnProgramStartSerializeProductsListCommand(SerializationServiceImpl serializationServiceImpl) {
+	public SerializeProductsListFromFileCommand(SerializationServiceImpl serializationServiceImpl) {
 		this.serializationServiceImpl = serializationServiceImpl;
 	}
 	

@@ -55,7 +55,7 @@ public class CommandContainer {
 		commands.put("orderDate", getOrderClosestToGivenDateCommand);
 		CreateNewProductCommand createNewProductCommand = new CreateNewProductCommand(productService, factoryContainer);
 		commands.put("create", createNewProductCommand);
-		OnProgramStartSerializeProductsListCommand startCommand = new OnProgramStartSerializeProductsListCommand(serializationServiceImpl);
+		SerializeProductsListFromFileCommand startCommand = new SerializeProductsListFromFileCommand(serializationServiceImpl);
 		commands.put("start", startCommand);
 	}
 	
