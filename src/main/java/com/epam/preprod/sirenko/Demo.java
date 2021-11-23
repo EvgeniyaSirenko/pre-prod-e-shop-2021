@@ -20,8 +20,7 @@ public class Demo {
 		PrintToConsole.printString(CHOOSE_STRATEGY);
 		String inputStrategy = ConsoleReader.readFromConsole();
 		if (!ValidatorOfConsoleInput.checkInputStringIsNumberOneOrZero(inputStrategy)) {
-			PrintToConsole.printString(INCORRECT_INPUT_ONE_OR_ZERO);
-			inputStrategy = ConsoleReader.readFromConsole();
+			inputStrategy = getInputStrategyWhenIncorrectInput();
 		}
 		Strategy strategy;
 		if (inputStrategy.matches("[1]")) {
@@ -31,6 +30,13 @@ public class Demo {
 		}
 		FactoryContainer factoryContainer = new FactoryContainer(strategy);
 		commandContainer = new CommandContainer(factoryContainer);
+	}
+	
+	private static String getInputStrategyWhenIncorrectInput() throws IOException {
+		String inputStrategy;
+		PrintToConsole.printString(INCORRECT_INPUT_ONE_OR_ZERO);
+		inputStrategy = ConsoleReader.readFromConsole();
+		return inputStrategy;
 	}
 	
 	public static void main(String[] args) throws IOException {

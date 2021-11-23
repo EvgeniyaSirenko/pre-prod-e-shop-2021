@@ -29,7 +29,7 @@ public class CommandContainer {
 		ProductDAO productDAO = new ProductDAO();
 		CartDAO cartDAO = new CartDAO();
 		OrderDAO orderDAO = new OrderDAO();
-		ProductService productService = new ProductService(productDAO);
+		ProductService productService = new ProductService(productDAO, factoryContainer);
 		CartService cartService = new CartService(cartDAO);
 		OrderService orderService = new OrderService(orderDAO);
 		GetProductsListCommand getProductsListCommand = new GetProductsListCommand(productService);

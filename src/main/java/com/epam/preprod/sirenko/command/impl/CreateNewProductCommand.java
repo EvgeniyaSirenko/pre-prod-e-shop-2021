@@ -1,6 +1,5 @@
 package com.epam.preprod.sirenko.command.impl;
 
-import com.epam.preprod.sirenko.strategy.CreateProductFactory;
 import com.epam.preprod.sirenko.command.Command;
 import com.epam.preprod.sirenko.containers.FactoryContainer;
 import com.epam.preprod.sirenko.services.ProductService;
@@ -30,11 +29,9 @@ public class CreateNewProductCommand implements Command {
 				PrintToConsole.printString(INCORRECT_INPUT_CATEGORY_NAME);
 				return;
 			}
-			CreateProductFactory createProductFactory = factoryContainer.getFactory(inputCategory);
-			productService.createNewProduct(createProductFactory);
+			productService.createNewProduct(inputCategory);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 }

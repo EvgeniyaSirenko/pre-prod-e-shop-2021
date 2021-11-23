@@ -12,14 +12,12 @@ import java.util.Set;
 
 public class FactoryContainer {
 	private Map<String, CreateProductFactory> factories = new HashMap<>();
-	private Strategy strategy;
 	
 	public FactoryContainer(Strategy strategy) {
-		this.strategy = strategy;
-		init();
+		init(strategy);
 	}
 	
-	private void init() {
+	private void init(Strategy strategy) {
 		FoodFactoryImpl foodFactory = new FoodFactoryImpl(strategy);
 		DryFoodFactoryImpl dryFoodFactory = new DryFoodFactoryImpl(strategy);
 		ClothingFactoryImpl clothingFactory = new ClothingFactoryImpl(strategy);
