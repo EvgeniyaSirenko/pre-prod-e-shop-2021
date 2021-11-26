@@ -71,24 +71,6 @@ public class ManualProductCreationStrategy implements Strategy {
 		return size;
 	}
 	
-	private void printPetGroupElements() {
-		for (PetGroup element : PetGroup.values()) {
-			System.out.println(element);
-		}
-	}
-	
-	private void printSeasonElements() {
-		for (Season element : Season.values()) {
-			System.out.println(element);
-		}
-	}
-	
-	private void printSizeElements() {
-		for (Size element : Size.values()) {
-			System.out.println(element);
-		}
-	}
-	
 	@Override
 	public String getStringName() {
 		PrintToConsole.printString(INPUT_STRING_NAME);
@@ -131,6 +113,24 @@ public class ManualProductCreationStrategy implements Strategy {
 			e.printStackTrace();
 		}
 		return price;
+	}
+	
+	private void printPetGroupElements() {
+		for (PetGroup element : PetGroup.values()) {
+			System.out.println(element);
+		}
+	}
+	
+	private void printSeasonElements() {
+		for (Season element : Season.values()) {
+			System.out.println(element);
+		}
+	}
+	
+	private void printSizeElements() {
+		for (Size element : Size.values()) {
+			System.out.println(element);
+		}
 	}
 	
 	private String getString() {
