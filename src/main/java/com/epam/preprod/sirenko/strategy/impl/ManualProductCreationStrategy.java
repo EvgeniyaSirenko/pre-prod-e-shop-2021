@@ -19,6 +19,8 @@ public class ManualProductCreationStrategy implements Strategy {
 	private static final String INPUT_PET_GROUP = "Enter pet group name and press Enter";
 	private static final String INPUT_SEASON = "Enter season and press Enter";
 	private static final String INPUT_SIZE = "Enter size and press Enter";
+	private ConsoleReader consoleReader = new ConsoleReader();
+	
 	
 	@Override
 	public PetGroup getPetGroup() {
@@ -26,7 +28,7 @@ public class ManualProductCreationStrategy implements Strategy {
 		printPetGroupElements();
 		PrintToConsole.printString(INPUT_PET_GROUP);
 		try {
-			String input = ConsoleReader.readFromConsole();
+			String input = consoleReader.readFromConsole();
 			if (!ValidatorOfConsoleInput.checkInputIsCorrectPetGroup(input)) {
 				getPetGroup();
 			}
@@ -43,7 +45,7 @@ public class ManualProductCreationStrategy implements Strategy {
 		printSeasonElements();
 		PrintToConsole.printString(INPUT_SEASON);
 		try {
-			String input = ConsoleReader.readFromConsole();
+			String input = consoleReader.readFromConsole();
 			if (!ValidatorOfConsoleInput.checkInputIsCorrectSeason(input)) {
 				getSeason();
 			}
@@ -60,7 +62,7 @@ public class ManualProductCreationStrategy implements Strategy {
 		printSizeElements();
 		PrintToConsole.printString(INPUT_SIZE);
 		try {
-			String input = ConsoleReader.readFromConsole();
+			String input = consoleReader.readFromConsole();
 			if (!ValidatorOfConsoleInput.checkInputIsCorrectSize(input)) {
 				getSize();
 			}
@@ -88,7 +90,7 @@ public class ManualProductCreationStrategy implements Strategy {
 		int weight = 0;
 		PrintToConsole.printString(INPUT_WEIGHT);
 		try {
-			String input = ConsoleReader.readFromConsole();
+			String input = consoleReader.readFromConsole();
 			if (!ValidatorOfConsoleInput.checkInputIsCorrectWeight(input)) {
 				getInt();
 			}
@@ -104,7 +106,7 @@ public class ManualProductCreationStrategy implements Strategy {
 		BigDecimal price = null;
 		PrintToConsole.printString(INPUT_PRICE);
 		try {
-			String input = ConsoleReader.readFromConsole();
+			String input = consoleReader.readFromConsole();
 			if (!ValidatorOfConsoleInput.checkInputIsCorrectPrice(input)) {
 				getBigDecimal();
 			}
@@ -115,19 +117,19 @@ public class ManualProductCreationStrategy implements Strategy {
 		return price;
 	}
 	
-	private void printPetGroupElements() {
+	protected void printPetGroupElements() {
 		for (PetGroup element : PetGroup.values()) {
 			System.out.println(element);
 		}
 	}
 	
-	private void printSeasonElements() {
+	protected void printSeasonElements() {
 		for (Season element : Season.values()) {
 			System.out.println(element);
 		}
 	}
 	
-	private void printSizeElements() {
+	protected void printSizeElements() {
 		for (Size element : Size.values()) {
 			System.out.println(element);
 		}
@@ -136,7 +138,7 @@ public class ManualProductCreationStrategy implements Strategy {
 	private String getString() {
 		String name = null;
 		try {
-			String input = ConsoleReader.readFromConsole();
+			String input = consoleReader.readFromConsole();
 			if (!ValidatorOfConsoleInput.checkInputIsCorrectString(input)) {
 				getStringName();
 			}

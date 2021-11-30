@@ -24,7 +24,8 @@ public class CreateNewProductCommand implements Command {
 		PrintToConsole.printSet(factoryContainer.getCategoriesList());
 		PrintToConsole.printString(CHOOSE_CATEGORY);
 		try {
-			String inputCategory = ConsoleReader.readFromConsole();
+			ConsoleReader consoleReader = new ConsoleReader();
+			String inputCategory = consoleReader.readFromConsole();
 			if (!factoryContainer.getCategoriesList().contains(inputCategory)) {
 				PrintToConsole.printString(INCORRECT_INPUT_CATEGORY_NAME);
 				return;

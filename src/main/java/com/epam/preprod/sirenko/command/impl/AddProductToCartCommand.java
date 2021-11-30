@@ -31,7 +31,8 @@ public class AddProductToCartCommand implements Command {
 			}
 		PrintToConsole.printString("Print product number and press Enter to add product to cart");
 		try {
-			String productNumber = ConsoleReader.readFromConsole();
+			ConsoleReader consoleReader = new ConsoleReader();
+			String productNumber = consoleReader.readFromConsole();
 			if (Integer.parseInt(productNumber) > products.size() || Integer.parseInt(productNumber) < 1) {
 				PrintToConsole.printString("No such product number");
 				return;

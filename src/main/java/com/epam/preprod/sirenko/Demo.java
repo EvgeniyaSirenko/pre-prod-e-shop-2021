@@ -15,6 +15,8 @@ public class Demo {
 	private static final String CHOOSE_STRATEGY = "To create product print 1, to autogenerate product print 0";
 	private static final String INCORRECT_INPUT_ONE_OR_ZERO = "Please print only 0 or 1";
 	private static CommandContainer commandContainer;
+	private static ConsoleReader consoleReader = new ConsoleReader();
+	
 	
 	public static void main(String[] args) throws IOException {
 		FactoryContainer factoryContainer = new FactoryContainer(getStrategy());
@@ -23,7 +25,7 @@ public class Demo {
 		commandContainer.getCommand("start").execute();
 		while (true) {
 			commandContainer.getCommand("menu").execute();
-			String commandName = ConsoleReader.readFromConsole();
+			String commandName = consoleReader.readFromConsole();
 			if (commandName.equals("out")) {
 				commandContainer.getCommand("out").execute();
 				return;
@@ -34,7 +36,7 @@ public class Demo {
 	
 	private static Strategy getStrategy() throws IOException {
 		PrintToConsole.printString(CHOOSE_STRATEGY);
-		String inputStrategy = ConsoleReader.readFromConsole();
+		String inputStrategy = consoleReader.readFromConsole();
 		if (!ValidatorOfConsoleInput.checkInputStringIsNumberOneOrZero(inputStrategy)) {
 			inputStrategy = getInputStrategyWhenIncorrectInput();
 		}
@@ -50,7 +52,7 @@ public class Demo {
 	private static String getInputStrategyWhenIncorrectInput() throws IOException {
 		String inputStrategy;
 		PrintToConsole.printString(INCORRECT_INPUT_ONE_OR_ZERO);
-		inputStrategy = ConsoleReader.readFromConsole();
+		inputStrategy = consoleReader.readFromConsole();
 		return inputStrategy;
 	}
 

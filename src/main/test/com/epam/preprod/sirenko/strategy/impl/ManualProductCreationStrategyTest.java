@@ -3,72 +3,92 @@ package com.epam.preprod.sirenko.strategy.impl;
 import com.epam.preprod.sirenko.enums.PetGroup;
 import com.epam.preprod.sirenko.enums.Season;
 import com.epam.preprod.sirenko.enums.Size;
+import com.epam.preprod.sirenko.util.ConsoleReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.*;
 
+import java.io.IOException;
+import java.io.PrintStream;
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class ManualProductCreationStrategyTest {
-	private ManualProductCreationStrategy manualProductCreation;
-	private PetGroup petGroup;
+	private PrintStream outMock;
+	
+	@InjectMocks
+	@Spy
+	private ManualProductCreationStrategy manualProductCreationStrategy;
+	
+	@Mock
+	private ConsoleReader consoleReader;
 	
 	@BeforeEach
 	public void SetData() {
-		manualProductCreation = mock(ManualProductCreationStrategy.class);
-		petGroup = PetGroup.CAT;
+		outMock = Mockito.mock(PrintStream.class);
+		System.setOut(outMock);
+		MockitoAnnotations.initMocks(this);
 	}
 	
 	@Test
-	void getPetGroup() {
-		when(manualProductCreation.getPetGroup()).thenReturn(petGroup);
-		
-		assertEquals(PetGroup.CAT, manualProductCreation.getPetGroup());
-		
+	void getPetGroupShouldReturnPetGroup() throws IOException {
+		doNothing().when(manualProductCreationStrategy).printPetGroupElements();
+		doNothing().when(outMock).println();
+		when(consoleReader.readFromConsole()).thenReturn("CAT");
+
+		assertEquals(PetGroup.CAT, manualProductCreationStrategy.getPetGroup());
 	}
 	
 	@Test
-	void getSeason() {
-		when(manualProductCreation.getSeason()).thenReturn(Season.WINTER);
+	void getSeasonShouldReturnSeason() throws IOException {
+		doNothing().when(manualProductCreationStrategy).printSeasonElements();
+		doNothing().when(outMock).println();
+		when(consoleReader.readFromConsole()).thenReturn("WINTER");
 		
-		assertEquals(Season.WINTER, manualProductCreation.getSeason());
+		assertEquals(Season.WINTER, manualProductCreationStrategy.getSeason());
 	}
 	
 	@Test
-	void getSize() {
-		when(manualProductCreation.getSize()).thenReturn(Size.S);
+	void getSizeShouldReturnSize() throws IOException {
+		doNothing().when(manualProductCreationStrategy).printSizeElements();
+		doNothing().when(outMock).println();
+		when(consoleReader.readFromConsole()).thenReturn("S");
 		
-		assertEquals(Size.S, manualProductCreation.getSize());
+		assertEquals(Size.S, manualProductCreationStrategy.getSize());
+	}
+
+	@Test
+	void getStringNameShouldReturnString() throws IOException {
+		doNothing().when(outMock).println();
+		when(consoleReader.readFromConsole()).thenReturn("Name");
+
+		assertEquals("Name", manualProductCreationStrategy.getStringName());
 	}
 	
 	@Test
-	void getStringName() {
-		when(manualProductCreation.getStringName()).thenReturn("Name");
+	void getStringBrandNameShouldReturnString() throws IOException {
+		doNothing().when(outMock).println();
+		when(consoleReader.readFromConsole()).thenReturn("Brand");
 		
-		assertEquals("Name", manualProductCreation.getStringName());
+		assertEquals("Brand", manualProductCreationStrategy.getStringBrandName());
 	}
 	
 	@Test
-	void getStringBrandName() {
-		when(manualProductCreation.getStringBrandName()).thenReturn("Brand");
+	void getIntShouldReturnInteger() throws IOException {
+		doNothing().when(outMock).println();
+		when(consoleReader.readFromConsole()).thenReturn("100");
 		
-		assertEquals("Brand", manualProductCreation.getStringBrandName());
+		assertEquals(100, manualProductCreationStrategy.getInt());
 	}
 	
 	@Test
-	void getInt() {
-		when(manualProductCreation.getInt()).thenReturn(1);
+	void getBigDecimalShouldReturnBigDecimal() throws IOException {
+		doNothing().when(outMock).println();
+		when(consoleReader.readFromConsole()).thenReturn("40.50");
+		BigDecimal result = new BigDecimal("40.50");
 		
-		assertEquals(1, manualProductCreation.getInt());
-	}
-	
-	@Test
-	void getBigDecimal() {
-		when(manualProductCreation.getBigDecimal()).thenReturn(BigDecimal.ONE);
-		
-		assertEquals(BigDecimal.valueOf(1), manualProductCreation.getBigDecimal());
+		assertEquals(result, manualProductCreationStrategy.getBigDecimal());
 	}
 }
