@@ -6,7 +6,10 @@ import com.epam.preprod.sirenko.enums.Size;
 import com.epam.preprod.sirenko.util.ConsoleReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -27,7 +30,7 @@ class ManualProductCreationStrategyTest {
 	
 	@BeforeEach
 	public void SetData() {
-		outMock = Mockito.mock(PrintStream.class);
+		outMock = mock(PrintStream.class);
 		System.setOut(outMock);
 		MockitoAnnotations.initMocks(this);
 	}
@@ -62,9 +65,9 @@ class ManualProductCreationStrategyTest {
 	@Test
 	void getStringNameShouldReturnString() throws IOException {
 		doNothing().when(outMock).println();
-		when(consoleReader.readFromConsole()).thenReturn("Name");
+		when(consoleReader.readFromConsole()).thenReturn("NewName");
 
-		assertEquals("Name", manualProductCreationStrategy.getStringName());
+		assertEquals("NewName", manualProductCreationStrategy.getStringName());
 	}
 	
 	@Test

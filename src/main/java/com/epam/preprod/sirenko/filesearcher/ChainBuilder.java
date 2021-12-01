@@ -26,7 +26,6 @@ public class ChainBuilder {
 	private Filter filter;
 	private ConsoleReader consoleReader = new ConsoleReader();
 	
-	
 	public Filter builder() throws IOException {
 		return firstInputRequest();
 	}

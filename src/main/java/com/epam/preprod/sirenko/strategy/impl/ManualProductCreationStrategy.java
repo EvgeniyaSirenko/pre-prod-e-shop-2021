@@ -21,7 +21,6 @@ public class ManualProductCreationStrategy implements Strategy {
 	private static final String INPUT_SIZE = "Enter size and press Enter";
 	private ConsoleReader consoleReader = new ConsoleReader();
 	
-	
 	@Override
 	public PetGroup getPetGroup() {
 		PetGroup petGroup = null;

@@ -17,7 +17,6 @@ public class Demo {
 	private static CommandContainer commandContainer;
 	private static ConsoleReader consoleReader = new ConsoleReader();
 	
-	
 	public static void main(String[] args) throws IOException {
 		FactoryContainer factoryContainer = new FactoryContainer(getStrategy());
 		commandContainer = new CommandContainer(factoryContainer);
@@ -55,5 +54,4 @@ public class Demo {
 		inputStrategy = consoleReader.readFromConsole();
 		return inputStrategy;
 	}
-
 }
