@@ -32,7 +32,8 @@ public class MakeOrderCommand implements Command {
 		}
 		PrintToConsole.printString("Print date in format 2021-09-23 13:45:00 and press Enter");
 		try {
-			String date = ConsoleReader.readFromConsole();
+			ConsoleReader consoleReader = new ConsoleReader();
+			String date = consoleReader.readFromConsole();
 			Timestamp creationDate = ConsoleInputTimestampManager.manageTimestamp(date);
 			orderService.makeOrder(creationDate, cartService.getCartItems());
 		} catch (IOException e) {

@@ -3,6 +3,7 @@ package com.epam.preprod.sirenko.filesearcher;
 import com.epam.preprod.sirenko.filesearcher.filters.*;
 import com.epam.preprod.sirenko.util.ConsoleReader;
 import com.epam.preprod.sirenko.util.PrintToConsole;
+import com.epam.preprod.sirenko.util.ValidatorOfConsoleInput;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -23,6 +24,7 @@ public class ChainBuilder {
 	private static final String FOURTH_QUESTION = "Search by file edit date range? Print 0 for no, 1 for yes";
 	private static final String FOURTH_QUESTION_PRINT_DATE = "Print file edit dates in format 2021-09-10 13:45:00 2021-09-23 13:45:00";
 	private Filter filter;
+	private ConsoleReader consoleReader = new ConsoleReader();
 	
 	public Filter builder() throws IOException {
 		return firstInputRequest();
@@ -30,15 +32,15 @@ public class ChainBuilder {
 	
 	private Filter firstInputRequest() throws IOException {
 		PrintToConsole.printString(FIRST_QUESTION);
-		String inputString = ConsoleReader.readFromConsole();
-		if (!checkInputStringIsNumber(inputString)) {
+		String inputString = consoleReader.readFromConsole();
+		if (!ValidatorOfConsoleInput.checkInputStringIsNumberOneOrZero(inputString)) {
 			PrintToConsole.printString(INCORRECT_INPUT_ONE_OR_ZERO);
 			return firstInputRequest();
 		}
 		int input = Integer.parseInt(inputString);
 		if (input == 1) {
 			PrintToConsole.printString(FIRST_QUESTION_PRINT_NAME);
-			String fileName = ConsoleReader.readFromConsole();
+			String fileName = consoleReader.readFromConsole();
 			filter = new FilterByFileName(fileName);
 			return secondInputRequest(filter);
 		}
@@ -52,15 +54,15 @@ public class ChainBuilder {
 	
 	private Filter secondInputRequest(Filter filter) throws IOException {
 		PrintToConsole.printString(SECOND_QUESTION);
-		String inputString = ConsoleReader.readFromConsole();
-		if (!checkInputStringIsNumber(inputString)) {
+		String inputString = consoleReader.readFromConsole();
+		if (!ValidatorOfConsoleInput.checkInputStringIsNumberOneOrZero(inputString)) {
 			PrintToConsole.printString(INCORRECT_INPUT_ONE_OR_ZERO);
 			return secondInputRequest(filter);
 		}
 		int input = Integer.parseInt(inputString);
 		if (input == 1) {
 			PrintToConsole.printString(SECOND_QUESTION_PRINT_EXTENSION);
-			String fileExtension = ConsoleReader.readFromConsole();
+			String fileExtension = consoleReader.readFromConsole();
 			if (filter == null) {
 				filter = new FilterByExtension(fileExtension);
 			} else {
@@ -77,15 +79,15 @@ public class ChainBuilder {
 	
 	private Filter thirdInputRequest(Filter filter) throws IOException {
 		PrintToConsole.printString(THIRD_QUESTION);
-		String inputString = ConsoleReader.readFromConsole();
-		if (!checkInputStringIsNumber(inputString)) {
+		String inputString = consoleReader.readFromConsole();
+		if (!ValidatorOfConsoleInput.checkInputStringIsNumberOneOrZero(inputString)) {
 			PrintToConsole.printString(INCORRECT_INPUT_ONE_OR_ZERO);
 			return thirdInputRequest(filter);
 		}
 		int input = Integer.parseInt(inputString);
 		if (input == 1) {
 			PrintToConsole.printString(THIRD_QUESTION_PRINT_SIZE);
-			String sizeRange = ConsoleReader.readFromConsole();
+			String sizeRange = consoleReader.readFromConsole();
 			if (!checkInputIsCorrectSizeRange(sizeRange)) {
 				return thirdInputRequest(filter);
 			}
@@ -105,15 +107,15 @@ public class ChainBuilder {
 	
 	private Filter fourthInputRequest(Filter filter) throws IOException {
 		PrintToConsole.printString(FOURTH_QUESTION);
-		String inputString = ConsoleReader.readFromConsole();
-		if (!checkInputStringIsNumber(inputString)) {
+		String inputString = consoleReader.readFromConsole();
+		if (!ValidatorOfConsoleInput.checkInputStringIsNumberOneOrZero(inputString)) {
 			PrintToConsole.printString(INCORRECT_INPUT_ONE_OR_ZERO);
 			return fourthInputRequest(filter);
 		}
 		int input = Integer.parseInt(inputString);
 		if (input == 1) {
 			PrintToConsole.printString(FOURTH_QUESTION_PRINT_DATE);
-			String editDateRange = ConsoleReader.readFromConsole();
+			String editDateRange = consoleReader.readFromConsole();
 			if (!checkInputIsCorrectDateRange(editDateRange)) {
 				return fourthInputRequest(filter);
 			}
@@ -133,10 +135,6 @@ public class ChainBuilder {
 		}
 		PrintToConsole.printString(INCORRECT_INPUT_ONE_OR_ZERO);
 		return fourthInputRequest(filter);
-	}
-	
-	private boolean checkInputStringIsNumber(String inputString) {
-		return inputString.matches("[0-9]");
 	}
 	
 	private boolean checkInputIsCorrectSizeRange(String inputString) {

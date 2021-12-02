@@ -16,7 +16,8 @@ public class ConsoleInputTimestampManager {
 		while (!validate) {
 			PrintToConsole.printString("Print date in correct format 2021-09-23 13:45:00 and press Enter");
 			try {
-				string = ConsoleReader.readFromConsole();
+				ConsoleReader consoleReader = new ConsoleReader();
+				string = consoleReader.readFromConsole();
 				validate = ValidatorOfConsoleInput.dateValidator(string);
 			} catch (IOException e) {
 				e.printStackTrace();

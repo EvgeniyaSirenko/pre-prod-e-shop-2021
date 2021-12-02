@@ -1,5 +1,6 @@
 package com.epam.preprod.sirenko.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -9,7 +10,7 @@ import java.util.Objects;
  * @author E.Sirenko
  *
 **/
-public abstract class Product{
+public abstract class Product implements Serializable {
 	private String name;
 	private BigDecimal price;
 	

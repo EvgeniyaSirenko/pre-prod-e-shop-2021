@@ -37,7 +37,8 @@ public class GetOrdersListOfCurrentPeriodCommand implements Command {
 	
 	private Timestamp getTimestamp(String message) throws IOException {
 		PrintToConsole.printString(message);
-		String dateString = ConsoleReader.readFromConsole();
+		ConsoleReader consoleReader = new ConsoleReader();
+		String dateString = consoleReader.readFromConsole();
 		return ConsoleInputTimestampManager.manageTimestamp(dateString);
 	}
 }

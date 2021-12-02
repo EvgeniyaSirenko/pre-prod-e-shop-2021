@@ -33,7 +33,7 @@ public class Food extends Product {
 		return "Food{" +
 				"name=" + super.getName() +
 				", price=" + super.getPrice() +
-				", amount=" + weight +
+				", weight=" + weight +
 				'}';
 	}
 	

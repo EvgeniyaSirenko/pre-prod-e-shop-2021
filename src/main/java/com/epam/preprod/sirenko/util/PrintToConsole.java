@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class PrintToConsole {
 	
@@ -27,6 +28,10 @@ public class PrintToConsole {
 	}
 	public static void printCartMap(Map<Product, Integer> map) {
 		System.out.println(map.entrySet());
+	}
+	
+	public static void printSet(Set<String> set) {
+		System.out.println(set);
 	}
 	
 	public static void printOrderMap(Map<Timestamp, Map<Product, Integer>> map) {

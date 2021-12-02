@@ -7,7 +7,7 @@ import com.epam.preprod.sirenko.command.Command;
  * This class prints to console program menu
  */
 public class ShowMenuCommand implements Command {
-	
+
 	@Override
 	public void execute() {
 		PrintToConsole.printString("--------------------------------------------------");
@@ -19,6 +19,7 @@ public class ShowMenuCommand implements Command {
 		PrintToConsole.printString("Print last5 and press Enter to see 5 last added to cart products");
 		PrintToConsole.printString("Print ordersList and press Enter to see orders of current period");
 		PrintToConsole.printString("Print orderDate and press Enter to find order closest to date");
+		PrintToConsole.printString("Print create and press Enter to create new product");
 		PrintToConsole.printString("--------------------------------------------------");
 	}
 }

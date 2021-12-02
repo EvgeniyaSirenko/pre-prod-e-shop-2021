@@ -26,10 +26,10 @@ class FileSearchServiceImplTest {
 	private String inputExtension;
 	private String inputSizeRange;
 	private String inputEditDateRange;
-	List<File> list;
+	private List<File> list;
 	private BufferedWriter bufferedWriter;
 	private Filter filter;
-	RequestBuilder requestBuilder;
+	private RequestBuilder requestBuilder;
 	
 	@BeforeEach
 	public void setData() throws IOException {
