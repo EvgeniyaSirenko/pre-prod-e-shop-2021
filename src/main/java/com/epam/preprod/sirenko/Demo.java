@@ -20,7 +20,6 @@ public class Demo {
 	public static void main(String[] args) throws IOException {
 		FactoryContainer factoryContainer = new FactoryContainer(getStrategy());
 		commandContainer = new CommandContainer(factoryContainer);
-		
 		commandContainer.getCommand("start").execute();
 		while (true) {
 			commandContainer.getCommand("menu").execute();
@@ -32,12 +31,12 @@ public class Demo {
 			commandContainer.getCommand(commandName).execute();
 		}
 	}
-	
+
 	private static Strategy getStrategy() throws IOException {
 		PrintToConsole.printString(CHOOSE_STRATEGY);
 		String inputStrategy = consoleReader.readFromConsole();
 		if (!ValidatorOfConsoleInput.checkInputStringIsNumberOneOrZero(inputStrategy)) {
-			inputStrategy = getInputStrategyWhenIncorrectInput();
+			inputStrategy = getInputAgainWhenIncorrectOneOrZero();
 		}
 		Strategy strategy;
 		if (inputStrategy.matches("[1]")) {
@@ -48,7 +47,7 @@ public class Demo {
 		return strategy;
 	}
 	
-	private static String getInputStrategyWhenIncorrectInput() throws IOException {
+	private static String getInputAgainWhenIncorrectOneOrZero() throws IOException {
 		String inputStrategy;
 		PrintToConsole.printString(INCORRECT_INPUT_ONE_OR_ZERO);
 		inputStrategy = consoleReader.readFromConsole();

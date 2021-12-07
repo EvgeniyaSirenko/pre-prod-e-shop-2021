@@ -20,6 +20,7 @@ public class ShowMenuCommand implements Command {
 		PrintToConsole.printString("Print ordersList and press Enter to see orders of current period");
 		PrintToConsole.printString("Print orderDate and press Enter to find order closest to date");
 		PrintToConsole.printString("Print create and press Enter to create new product");
+		PrintToConsole.printString("Print ref and press Enter to create new product using reflection");
 		PrintToConsole.printString("--------------------------------------------------");
 	}
 }
