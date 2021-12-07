@@ -3,7 +3,7 @@ package com.epam.preprod.sirenko.strategy.impl;
 import com.epam.preprod.sirenko.enums.PetGroup;
 import com.epam.preprod.sirenko.enums.Season;
 import com.epam.preprod.sirenko.enums.Size;
-import com.epam.preprod.sirenko.strategy.Strategy;
+import com.epam.preprod.sirenko.strategy.ProductCreationStrategy;
 import com.epam.preprod.sirenko.util.ConsoleReader;
 import com.epam.preprod.sirenko.util.PrintToConsole;
 import com.epam.preprod.sirenko.util.ValidatorOfConsoleInput;
@@ -11,7 +11,7 @@ import com.epam.preprod.sirenko.util.ValidatorOfConsoleInput;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-public class ManualProductCreationStrategy implements Strategy {
+public class ManualProductCreationStrategy implements ProductCreationStrategy {
 	private static final String INPUT_PRICE = "Enter price in format 123.04 and press Enter";
 	private static final String INPUT_WEIGHT = "Enter weight in format 200 and press Enter";
 	private static final String INPUT_STRING_NAME = "Enter name from 5 to 15 letters only and press Enter";

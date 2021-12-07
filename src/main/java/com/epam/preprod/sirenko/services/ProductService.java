@@ -4,7 +4,6 @@ import com.epam.preprod.sirenko.containers.FactoryContainer;
 import com.epam.preprod.sirenko.strategy.CreateProductFactory;
 import com.epam.preprod.sirenko.dao.ProductDAO;
 import com.epam.preprod.sirenko.entity.Product;
-import com.epam.preprod.sirenko.strategy.CreateProductUsingReflection;
 import com.epam.preprod.sirenko.util.PrintToConsole;
 
 import java.io.Serializable;
@@ -29,13 +28,6 @@ public class ProductService implements Serializable {
 	public void createNewProduct(String inputCategory) {
 		CreateProductFactory createProductFactory = factoryContainer.getFactory(inputCategory);
 		Product product = createProductFactory.createProduct();
-		productDAO.addProduct(product);
-		PrintToConsole.printString("New product successfully created");
-	}
-	
-	public void createNewProductUsingReflection(String inputCategory) {
-		CreateProductUsingReflection createProductUsingReflection = null; //TODO do I need factoryContainer?
-		Product product = createProductUsingReflection.createProduct();
 		productDAO.addProduct(product);
 		PrintToConsole.printString("New product successfully created");
 	}

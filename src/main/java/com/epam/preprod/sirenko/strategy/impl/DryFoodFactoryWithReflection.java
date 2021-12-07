@@ -2,20 +2,18 @@ package com.epam.preprod.sirenko.strategy.impl;
 
 import com.epam.preprod.sirenko.entity.DryFood;
 import com.epam.preprod.sirenko.entity.Product;
-import com.epam.preprod.sirenko.strategy.CreateProductUsingReflection;
 import com.epam.preprod.sirenko.strategy.ProductFieldsAnnotation;
-import com.epam.preprod.sirenko.strategy.Strategy;
+import com.epam.preprod.sirenko.strategy.ProductCreationStrategy;
 
 import java.lang.reflect.Field;
 
-public class DryFoodFactoryWithReflection implements CreateProductUsingReflection {
-	private Strategy strategy;
+public class DryFoodFactoryWithReflection {
+	private ProductCreationStrategy strategy;
 	
-	public DryFoodFactoryWithReflection(Strategy strategy) {
+	public DryFoodFactoryWithReflection(ProductCreationStrategy strategy) {
 		this.strategy = strategy;
 	}
 	
-	@Override
 	public Product createProduct() {
 		try {
 			Field f = DryFood.class.getDeclaredField("brandName");

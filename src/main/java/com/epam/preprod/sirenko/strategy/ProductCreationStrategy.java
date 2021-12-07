@@ -6,7 +6,7 @@ import com.epam.preprod.sirenko.enums.Size;
 
 import java.math.BigDecimal;
 
-public interface Strategy {
+public interface ProductCreationStrategy {
 	PetGroup getPetGroup();
 	Season getSeason();
 	Size getSize();
