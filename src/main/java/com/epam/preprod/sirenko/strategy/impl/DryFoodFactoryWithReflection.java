@@ -3,14 +3,14 @@ package com.epam.preprod.sirenko.strategy.impl;
 import com.epam.preprod.sirenko.entity.DryFood;
 import com.epam.preprod.sirenko.entity.Product;
 import com.epam.preprod.sirenko.strategy.ProductFieldsAnnotation;
-import com.epam.preprod.sirenko.strategy.ProductCreationStrategy;
+import com.epam.preprod.sirenko.strategy.ProductCreationNoReflectionStrategy;
 
 import java.lang.reflect.Field;
 
 public class DryFoodFactoryWithReflection {
-	private ProductCreationStrategy strategy;
+	private ProductCreationNoReflectionStrategy strategy;
 	
-	public DryFoodFactoryWithReflection(ProductCreationStrategy strategy) {
+	public DryFoodFactoryWithReflection(ProductCreationNoReflectionStrategy strategy) {
 		this.strategy = strategy;
 	}
 	

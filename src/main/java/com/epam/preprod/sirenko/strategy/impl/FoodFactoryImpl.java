@@ -3,21 +3,21 @@ package com.epam.preprod.sirenko.strategy.impl;
 import com.epam.preprod.sirenko.entity.Food;
 import com.epam.preprod.sirenko.entity.Product;
 import com.epam.preprod.sirenko.strategy.CreateProductFactory;
-import com.epam.preprod.sirenko.strategy.ProductCreationStrategy;
+import com.epam.preprod.sirenko.strategy.ProductCreationNoReflectionStrategy;
 
 public class FoodFactoryImpl implements CreateProductFactory {
-	private ProductCreationStrategy productCreationStrategy;
+	private ProductCreationNoReflectionStrategy productCreationNoReflectionStrategy;
 	
-	public FoodFactoryImpl(ProductCreationStrategy productCreationStrategy) {
-		this.productCreationStrategy = productCreationStrategy;
+	public FoodFactoryImpl(ProductCreationNoReflectionStrategy productCreationNoReflectionStrategy) {
+		this.productCreationNoReflectionStrategy = productCreationNoReflectionStrategy;
 	}
 	
 	@Override
 	public Product createProduct() {
 		Food food = new Food();
-		food.setName(productCreationStrategy.getStringName());
-		food.setPrice(productCreationStrategy.getBigDecimal());
-		food.setWeight(productCreationStrategy.getInt());
+		food.setName(productCreationNoReflectionStrategy.getStringName());
+		food.setPrice(productCreationNoReflectionStrategy.getBigDecimal());
+		food.setWeight(productCreationNoReflectionStrategy.getInt());
 		return food;
 	}
 }

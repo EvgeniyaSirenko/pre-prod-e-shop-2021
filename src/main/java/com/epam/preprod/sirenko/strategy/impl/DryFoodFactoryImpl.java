@@ -3,23 +3,23 @@ package com.epam.preprod.sirenko.strategy.impl;
 import com.epam.preprod.sirenko.entity.DryFood;
 import com.epam.preprod.sirenko.entity.Product;
 import com.epam.preprod.sirenko.strategy.CreateProductFactory;
-import com.epam.preprod.sirenko.strategy.ProductCreationStrategy;
+import com.epam.preprod.sirenko.strategy.ProductCreationNoReflectionStrategy;
 
 public class DryFoodFactoryImpl implements CreateProductFactory {
-	private ProductCreationStrategy productCreationStrategy;
+	private ProductCreationNoReflectionStrategy productCreationNoReflectionStrategy;
 	
-	public DryFoodFactoryImpl(ProductCreationStrategy productCreationStrategy) {
-		this.productCreationStrategy = productCreationStrategy;
+	public DryFoodFactoryImpl(ProductCreationNoReflectionStrategy productCreationNoReflectionStrategy) {
+		this.productCreationNoReflectionStrategy = productCreationNoReflectionStrategy;
 	}
 	
 	@Override
 	public Product createProduct() {
 		DryFood dryFood = new DryFood();
-		dryFood.setName(productCreationStrategy.getStringName());
-		dryFood.setPrice(productCreationStrategy.getBigDecimal());
-		dryFood.setWeight(productCreationStrategy.getInt());
-		dryFood.setBrandName(productCreationStrategy.getStringBrandName());
-		dryFood.setPetGroup(productCreationStrategy.getPetGroup());
+		dryFood.setName(productCreationNoReflectionStrategy.getStringName());
+		dryFood.setPrice(productCreationNoReflectionStrategy.getBigDecimal());
+		dryFood.setWeight(productCreationNoReflectionStrategy.getInt());
+		dryFood.setBrandName(productCreationNoReflectionStrategy.getStringBrandName());
+		dryFood.setPetGroup(productCreationNoReflectionStrategy.getPetGroup());
 		return dryFood;
 	}
 }

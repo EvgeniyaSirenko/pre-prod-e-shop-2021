@@ -3,7 +3,7 @@ package com.epam.preprod.sirenko;
 import com.epam.preprod.sirenko.containers.CommandContainer;
 import com.epam.preprod.sirenko.containers.FactoryContainer;
 import com.epam.preprod.sirenko.strategy.ProductCreationUsingReflectionStrategy;
-import com.epam.preprod.sirenko.strategy.ProductCreationStrategy;
+import com.epam.preprod.sirenko.strategy.ProductCreationNoReflectionStrategy;
 import com.epam.preprod.sirenko.strategy.impl.*;
 import com.epam.preprod.sirenko.util.ConsoleReader;
 import com.epam.preprod.sirenko.util.PrintToConsole;
@@ -33,8 +33,8 @@ public class Demo {
 		}
 	}
 	
-	private static ProductCreationStrategy getStrategy() throws IOException {
-		ProductCreationStrategy productCreationStrategy;
+	private static ProductCreationNoReflectionStrategy getStrategy() throws IOException {
+		ProductCreationNoReflectionStrategy productCreationStrategy;
 		ProductCreationUsingReflectionStrategy productCreationUsingReflectionStrategy;
 		PrintToConsole.printString(CHOOSE_STRATEGY_REFLECTION);
 		String inputStrategy = consoleReader.readFromConsole();

@@ -3,22 +3,22 @@ package com.epam.preprod.sirenko.strategy.impl;
 import com.epam.preprod.sirenko.entity.Clothing;
 import com.epam.preprod.sirenko.entity.Product;
 import com.epam.preprod.sirenko.strategy.CreateProductFactory;
-import com.epam.preprod.sirenko.strategy.ProductCreationStrategy;
+import com.epam.preprod.sirenko.strategy.ProductCreationNoReflectionStrategy;
 
 public class ClothingFactoryImpl implements CreateProductFactory {
-	private ProductCreationStrategy productCreationStrategy;
+	private ProductCreationNoReflectionStrategy productCreationNoReflectionStrategy;
 	
-	public ClothingFactoryImpl(ProductCreationStrategy productCreationStrategy) {
-		this.productCreationStrategy = productCreationStrategy;
+	public ClothingFactoryImpl(ProductCreationNoReflectionStrategy productCreationNoReflectionStrategy) {
+		this.productCreationNoReflectionStrategy = productCreationNoReflectionStrategy;
 	}
 	
 	@Override
 	public Product createProduct() {
 		Clothing clothing = new Clothing();
-		clothing.setSize(productCreationStrategy.getSize());
-		clothing.setSeason(productCreationStrategy.getSeason());
-		clothing.setName(productCreationStrategy.getStringName());
-		clothing.setPrice(productCreationStrategy.getBigDecimal());
+		clothing.setSize(productCreationNoReflectionStrategy.getSize());
+		clothing.setSeason(productCreationNoReflectionStrategy.getSeason());
+		clothing.setName(productCreationNoReflectionStrategy.getStringName());
+		clothing.setPrice(productCreationNoReflectionStrategy.getBigDecimal());
 		return clothing;
 	}
 }

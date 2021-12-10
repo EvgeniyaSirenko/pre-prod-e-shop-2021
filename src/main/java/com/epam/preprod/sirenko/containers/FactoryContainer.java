@@ -1,6 +1,6 @@
 package com.epam.preprod.sirenko.containers;
 
-import com.epam.preprod.sirenko.strategy.ProductCreationStrategy;
+import com.epam.preprod.sirenko.strategy.ProductCreationNoReflectionStrategy;
 import com.epam.preprod.sirenko.strategy.impl.ClothingFactoryImpl;
 import com.epam.preprod.sirenko.strategy.CreateProductFactory;
 import com.epam.preprod.sirenko.strategy.impl.DryFoodFactoryImpl;
@@ -13,14 +13,14 @@ import java.util.Set;
 public class FactoryContainer {
 	private Map<String, CreateProductFactory> factories = new HashMap<>();
 	
-	public FactoryContainer(ProductCreationStrategy strategy) {
+	public FactoryContainer(ProductCreationNoReflectionStrategy strategy) {
 		init(strategy);
 	}
 	
-	private void init(ProductCreationStrategy productCreationStrategy) {
-		FoodFactoryImpl foodFactory = new FoodFactoryImpl(productCreationStrategy);
-		DryFoodFactoryImpl dryFoodFactory = new DryFoodFactoryImpl(productCreationStrategy);
-		ClothingFactoryImpl clothingFactory = new ClothingFactoryImpl(productCreationStrategy);
+	private void init(ProductCreationNoReflectionStrategy productCreationNoReflectionStrategy) {
+		FoodFactoryImpl foodFactory = new FoodFactoryImpl(productCreationNoReflectionStrategy);
+		DryFoodFactoryImpl dryFoodFactory = new DryFoodFactoryImpl(productCreationNoReflectionStrategy);
+		ClothingFactoryImpl clothingFactory = new ClothingFactoryImpl(productCreationNoReflectionStrategy);
 		factories.put("food", foodFactory);
 		factories.put("dryFood", dryFoodFactory);
 		factories.put("clothing", clothingFactory);
