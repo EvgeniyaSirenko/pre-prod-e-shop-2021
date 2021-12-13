@@ -1,6 +1,7 @@
 package com.epam.preprod.sirenko.entity;
 
 import com.epam.preprod.sirenko.enums.PetGroup;
+import com.epam.preprod.sirenko.strategy.ProductFieldsAnnotation;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -11,6 +12,7 @@ import java.util.Objects;
  * @author E.Sirenko
  **/
 public class DryFood extends Food {
+	@ProductFieldsAnnotation(title="BRAND_NAME") //TODO annotations
 	private String brandName;
 	private PetGroup petGroup;
 	

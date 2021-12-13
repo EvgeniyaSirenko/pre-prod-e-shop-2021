@@ -57,6 +57,8 @@ public class CommandContainer {
 		commands.put("create", createNewProductCommand);
 		SerializeProductsListFromFileCommand startCommand = new SerializeProductsListFromFileCommand(serializationServiceImpl);
 		commands.put("start", startCommand);
+		CreateProductWithAnnotationAndReflectionCommand createProductWithAnnotationAndReflection = new CreateProductWithAnnotationAndReflectionCommand(productService, factoryContainer);
+		commands.put("ref", createProductWithAnnotationAndReflection);
 	}
 	
 	public Command getCommand(String commandName) {
